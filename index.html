@@ -1,119 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Garudhiya – Maldivian Clear Fish Broth</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Simple, clean styling -->
-    <style>
-        :root {
-            --primary:#00695c;
-            --accent:#00897b;
-            --bg:#fafafa;
-            --text:#212121;
-            --radius:8px;
-        }
-        body{
-            margin:0;
-            font-family:system-ui,Arial,sans-serif;
-            background:var(--bg);
-            color:var(--text);
-            line-height:1.6;
-        }
-        header{
-            background:var(--primary);
-            color:#fff;
-            padding:2rem 1rem;
-            text-align:center;
-        }
-        main{
-            max-width:800px;
-            margin:auto;
-            padding:1.5rem;
-        }
-        h2{
-            color:var(--primary);
-            margin-top:2rem;
-        }
-        ul, ol{
-            padding-left:1.5rem;
-        }
-        .card{
-            background:#fff;
-            border-radius:var(--radius);
-            box-shadow:0 2px 6px rgba(0,0,0,.1);
-            padding:1.5rem;
-            margin-top:1rem;
-        }
-        .note{
-            font-size:.9rem;
-            color:#555;
-        }
-        footer{
-            text-align:center;
-            padding:1rem;
-            font-size:.85rem;
-            color:#777;
-        }
-        @media (prefers-color-scheme: dark){
-            :root{
-                --bg:#121212;
-                --text:#e0e0e0;
-            }
-            .card{background:#1e1e1e;}
-        }
-    </style>
+<meta charset="UTF-8">
+<title>Garudhiya (Maldivian Fish Broth) Recipe</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-<header>
-    <h1>Garudhiya – Maldivian Clear Fish Broth</h1>
-</header>
+<div class="container">
+  <h1>Garudhiya – Maldivian Clear Fish Broth</h1>
 
-<main>
-    <section class="card">
-        <h2>Ingredients</h2>
-        <ul>
-            <li>1 kg whole reef‑fish (tuna, snapper, or any firm white fish), cleaned and cut into large pieces</li>
-            <li>2 – 2½ L water (enough to cover the fish)</li>
-            <li>1 medium onion, sliced thinly</li>
-            <li>2 cm ginger, sliced into thin strips</li>
-            <li>2‑3 green chilies, slit lengthwise (adjust to taste)</li>
-            <li>A handful of fresh curry leaves (optional)</li>
-            <li>Juice of ½ lime (or to taste)</li>
-            <li>Salt, to taste</li>
-        </ul>
-    </section>
+  <!-- ==== SERVING CONTROLLER ==== -->
+  <section id="servings">
+    <label for="servingCount">Servings:</label>
+    <input type="number" id="servingCount" min="1" value="4">
+    <button id="updateBtn">Update Ingredients</button>
+  </section>
 
-    <section class="card">
-        <h2>Method</h2>
-        <ol>
-            <li><strong>Prepare the fish:</strong> Rinse the pieces under cold water and pat dry.</li>
-            <li><strong>Start the broth:</strong> Bring water to a gentle boil. Add onion, ginger, chilies, and curry leaves. Simmer a couple of minutes.</li>
-            <li><strong>Add the fish:</strong> Lower the fish pieces gently, reduce heat to a low simmer (no rolling boil).</li>
-            <li><strong>Season:</strong> Sprinkle salt. Cook 15‑20 min until the flesh flakes easily. Skim any foam for clarity.</li>
-            <li><strong>Finish:</strong> Turn off heat, stir in lime juice, taste and adjust.</li>
-            <li><strong>Serve:</strong> Ladle broth with a generous piece of fish. Traditionally served with steamed rice, rihaakuru, and fresh sides (cucumber, boiled egg).</li>
-        </ol>
-    </section>
+  <!-- ==== INGREDIENT LIST ==== -->
+  <section id="ingredients">
+    <h2>Ingredients (<span id="servingLabel">4</span> servings)</h2>
+    <ul id="ingredientList"><!-- filled by script --></ul>
+  </section>
 
-    <section class="card">
-        <h2>Tips & Variations</h2>
-        <ul>
-            <li>Choose fresh, firm‑white fish for a clean flavor.</li>
-            <li>Skim foam early to keep the broth crystal‑clear.</li>
-            <li>Adjust heat by adding or omitting chilies.</li>
-            <li>Serve with a simple salad of sliced onions, tomatoes, and a drizzle of lemon.</li>
-        </ul>
-    </section>
+  <!-- ==== STEPS ==== -->
+  <section id="steps">
+    <h2>Directions</h2>
+    <ol>
+      <li><span class="toggle">Show/Hide</span> <strong>Prep the fish</strong>
+        <p class="hidden">Rinse the fish pieces under cold water and pat dry. Set aside.</p>
+      </li>
+      <li><span class="toggle">Show/Hide</span> <strong>Boil the base</strong>
+        <p class="hidden">In a large pot, bring 2 L water to a gentle boil. Add sliced onion, garlic, ginger, green chilies, peppercorns, and cardamom (if using). Simmer 5 min.</p>
+      </li>
+      <li><span class="toggle">Show/Hide</span> <strong>Add the fish</strong>
+        <p class="hidden">Gently lower the fish chunks into the simmering broth. Reduce heat to low; keep a gentle simmer.</p>
+      </li>
+      <li><span class="toggle">Show/Hide</span> <strong>Season</strong>
+        <p class="hidden">Sprinkle salt to taste. Optional: a splash of lime juice for brightness.</p>
+      </li>
+      <li><span class="toggle">Show/Hide</span> <strong>Cook briefly</strong>
+        <p class="hidden">Cook 8‑10 min until fish turns opaque and flakes easily. Do not over‑boil.</p>
+      </li>
+      <li><span class="toggle">Show/Hide</span> <strong>Finish & Serve</strong>
+        <p class="hidden">Turn off heat. Ladle broth into bowls with a generous piece of fish. Garnish with fresh curry leaves or cilantro if desired. Serve with steamed rice, lime wedges, and optional fried onions.</p>
+      </li>
+    </ol>
+  </section>
 
-    <p class="note">*Feel free to customize the garnish or pair the broth with your favorite side dishes.*</p>
-</main>
+  <!-- ==== COPY BUTTON ==== -->
+  <section id="copy">
+    <button id="copyBtn">Copy Full Recipe to Clipboard</button>
+    <span id="copyMsg" style="margin-left:1rem;color:green;"></span>
+  </section>
 
-<footer>
-    © 2025 Lumo – Powered by Proton<br>
-    <a href="https://proton.me" target="_blank" style="color:var(--accent);text-decoration:none;">proton.me</a>
-</footer>
+  <footer>
+    © 2025 Proton – Lumo Demo. Feel free to adapt and share!
+  </footer>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
