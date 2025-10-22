@@ -18,7 +18,7 @@ body {
    VARIABLES – tweak them if you want a different size
    ------------------------------------------------- */
 :root {
-    --header-height : 64px;          /* height of the header */
+    --header-height : 80px;          /* height of the header */
     --btn-size       : 30px;          /* width of the hamburger button */
     --bar-thickness  : 3px;           /* thickness of each line */
     --bar-color      : #000;          /* colour of the lines */
