@@ -25,6 +25,32 @@ header {
     font-weight: bold;
 }
 
+/* -------------------------------------------------
+   Logo link – keep it looking exactly like plain text
+   ------------------------------------------------- */
+
+/* Base state – normal page load */
+.logo a {
+    color: inherit;          /* Use the header’s white colour */
+    text-decoration: none;   /* No underline */
+}
+
+/* Visited state – prevents the default purple colour */
+.logo a:visited {
+    color: inherit;
+}
+
+/* Hover / focus – optional subtle effect (same as other links) */
+.logo a:hover,
+.logo a:focus {
+    opacity: 0.8;            /* Same fade‑out used for nav links */
+}
+
+/* Active (while mouse button is held down) */
+.logo a:active {
+    opacity: 0.6;
+}
+
 /* Navigation links */
 nav ul {
     list-style: none;
