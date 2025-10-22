@@ -13,7 +13,7 @@ header {
     justify-content: space-between;
     padding: 0.8rem 1.5rem;
     border-bottom: 1px solid #e0e0e0;
-    position: relative;             /* anchor for absolute dropdown */
+    position: relative;             /* <-- important: anchor for the dropdown */
 }
 
 /* Logo – static appearance */
@@ -21,11 +21,11 @@ header {
     font-size: 1.4rem;
     font-weight: bold;
     text-decoration: none;
-    color: #000;                     /* black text */
+    color: #000;
 }
 .logo:hover,
 .logo:focus {
-    color: #000;                     /* prevent purple/underline */
+    color: #000;
     text-decoration: none;
 }
 
@@ -42,7 +42,7 @@ nav a {
 }
 nav a:hover,
 nav a:focus {
-    text-decoration: underline;     /* optional hover effect */
+    text-decoration: underline;
 }
 
 /* Hamburger button – hidden on desktop */
@@ -58,16 +58,17 @@ nav a:focus {
     background: #333;
 }
 
-/* Mobile menu – hidden by default */
+/* --------- Mobile dropdown --------- */
+/* Position it *directly* below the header */
 .mobile-menu {
-    display: none;
-    position: absolute;
-    top: 100%;          /* directly below the header */
+    display: none;                  /* hidden until toggled */
+    position: absolute;             /* absolute to the header (because header is relative) */
+    top: 100%;                      /* start right after the header’s bottom edge */
     left: 0;
     right: 0;
     background: #fff;
     border-top: 1px solid #e0e0e0;
-    z-index: 9999;      /* make sure it sits on top */
+    z-index: 9999;                  /* stay on top of page content */
 }
 .mobile-menu ul {
     flex-direction: column;
