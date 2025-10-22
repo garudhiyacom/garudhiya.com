@@ -5,31 +5,35 @@
 <head>
     <meta charset="UTF-8">
     <title>Garudhiya – Maldivian Fish Broth</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<header class="site-header">
-    <!-- LOGO – always links to the home page -->
+<header>
     <a href="index.html" class="logo">Garudhiya</a>
 
-    <!-- HAMBURGER BUTTON – animated (pure CSS) -->
-    <button class="menu-toggle" aria-label="Toggle navigation menu">
-        <!-- the middle bar – a real element -->
-        <span class="bar middle"></span>
-    </button>
-
-    <!-- NAVIGATION MENU -->
-    <nav class="site-nav">
-        <ul class="nav-list">
+    <nav>
+        <ul>
             <li><a href="index.html">Home</a></li>
             <li><a href="products.html">Products</a></li>
             <li><a href="contact.html">Contact</a></li>
         </ul>
     </nav>
+
+    <div class="hamburger" id="burger" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+    </div>
 </header>
+
+<div class="mobile-menu" id="mobileMenu">
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="products.html">Products</a></li>
+        <li><a href="contact.html">Contact</a></li>
+    </ul>
+</div>
 
     
 <main class="container">
