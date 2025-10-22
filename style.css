@@ -79,28 +79,6 @@ html {
     background-color: #fafafa;
 }
 
-/* Hero section â€“ you can replace the background with a real photo */
-.hero {
-    color: #e0e0e0;
-    text-align: center;
-    padding: 4rem 1rem;
-    position: relative;
-}
-.hero::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(#e0e0e0);
-}
-.hero h1 {
-    font-size: 2.8rem;
-    margin-bottom: .5rem;
-    position: relative;
-}
-.hero .subtitle {
-    font-size: 1.2rem;
-    position: relative;
-}
 
 /* Main container */
 .container {
