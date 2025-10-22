@@ -1,9 +1,10 @@
-// Simple toggle for the mobile navigation menu
-document.addEventListener('DOMContentLoaded', function () {
-    const toggleBtn = document.getElementById('menu-toggle');
-    const navList   = document.getElementById('nav-list');
+/* -------------------------------------------------
+   Header JavaScript – currently empty because the
+   header is static. You can add a mobile‑menu toggle
+   here later if you want.
+   ------------------------------------------------- */
 
-    toggleBtn.addEventListener('click', function () {
-        navList.classList.toggle('show');
-    });
+document.addEventListener('DOMContentLoaded', () => {
+    // Placeholder for future interactivity.
+    // Example: toggle a mobile menu, highlight active link, etc.
 });
