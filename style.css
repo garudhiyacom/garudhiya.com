@@ -1,6 +1,83 @@
 /* --------------------------------------------------------------
    Simple, responsive styling for the Garudhiya recipe page
    -------------------------------------------------------------- */
+
+/* Basic reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Header container */
+header {
+    background-color: #004080;   /* Dark blue background */
+    color: #fff;                 /* White text */
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Logo / site name */
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* Navigation links */
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: opacity .2s;
+}
+
+nav a:hover {
+    opacity: 0.8;
+}
+
+/* Mobile menu toggle (hidden on larger screens) */
+.menu-toggle {
+    display: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    nav ul {
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background: #004080;
+        width: 200px;
+        display: none;          /* Hidden by default on mobile */
+        padding: 1rem;
+    }
+
+    nav ul.show {
+        display: flex;          /* Shown when JS adds .show */
+    }
+
+    .menu-toggle {
+        display: block;         /* Show hamburger on small screens */
+    }
+}
+
+/*above/*
+
 * {
     box-sizing: border-box;
     margin: 0;
