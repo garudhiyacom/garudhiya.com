@@ -1,99 +1,75 @@
-/* Basic reset */
-* {
+/* -------------------------------------------------
+   BASIC RESET & Typography
+   ------------------------------------------------- */
+*,
+*::before,
+*::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-
 body {
     font-family: Arial, Helvetica, sans-serif;
-}
-
-/* Header container */
-header {
-    background-color: #004080;   /* Dark blue background */
-    color: #fff;                 /* White text */
-    padding: 1rem 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-/* Logo / site name */
-.logo {
-    font-size: 1.5rem;
-    font-weight: bold;
+    background: #fff;               /* white background */
+    color: #333;
 }
 
 /* -------------------------------------------------
-   Logo link – keep it looking exactly like plain text
+   HEADER
    ------------------------------------------------- */
-
-/* Base state – normal page load */
-.logo a {
-    color: inherit;          /* Use the header’s white colour */
-    text-decoration: none;   /* No underline */
+.site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    border-bottom: 1px solid #e0e0e0;   /* subtle separator */
 }
 
-/* Visited state – prevents the default purple colour */
-.logo a:visited {
-    color: inherit;
+/* LOGO */
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #000;                     /* black text */
+    text-decoration: none;           /* never underline */
 }
 
-/* Hover / focus – optional subtle effect (same as other links) */
-.logo a:hover,
-.logo a:focus {
-    opacity: 0.8;            /* Same fade‑out used for nav links */
+/* Prevent any visited/active styling (purple/underline) */
+.logo:visited,
+.logo:active,
+.logo:hover,
+.logo:focus {
+    color: #000;
+    text-decoration: none;
 }
 
-/* Active (while mouse button is held down) */
-.logo a:active {
-    opacity: 0.6;
-}
-
-/* Navigation links */
-nav ul {
+/* NAVIGATION */
+.site-nav .nav-list {
     list-style: none;
     display: flex;
     gap: 1.5rem;
 }
-
-nav a {
-    color: #fff;
+.site-nav a {
+    color: #000;
     text-decoration: none;
     font-weight: 500;
     transition: opacity .2s;
 }
-
-nav a:hover {
-    opacity: 0.8;
+.site-nav a:hover,
+.site-nav a:focus {
+    opacity: 0.7;
 }
 
-/* Mobile menu toggle (hidden on larger screens) */
-.menu-toggle {
-    display: none;
-    cursor: pointer;
-    font-size: 1.5rem;
-}
-
-/* Responsive adjustments */
+/* -------------------------------------------------
+   OPTIONAL: Small mobile tweak (hamburger) – keep it simple
+   ------------------------------------------------- */
 @media (max-width: 600px) {
-    nav ul {
+    .site-header {
         flex-direction: column;
-        position: absolute;
-        top: 100%;
-        right: 0;
-        background: #004080;
-        width: 200px;
-        display: none;          /* Hidden by default on mobile */
-        padding: 1rem;
+        align-items: flex-start;
     }
-
-    nav ul.show {
-        display: flex;          /* Shown when JS adds .show */
-    }
-
-    .menu-toggle {
-        display: block;         /* Show hamburger on small screens */
+    .site-nav .nav-list {
+        flex-direction: column;
+        gap: 0.8rem;
+        margin-top: 0.5rem;
     }
 }
