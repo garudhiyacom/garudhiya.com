@@ -13,6 +13,7 @@ header {
     justify-content: space-between;
     padding: 0.8rem 1.5rem;
     border-bottom: 1px solid #e0e0e0;
+    position: relative;             /* anchor for absolute dropdown */
 }
 
 /* Logo – static appearance */
@@ -61,11 +62,12 @@ nav a:focus {
 .mobile-menu {
     display: none;
     position: absolute;
-    top: 100%;
+    top: 100%;          /* directly below the header */
     left: 0;
     right: 0;
     background: #fff;
     border-top: 1px solid #e0e0e0;
+    z-index: 9999;      /* make sure it sits on top */
 }
 .mobile-menu ul {
     flex-direction: column;
@@ -80,5 +82,5 @@ nav a:focus {
 @media (max-width: 768px) {
     nav { display: none; }                 /* hide desktop nav */
     .hamburger { display: flex; }         /* show burger */
-    .mobile-menu.show { display: block; } /* toggled via JS */
+    .mobile-menu.show { display: block; }  /* toggled via JS */
 }
