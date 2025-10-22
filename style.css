@@ -16,7 +16,7 @@ html {
 
 /* Hero section â€“ you can replace the background with a real photo */
 .hero {
-    background: url('https://images.unsplfash.com/photo-1586190848861-99aa4a171e90?auto=format&fit=crop&w=1400&q=80')
+    background: url('https://images.unsplash.com/photo-1586190848861-99aa4a171e90?auto=format&fit=crop&w=1400&q=80')
                 center/cover no-repeat;
     color: #fff;
     text-align: center;
