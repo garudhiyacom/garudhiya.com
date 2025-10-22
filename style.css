@@ -15,6 +15,15 @@ body {
 }
 
 /* -------------------------------------------------
+   VARIABLES (makes tweaking easier)
+   ------------------------------------------------- */
+:root {
+    --bar-height: 3px;              /* thickness of each hamburger line */
+    --bar-color : #000;             /* colour of the lines */
+    --anim-time : .3s;              /* duration of open/close animation */
+}
+
+/* -------------------------------------------------
    HEADER
    ------------------------------------------------- */
 .site-header {
@@ -60,10 +69,13 @@ body {
     position: absolute;
     left: 0;
     width: 100%;
-    height: 3px;
-    background: #000;
+    height: var(--bar-height);
+    background: var(--bar-color);
     border-radius: 2px;
-    transition: transform .3s ease, opacity .3s ease;
+    transition: transform var(--anim-time) ease,
+                opacity  var(--anim-time) ease;
+    will-change: transform, opacity;
+    transform-origin: center;       /* <<< crucial for perfect alignment */
 }
 
 /* Position each bar */
@@ -73,32 +85,29 @@ body {
 
 /* When the menu is open, transform the bars into an X */
 .menu-toggle.open .top {
-    transform: translateY(9px) rotate(45deg);
+    /* Move the top bar down by half its own height and rotate */
+    transform: translateY(calc(var(--bar-height) * 1.5)) rotate(45deg);
 }
 .menu-toggle.open .middle {
     opacity: 0;                     /* hide the middle bar */
 }
 .menu-toggle.open .bottom {
-    transform: translateY(-9px) rotate(-45deg);
+    /* Move the bottom bar up by half its own height and rotate */
+    transform: translateY(calc(var(--bar-height) * -1.5)) rotate(-45deg);
 }
 
 /* -------------------------------------------------
-   NAVIGATION
+   NAVIGATION (desktop)
    ------------------------------------------------- */
 .site-nav {
-    /* Desktop layout – horizontal list */
     display: flex;
     align-items: center;
 }
-
-/* UL list */
 .nav-list {
     list-style: none;
     display: flex;
     gap: 1.5rem;
 }
-
-/* Links */
 .nav-list a {
     color: #000;
     text-decoration: none;
@@ -130,25 +139,23 @@ body {
         border-bottom: 1px solid #e0e0e0;
         max-height: 0;             /* collapsed */
         overflow: hidden;
-        transition: max-height .3s ease-out;
+        transition: max-height var(--anim-time) ease-out;
         z-index: 10;
     }
 
     /* When the menu is open, expand it */
     .site-nav.open {
         max-height: 300px;         /* enough for three links + close btn */
-        transition: max-height .35s ease-in;
+        transition: max-height var(--anim-time) ease-in;
     }
 
     .nav-list {
         flex-direction: column;
         gap: 0;
     }
-
     .nav-list li {
         border-top: 1px solid #e0e0e0;
     }
-
     .nav-list a {
         display: block;
         padding: 1rem 2rem;
