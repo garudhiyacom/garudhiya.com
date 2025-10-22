@@ -3,30 +3,11 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
     <title>Garudhiya – Maldivian Fish Broth</title>
-
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
- 
-
-    <!-- Link to the stylesheet -->
-
     <link rel="stylesheet" href="style.css">
-
- 
-
-    <!-- Optional: Google Font -->
-
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
-
-          rel="stylesheet">
-
 </head>
-
- 
 
 <body>
 
@@ -34,9 +15,11 @@
     <!-- LOGO – always links to the home page -->
     <a href="index.html" class="logo">Garudhiya</a>
 
-    <!-- HAMBURGER BUTTON – visible on mobile -->
+    <!-- HAMBURGER BUTTON – animated -->
     <button class="menu-toggle" aria-label="Open navigation menu">
-        ☰
+        <span class="bar top"></span>
+        <span class="bar middle"></span>
+        <span class="bar bottom"></span>
     </button>
 
     <!-- NAVIGATION MENU -->
@@ -47,12 +30,12 @@
             <li><a href="contact.html">Contact</a></li>
         </ul>
 
-        <!-- CLOSE BUTTON – appears inside the mobile panel -->
+        <!-- CLOSE BUTTON – hidden on mobile because the animated hamburger itself becomes the close button -->
         <button class="menu-close" aria-label="Close navigation menu">✖</button>
     </nav>
 </header>
 
-
+    
 <main class="container">
 
     <section class="ingredients">
@@ -135,15 +118,9 @@
 
 </main>
 
- 
-
 <footer>
-
     <p>© 2025 Garudhiya – Powered by Garudhiya Energy Drink. All rights reserved.</p>
-
 </footer>
-
- 
 
 <script src="script.js"></script>
 
