@@ -12,6 +12,12 @@ body{
     color:#222;
     background-color:#f5fbf5;               /* light‑green bg */
     transition:background-color .3s, color .3s;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;          
+}
+main {
+    flex: 1 0 auto;
 }
 
 /* --------------------------------------------------------------
