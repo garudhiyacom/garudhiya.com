@@ -20,25 +20,21 @@ main {
     flex: 1 0 auto;
 }
 
-/* --------------------------------------------------------------
-   1️⃣ Colour palette – now includes dark‑mode vars
--------------------------------------------------------------- */
 :root{
-    /* Light theme (default) */
-    --primary-green:#2e7d32;
-    --accent-green:#66bb6a;
-    --dark-green:#1b5e20;
-    --bg-light:#f5fbf5;
-    --text-light:#222;
+    /* Light theme (default) – generic blue‑gray */
+    --primary:#3a6ea5;          /* main brand colour */
+    --accent:#6ba4d9;           /* lighter accent */
+    --dark:#274c73;            /* darker variant for hover/footer */
+    --bg-light:#f5faff;        /* very light background */
+    --text-light:#222;         /* keep dark text */
 
-    /* Dark theme overrides – applied when .dark-mode is on body */
-    --primary-green-dark:#1b5e20;
-    --accent-green-dark:#43a047;
-    --dark-green-dark:#0d5302;
-    --bg-dark:#0c200c;
-    --text-dark:#e0e0e0;
+    /* Dark theme overrides – when .dark-mode is active */
+    --primary-dark:#274c73;     /* darker main colour */
+    --accent-dark:#5c92c5;      /* darker accent */
+    --dark-dark:#162c44;        /* deepest shade for footer */
+    --bg-dark:#0a1b2a;         /* dark background */
+    --text-dark:#e0e0e0;        /* light text for dark mode */
 }
-
 /* --------------------------------------------------------------
    2️⃣ Dark‑mode switch – body gets .dark-mode class
 -------------------------------------------------------------- */
