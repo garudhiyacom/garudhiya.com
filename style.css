@@ -16,7 +16,7 @@ html {
 
 /* Hero section â€“ you can replace the background with a real photo */
 .hero {
-    color: #e0e0e0;
+    color: ;
     text-align: center;
     padding: 4rem 1rem;
     position: relative;
@@ -25,7 +25,7 @@ html {
     content: "";
     position: absolute;
     inset: 0;
-    background: rgba(e0e0e0);
+    background: rgba(#e0e0e0);
 }
 .hero h1 {
     font-size: 2.8rem;
