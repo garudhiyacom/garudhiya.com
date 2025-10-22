@@ -17,47 +17,46 @@ body {
 /* -------------------------------------------------
    VARIABLES – tweak them if you want a different size
    ------------------------------------------------- */
-:root {
-    --header-height : 80px;          /* height of the header */
-    --btn-size       : 30px;          /* width of the hamburger button */
-    --bar-thickness  : 3px;           /* thickness of each line */
-    --bar-color      : #000;          /* colour of the lines */
-    --anim-duration  : .28s;         /* speed of open/close */
-}
-
 /* -------------------------------------------------
-   HEADER
+   VARIABLES – tweak them to fit your design
    ------------------------------------------------- */
-.site-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: var(--header-height);
-    padding: 0 2rem;
-    border-bottom: 1px solid #e0e0e0;
-    position: relative;            /* for the absolute‑positioned mobile menu */
-}
+:root {
+    /* Size of the clickable button */
+    --btn-size       : 36px;
 
-/* LOGO – never changes colour or gets underlined */
-.logo {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #000;
-    text-decoration: none;
-}
-.logo:visited,
-.logo:active,
-.logo:hover,
-.logo:focus {
-    color: #000;
-    text-decoration: none;
+    /* Thickness of each line */
+    --bar-thickness  : 3px;
+
+    /* Colour of the lines (use any colour you like) */
+    --bar-color      : #000;
+
+    /* Distance between the three lines – smaller = tighter */
+    --gap            : 6px;
+
+    /* Animation duration */
+    --anim-duration  : 0.28s;
+
+    /* Easing curve – feel free to experiment */
+    --anim-ease      : cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* -------------------------------------------------
-   HAMBURGER BUTTON – pure‑CSS animated X
+   BASIC RESET (optional – you may already have this)
+   ------------------------------------------------- */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* -------------------------------------------------
+   HAMBURGER BUTTON – the core of the animation
    ------------------------------------------------- */
 .menu-toggle {
-    display: none;                 /* hidden on desktop, shown on mobile */
+    /* Visible only on mobile – hide on larger screens with your own media query */
+    display: block;
     width: var(--btn-size);
     height: var(--btn-size);
     position: relative;
@@ -66,7 +65,10 @@ body {
     cursor: pointer;
 }
 
-/* The three bars are built with pseudo‑elements */
+/* The three lines are built with pseudo‑elements.
+   • ::before  → top line
+   • .bar      → middle line (real element)
+   • ::after   → bottom line                                          */
 .menu-toggle .bar,
 .menu-toggle::before,
 .menu-toggle::after {
@@ -77,74 +79,44 @@ body {
     height: var(--bar-thickness);
     background: var(--bar-color);
     border-radius: 2px;
-    transition: transform var(--anim-duration) ease,
-                opacity  var(--anim-duration) ease;
-    transform-origin: center;      /* crucial for perfect alignment */
+    transition:
+        transform var(--anim-duration) var(--anim-ease),
+        opacity  var(--anim-duration) var(--anim-ease);
+    transform-origin: center;               /* crucial for perfect rotation */
 }
 
 /* Position the three lines */
-.menu-toggle .bar      { top: 50%;   transform: translateY(-50%); }   /* middle */
-.menu-toggle::before   { top: 0; }                                   /* top */
-.menu-toggle::after    { bottom: 0; }                                /* bottom */
+.menu-toggle .bar    { top: 50%;  transform: translateY(-50%); }               /* middle */
+.menu-toggle::before { top: 0;   transform: translateY(calc(var(--gap)/2)); } /* top    */
+.menu-toggle::after  { bottom:0; transform: translateY(calc(-var(--gap)/2)); }/* bottom */
 
-/* ----------- OPEN STATE (when .open class is present) ----------- */
+/* -------------------------------------------------
+   OPEN STATE – when the button has the .open class
+   ------------------------------------------------- */
 .menu-toggle.open .bar {
-    opacity: 0;                     /* hide middle line */
+    opacity: 0;                              /* hide the middle line */
 }
+
+/* Top line rotates 45° and moves down to the centre */
 .menu-toggle.open::before {
-    transform: translateY(calc(50% + var(--bar-thickness))) rotate(45deg);
+    transform:
+        translateY(calc(50% + var(--gap)/2 + var(--bar-thickness)))
+        rotate(45deg);
 }
+
+/* Bottom line rotates -45° and moves up to the centre */
 .menu-toggle.open::after {
-    transform: translateY(calc(-50% - var(--bar-thickness))) rotate(-45deg);
+    transform:
+        translateY(calc(-50% - var(--gap)/2 - var(--bar-thickness)))
+        rotate(-45deg);
 }
 
 /* -------------------------------------------------
-   NAVIGATION (desktop)
+   OPTIONAL: make the button invisible on large screens
    ------------------------------------------------- */
-.site-nav {
-    display: flex;
-    align-items: center;
+@media (min-width: 601px) {
+    .menu-toggle { display: none; }
 }
-.nav-list {
-    list-style: none;
-    display: flex;
-    gap: 1.5rem;
-}
-.nav-list a {
-    color: #000;
-    text-decoration: none;
-    font-weight: 500;
-    transition: opacity .2s;
-}
-.nav-list a:hover,
-.nav-list a:focus {
-    opacity: 0.7;
-}
-
-/* -------------------------------------------------
-   MOBILE MENU (collapsed by default)
-   ------------------------------------------------- */
-@media (max-width: 600px) {
-
-    /* Show the hamburger */
-    .menu-toggle { display: block; }
-
-    /* Hide the regular horizontal nav – it becomes a sliding panel */
-    .site-nav {
-        position: absolute;
-        top: 100%;                 /* directly below the header */
-        left: 0;
-        right: 0;
-        background: #fff;
-        flex-direction: column;
-        align-items: stretch;
-        border-bottom: 1px solid #e0e0e0;
-        max-height: 0;             /* collapsed */
-        overflow: hidden;
-        transition: max-height var(--anim-duration) ease-out;
-        z-index: 10;
-    }
-
     /* When the menu is open, expand it */
     .site-nav.open {
         max-height: 300px;         /* enough for the three links */
