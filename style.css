@@ -1,18 +1,3 @@
-/* --------------------------------------------------------------
-   Simple, responsive styling for the Garudhiya recipe page
-   -------------------------------------------------------------- */
-
-/* Basic reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: Arial, Helvetica, sans-serif;
-}
-
 /* Header container */
 header {
     background-color: #004080;   /* Dark blue background */
@@ -74,7 +59,6 @@ nav a:hover {
     .menu-toggle {
         display: block;         /* Show hamburger on small screens */
     }
-}
 
 
 
