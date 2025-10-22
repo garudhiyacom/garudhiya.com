@@ -15,12 +15,14 @@ body {
 }
 
 /* -------------------------------------------------
-   VARIABLES (makes tweaking easier)
+   VARIABLES – tweak them if you want a different size
    ------------------------------------------------- */
 :root {
-    --bar-height: 3px;              /* thickness of each hamburger line */
-    --bar-color : #000;             /* colour of the lines */
-    --anim-time : .3s;              /* duration of open/close animation */
+    --header-height : 64px;          /* height of the header */
+    --btn-size       : 30px;          /* width of the hamburger button */
+    --bar-thickness  : 3px;           /* thickness of each line */
+    --bar-color      : #000;          /* colour of the lines */
+    --anim-duration  : .28s;         /* speed of open/close */
 }
 
 /* -------------------------------------------------
@@ -30,7 +32,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1rem 2rem;
+    height: var(--header-height);
+    padding: 0 2rem;
     border-bottom: 1px solid #e0e0e0;
     position: relative;            /* for the absolute‑positioned mobile menu */
 }
@@ -51,49 +54,48 @@ body {
 }
 
 /* -------------------------------------------------
-   HAMBURGER BUTTON (mobile only) – animated bars
+   HAMBURGER BUTTON – pure‑CSS animated X
    ------------------------------------------------- */
 .menu-toggle {
-    display: none;                 /* hidden on desktop */
+    display: none;                 /* hidden on desktop, shown on mobile */
+    width: var(--btn-size);
+    height: var(--btn-size);
+    position: relative;
     background: none;
     border: none;
     cursor: pointer;
-    width: 30px;
-    height: 24px;
-    position: relative;
 }
 
-/* The three bars */
-.menu-toggle .bar {
-    display: block;
+/* The three bars are built with pseudo‑elements */
+.menu-toggle .bar,
+.menu-toggle::before,
+.menu-toggle::after {
+    content: "";
     position: absolute;
     left: 0;
     width: 100%;
-    height: var(--bar-height);
+    height: var(--bar-thickness);
     background: var(--bar-color);
     border-radius: 2px;
-    transition: transform var(--anim-time) ease,
-                opacity  var(--anim-time) ease;
-    will-change: transform, opacity;
-    transform-origin: center;       /* <<< crucial for perfect alignment */
+    transition: transform var(--anim-duration) ease,
+                opacity  var(--anim-duration) ease;
+    transform-origin: center;      /* crucial for perfect alignment */
 }
 
-/* Position each bar */
-.menu-toggle .top    { top: 0; }
-.menu-toggle .middle { top: 50%; transform: translateY(-50%); }
-.menu-toggle .bottom { bottom: 0; }
+/* Position the three lines */
+.menu-toggle .bar      { top: 50%;   transform: translateY(-50%); }   /* middle */
+.menu-toggle::before   { top: 0; }                                   /* top */
+.menu-toggle::after    { bottom: 0; }                                /* bottom */
 
-/* When the menu is open, transform the bars into an X */
-.menu-toggle.open .top {
-    /* Move the top bar down by half its own height and rotate */
-    transform: translateY(calc(var(--bar-height) * 1.5)) rotate(25deg);
+/* ----------- OPEN STATE (when .open class is present) ----------- */
+.menu-toggle.open .bar {
+    opacity: 0;                     /* hide middle line */
 }
-.menu-toggle.open .middle {
-    opacity: 0;                     /* hide the middle bar */
+.menu-toggle.open::before {
+    transform: translateY(calc(50% + var(--bar-thickness))) rotate(45deg);
 }
-.menu-toggle.open .bottom {
-    /* Move the bottom bar up by half its own height and rotate */
-    transform: translateY(calc(var(--bar-height) * -1.5)) rotate(-25deg);
+.menu-toggle.open::after {
+    transform: translateY(calc(-50% - var(--bar-thickness))) rotate(-45deg);
 }
 
 /* -------------------------------------------------
@@ -124,10 +126,10 @@ body {
    ------------------------------------------------- */
 @media (max-width: 600px) {
 
-    /* Show hamburger */
+    /* Show the hamburger */
     .menu-toggle { display: block; }
 
-    /* Hide the regular horizontal nav */
+    /* Hide the regular horizontal nav – it becomes a sliding panel */
     .site-nav {
         position: absolute;
         top: 100%;                 /* directly below the header */
@@ -139,14 +141,14 @@ body {
         border-bottom: 1px solid #e0e0e0;
         max-height: 0;             /* collapsed */
         overflow: hidden;
-        transition: max-height var(--anim-time) ease-out;
+        transition: max-height var(--anim-duration) ease-out;
         z-index: 10;
     }
 
     /* When the menu is open, expand it */
     .site-nav.open {
-        max-height: 300px;         /* enough for three links + close btn */
-        transition: max-height var(--anim-time) ease-in;
+        max-height: 300px;         /* enough for the three links */
+        transition: max-height var(--anim-duration) ease-in;
     }
 
     .nav-list {
@@ -161,7 +163,7 @@ body {
         padding: 1rem 2rem;
     }
 
-    /* Hide the separate close button – we use the animated hamburger instead */
+    /* Hide the separate close button – the animated hamburger doubles as the close trigger */
     .menu-close { display: none; }
 }
 
