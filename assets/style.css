@@ -20,20 +20,136 @@ main {
     flex: 1 0 auto;
 }
 
-:root{
-    /* Light theme (default) – generic blue‑gray */
-    --primary:#3a6ea5;          /* main brand colour */
-    --accent:#6ba4d9;           /* lighter accent */
-    --dark:#274c73;            /* darker variant for hover/footer */
-    --bg-light:#f5faff;        /* very light background */
-    --text-light:#222;         /* keep dark text */
+/* --------------------------------------------------------------
+   BODY – white background, black text, flex column layout
+-------------------------------------------------------------- */
+body{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: var(--bg-light);
+    color: var(--text-light);
+}
 
-    /* Dark theme overrides – when .dark-mode is active */
-    --primary-dark:#274c73;     /* darker main colour */
-    --accent-dark:#5c92c5;      /* darker accent */
-    --dark-dark:#162c44;        /* deepest shade for footer */
-    --bg-dark:#0a1b2a;         /* dark background */
-    --text-dark:#e0e0e0;        /* light text for dark mode */
+/* --------------------------------------------------------------
+   MAIN – grow to fill remaining space (unchanged, just keep flex)
+-------------------------------------------------------------- */
+main{
+    flex: 1 0 auto;
+}
+
+/* --------------------------------------------------------------
+   HEADER – light‑dark blue background, black text
+-------------------------------------------------------------- */
+header{
+    background: var(--primary);
+    color: var(--text-light);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+/* Header inner items (logo, links, toggle) inherit the black text */
+nav .logo,
+nav .nav-links a,
+nav .theme-toggle{
+    color: var(--text-light);
+}
+
+/* Hover effect for header links */
+nav .nav-links a:hover{
+    opacity: 0.8;
+}
+
+/* Hamburger bars (mobile) – dark enough to see on the blue header */
+.menu-toggle span{
+    background: var(--text-light);
+}
+
+/* --------------------------------------------------------------
+   FOOTER – same colour as header, slim height
+-------------------------------------------------------------- */
+footer{
+    background: var(--primary);
+    color: var(--text-light);
+    text-align: center;
+    padding: 0.8rem 1rem;
+    font-size: 0.85rem;
+    margin-top: auto;          /* pushes footer to bottom on short pages */
+}
+
+/* --------------------------------------------------------------
+   BUTTONS / CTA – use accent colour for contrast
+-------------------------------------------------------------- */
+.cta-btn,
+form button{
+    background: var(--accent);
+    color: var(--text-light);
+}
+.cta-btn:hover,
+form button:hover{
+    background: var(--accent-dark);
+}
+
+/* --------------------------------------------------------------
+   DARK‑MODE overrides – activate when <body class="dark-mode">
+-------------------------------------------------------------- */
+body.dark-mode{
+    background: var(--bg-dark);
+    color: var(--text-dark);
+}
+
+/* Header / footer in dark mode */
+body.dark-mode header,
+body.dark-mode footer{
+    background: var(--primary-dk);
+    color: var(--text-dark);
+}
+
+/* Links & toggle in dark mode */
+body.dark-mode nav .logo,
+body.dark-mode nav .nav-links a,
+body.dark-mode nav .theme-toggle{
+    color: var(--text-dark);
+}
+
+/* Dark‑mode button colours */
+body.dark-mode .cta-btn,
+body.dark-mode form button{
+    background: var(--accent-dk);
+    color: var(--text-dark);
+}
+body.dark-mode .cta-btn:hover,
+body.dark-mode form button:hover{
+    background: var(--accent-dk-dark);
+}
+
+/* Dark‑mode hamburger bars */
+body.dark-mode .menu-toggle span{
+    background: var(--text-dark);
+}
+
+/* --------------------------------------------------------------
+   COLOUR PALETTES
+   – Light mode (default) – white background, navy header/footer
+   – Dark mode (when <body class="dark-mode">) – darker blues
+-------------------------------------------------------------- */
+:root{
+    /* ---------- Light‑mode palette ---------- */
+    --bg-light:        #ffffff;          /* page background */
+    --text-light:      #000000;          /* body text */
+    --primary:         #2c5a8a;          /* header & footer background (light‑dark blue) */
+    --primary-dark:    #1e4470;          /* header/footer hover / active state */
+    --accent:          #4a81c2;          /* accent colour (buttons, links) */
+    --accent-dark:     #3a6a9e;          /* accent hover in dark mode */
+
+    /* ---------- Dark‑mode palette ---------- */
+    --bg-dark:         #0a1b2a;          /* dark page background */
+    --text-dark:       #e0e0e0;          /* light text for dark mode */
+    --primary-dk:      #162c44;          /* header/footer in dark mode (deeper navy) */
+    --primary-dk-dark:#0d1a2b;          /* hover/deeper for dark mode */
+    --accent-dk:       #5c92c5;          /* accent in dark mode */
+    --accent-dk-dark:  #4a78a5;          /* accent hover in dark mode */
 }
 /* --------------------------------------------------------------
    2️⃣ Dark‑mode switch – body gets .dark-mode class
