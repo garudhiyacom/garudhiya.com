@@ -86,14 +86,14 @@ body {
 /* When the menu is open, transform the bars into an X */
 .menu-toggle.open .top {
     /* Move the top bar down by half its own height and rotate */
-    transform: translateY(calc(var(--bar-height) * 1.5)) rotate(45deg);
+    transform: translateY(calc(var(--bar-height) * 1.5)) rotate(25deg);
 }
 .menu-toggle.open .middle {
     opacity: 0;                     /* hide the middle bar */
 }
 .menu-toggle.open .bottom {
     /* Move the bottom bar up by half its own height and rotate */
-    transform: translateY(calc(var(--bar-height) * -1.5)) rotate(-45deg);
+    transform: translateY(calc(var(--bar-height) * -1.5)) rotate(-25deg);
 }
 
 /* -------------------------------------------------
