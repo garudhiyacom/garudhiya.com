@@ -70,13 +70,45 @@ nav a:focus {
     border-top: 1px solid #e0e0e0;
     z-index: 9999;                  /* stay on top of page content */
 }
+/* -------------------------------------------------
+   Mobile dropdown – centered list, no bullets,
+   no purple, no underline
+   ------------------------------------------------- */
+
+/* 1️⃣ Make the <ul> a flex column that centers its items */
 .mobile-menu ul {
-    flex-direction: column;
-    padding: 1rem;
+    display: flex;                /* turn the list into a flex container */
+    flex-direction: column;       /* stack items vertically */
+    align-items: center;          /* horizontally centre each <li> */
+    gap: 0.8rem;                  /* optional – space between links */
+    list-style: none;             /* remove the default bullet dots */
+    padding: 0;                   /* remove default UL padding */
+    margin: 0;                    /* remove default UL margin */
 }
+
+/* 2️⃣ Style the links themselves */
 .mobile-menu a {
-    display: block;
-    padding: .5rem 0;
+    color: #000;                  /* force black text – no purple */
+    text-decoration: none;        /* never underline */
+    font-size: 1rem;
+}
+
+/* 3️⃣ Ensure hover/focus don’t change colour or add underline */
+.mobile-menu a:hover,
+.mobile-menu a:focus {
+    color: #000;                  /* keep black on hover/focus */
+    text-decoration: none;        /* keep plain text */
+}
+
+/* -------------------------------------------------
+   (Optional) If you want a little visual cue that
+   the link is interactive, you can add a subtle
+   opacity change on hover – still no underline or
+   colour shift.
+   ------------------------------------------------- */
+.mobile-menu a:hover,
+.mobile-menu a:focus {
+    opacity: 0.85;                /* slight dimming on hover/focus */
 }
 
 /* ---------- Responsive breakpoint ---------- */
