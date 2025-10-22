@@ -72,12 +72,26 @@ body.dark-mode footer{background:var(--dark-green-dark);}
 .container{width:90%;max-width:1200px;margin:0 auto;}
 
 /* --------------------------------------------------------------
-   4️⃣ Header & navigation (add dark‑mode button)
+   HEADER – white background, dark text for contrast
 -------------------------------------------------------------- */
-header{
-    background:var(--primary-green);
-    color:#fff;
-    position:sticky;top:0;z-index:1000;
+header {
+    background: #fff;            /* ← white background */
+    color: #222;                 /* dark text for readability */
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+/* Ensure the navigation links stay visible on the white header */
+nav .logo,
+nav .nav-links a,
+nav .theme-toggle {
+    color: #222;                 /* dark colour for logo, links, toggle */
+}
+
+/* Optional hover effect (keep a subtle grey) */
+nav .nav-links a:hover {
+    opacity: 0.7;                /* a gentle dim on hover */
 }
 nav{
     display:flex;justify-content:space-between;align-items:center;
@@ -114,7 +128,7 @@ nav{
 -------------------------------------------------------------- */
 .menu-toggle{display:none;flex-direction:column;cursor:pointer;}
 .menu-toggle span{
-    height:3px;width:25px;background:#fff;margin-bottom:4px;
+    height:3px;width:25px;background:#222;margin-bottom:4px;
     border-radius:2px;
 }
 @media (max-width: 768px) {
