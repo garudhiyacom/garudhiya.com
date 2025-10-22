@@ -1,5 +1,5 @@
 /* -------------------------------------------------
-   BASIC RESET & Typography
+   BASIC RESET & TYPOGRAPHY
    ------------------------------------------------- */
 *,
 *::before,
@@ -22,18 +22,17 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: 1rem 2rem;
-    border-bottom: 1px solid #e0e0e0;   /* subtle separator */
+    border-bottom: 1px solid #e0e0e0;
+    position: relative;            /* for the absolute‑positioned mobile menu */
 }
 
-/* LOGO */
+/* LOGO – never changes colour or gets underlined */
 .logo {
     font-size: 1.5rem;
     font-weight: bold;
-    color: #000;                     /* black text */
-    text-decoration: none;           /* never underline */
+    color: #000;
+    text-decoration: none;
 }
-
-/* Prevent any visited/active styling (purple/underline) */
 .logo:visited,
 .logo:active,
 .logo:hover,
@@ -42,34 +41,126 @@ body {
     text-decoration: none;
 }
 
-/* NAVIGATION */
-.site-nav .nav-list {
+/* -------------------------------------------------
+   HAMBURGER BUTTON (mobile only) – animated bars
+   ------------------------------------------------- */
+.menu-toggle {
+    display: none;                 /* hidden on desktop */
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 30px;
+    height: 24px;
+    position: relative;
+}
+
+/* The three bars */
+.menu-toggle .bar {
+    display: block;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: #000;
+    border-radius: 2px;
+    transition: transform .3s ease, opacity .3s ease;
+}
+
+/* Position each bar */
+.menu-toggle .top    { top: 0; }
+.menu-toggle .middle { top: 50%; transform: translateY(-50%); }
+.menu-toggle .bottom { bottom: 0; }
+
+/* When the menu is open, transform the bars into an X */
+.menu-toggle.open .top {
+    transform: translateY(9px) rotate(45deg);
+}
+.menu-toggle.open .middle {
+    opacity: 0;                     /* hide the middle bar */
+}
+.menu-toggle.open .bottom {
+    transform: translateY(-9px) rotate(-45deg);
+}
+
+/* -------------------------------------------------
+   NAVIGATION
+   ------------------------------------------------- */
+.site-nav {
+    /* Desktop layout – horizontal list */
+    display: flex;
+    align-items: center;
+}
+
+/* UL list */
+.nav-list {
     list-style: none;
     display: flex;
     gap: 1.5rem;
 }
-.site-nav a {
+
+/* Links */
+.nav-list a {
     color: #000;
     text-decoration: none;
     font-weight: 500;
     transition: opacity .2s;
 }
-.site-nav a:hover,
-.site-nav a:focus {
+.nav-list a:hover,
+.nav-list a:focus {
     opacity: 0.7;
 }
 
 /* -------------------------------------------------
-   OPTIONAL: Small mobile tweak (hamburger) – keep it simple
+   MOBILE MENU (collapsed by default)
    ------------------------------------------------- */
 @media (max-width: 600px) {
-    .site-header {
+
+    /* Show hamburger */
+    .menu-toggle { display: block; }
+
+    /* Hide the regular horizontal nav */
+    .site-nav {
+        position: absolute;
+        top: 100%;                 /* directly below the header */
+        left: 0;
+        right: 0;
+        background: #fff;
         flex-direction: column;
-        align-items: flex-start;
+        align-items: stretch;
+        border-bottom: 1px solid #e0e0e0;
+        max-height: 0;             /* collapsed */
+        overflow: hidden;
+        transition: max-height .3s ease-out;
+        z-index: 10;
     }
-    .site-nav .nav-list {
+
+    /* When the menu is open, expand it */
+    .site-nav.open {
+        max-height: 300px;         /* enough for three links + close btn */
+        transition: max-height .35s ease-in;
+    }
+
+    .nav-list {
         flex-direction: column;
-        gap: 0.8rem;
-        margin-top: 0.5rem;
+        gap: 0;
     }
+
+    .nav-list li {
+        border-top: 1px solid #e0e0e0;
+    }
+
+    .nav-list a {
+        display: block;
+        padding: 1rem 2rem;
+    }
+
+    /* Hide the separate close button – we use the animated hamburger instead */
+    .menu-close { display: none; }
+}
+
+/* -------------------------------------------------
+   MAIN CONTENT (demo only)
+   ------------------------------------------------- */
+.content {
+    padding: 2rem;
 }
