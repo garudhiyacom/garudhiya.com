@@ -31,16 +31,24 @@
 <body>
 
 <header class="site-header">
-    <!-- LOGO – clicking it goes to the home page (index.html) -->
+    <!-- LOGO – always links to the home page -->
     <a href="index.html" class="logo">Garudhiya</a>
 
-    <!-- NAVIGATION -->
+    <!-- HAMBURGER BUTTON – visible on mobile -->
+    <button class="menu-toggle" aria-label="Open navigation menu">
+        ☰
+    </button>
+
+    <!-- NAVIGATION MENU -->
     <nav class="site-nav">
         <ul class="nav-list">
             <li><a href="index.html">Home</a></li>
             <li><a href="products.html">Products</a></li>
             <li><a href="contact.html">Contact</a></li>
         </ul>
+
+        <!-- CLOSE BUTTON – appears inside the mobile panel -->
+        <button class="menu-close" aria-label="Close navigation menu">✖</button>
     </nav>
 </header>
 
