@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Contact – Send us an e‑mail</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <div class="logo"><a href="index.html">MySite</a></div>
+    <div class="menu-toggle" id="menu-toggle">☰</div>
+    <nav>
+        <ul id="nav-list">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#">Features</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="#">Support</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main style="padding:2rem; max-width:600px; margin:auto;">
+    <h1>Contact Us</h1>
+
+    <!-- -------------------------------------------------
+         FORMSPREE INTEGRATION
+         ------------------------------------------------- -->
+    <form id="contact-form"
+          action="https://formspree.io/f/your_form_id_here"
+          method="POST"
+          novalidate>
+
+        <!-- Name -->
+        <label for="name">Name</label><br>
+        <input type="text"
+               id="name"
+               name="name"
+               placeholder="Your name"
+               required
+               style="width:100%;margin-bottom:1rem;"><br>
+
+        <!-- E‑mail -->
+        <label for="email">E‑mail</label><br>
+        <input type="email"
+               id="email"
+               name="_replyto"
+               placeholder="you@example.com"
+               required
+               style="width:100%;margin-bottom:1rem;"><br>
+
+        <!-- Subject (optional) -->
+        <label for="subject">Subject</label><br>
+        <input type="text"
+               id="subject"
+               name="subject"
+               placeholder="Brief subject"
+               style="width:100%;margin-bottom:1rem;"><br>
+
+        <!-- Message -->
+        <label for="message">Message</label><br>
+        <textarea id="message"
+                  name="message"
+                  rows="6"
+                  placeholder="Write your message here…"
+                  required
+                  style="width:100%;margin-bottom:1rem;"></textarea><br>
+
+        <!-- Honeypot field – helps stop bots (invisible to humans) -->
+        <input type="text"
+               name="_gotcha"
+               style="display:none">
+
+        <!-- Submit button -->
+        <button type="submit"
+                style="background:#004080;color:#fff;padding:.75rem 1.5rem;border:none;cursor:pointer;">
+            Send Message
+        </button>
+
+        <!-- Success / error messages (filled by JS) -->
+        <p id="form-status" style="margin-top:1rem;"></p>
+    </form>
+</main>
+
+<script src="script.js"></script>
+
+<script>
+/* -------------------------------------------------
+   OPTIONAL: AJAX submit + friendly UI feedback
+   ------------------------------------------------- */
+document.getElementById('contact-form').addEventListener('submit', async function (e) {
+    e.preventDefault();                     // stop normal POST
+    const statusEl = document.getElementById('form-status');
+    statusEl.textContent = 'Sending…';
+    statusEl.style.color = '#555';
+
+    const formData = new FormData(this);
+    try {
+        const response = await fetch(this.action, {
+            method: 'POST',
+            body: formData,
+            headers: { 'Accept': 'application/json' }
+        });
+
+        if (response.ok) {
+            statusEl.textContent = '✅ Your message was sent!';
+            statusEl.style.color = 'green';
+            this.reset();
+        } else {
+            const data = await response.json();
+            throw new Error(data.error || 'Submission failed');
+        }
+    } catch (err) {
+        statusEl.textContent = '❌ ' + err.message;
+        statusEl.style.color = 'red';
+    }
+});
+</script>
+
+</body>
+</html>
