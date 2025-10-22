@@ -1,147 +1,84 @@
-/* -------------------------------------------------
-   BASIC RESET & TYPOGRAPHY
-   ------------------------------------------------- */
-*,
-*::before,
-*::after {
+/* ---------- Reset ---------- */
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-body {
-    font-family: Arial, Helvetica, sans-serif;
+
+/* ---------- Header ---------- */
+header {
     background: #fff;               /* white background */
-    color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.8rem 1.5rem;
+    border-bottom: 1px solid #e0e0e0;
 }
 
-/* -------------------------------------------------
-   VARIABLES – tweak them if you want a different size
-   ------------------------------------------------- */
-/* -------------------------------------------------
-   VARIABLES – tweak them to fit your design
-   ------------------------------------------------- */
-:root {
-    /* Size of the clickable button */
-    --btn-size       : 36px;
-
-    /* Thickness of each line */
-    --bar-thickness  : 3px;
-
-    /* Colour of the lines (use any colour you like) */
-    --bar-color      : #000;
-
-    /* Distance between the three lines – smaller = tighter */
-    --gap            : 6px;
-
-    /* Animation duration */
-    --anim-duration  : 0.28s;
-
-    /* Easing curve – feel free to experiment */
-    --anim-ease      : cubic-bezier(0.4, 0, 0.2, 1);
+/* Logo – static appearance */
+.logo {
+    font-size: 1.4rem;
+    font-weight: bold;
+    text-decoration: none;
+    color: #000;                     /* black text */
+}
+.logo:hover,
+.logo:focus {
+    color: #000;                     /* prevent purple/underline */
+    text-decoration: none;
 }
 
-/* -------------------------------------------------
-   BASIC RESET (optional – you may already have this)
-   ------------------------------------------------- */
-*,
-*::before,
-*::after {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* Desktop navigation */
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+}
+nav a {
+    text-decoration: none;
+    color: #000;
+    font-size: 1rem;
+}
+nav a:hover,
+nav a:focus {
+    text-decoration: underline;     /* optional hover effect */
 }
 
-/* -------------------------------------------------
-   HAMBURGER BUTTON – the core of the animation
-   ------------------------------------------------- */
-.menu-toggle {
-    /* Visible only on mobile – hide on larger screens with your own media query */
-    display: block;
-    width: var(--btn-size);
-    height: var(--btn-size);
-    position: relative;
-    background: none;
-    border: none;
+/* Hamburger button – hidden on desktop */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
     cursor: pointer;
 }
+.hamburger span {
+    width: 24px;
+    height: 3px;
+    background: #333;
+}
 
-/* The three lines are built with pseudo‑elements.
-   • ::before  → top line
-   • .bar      → middle line (real element)
-   • ::after   → bottom line                                          */
-.menu-toggle .bar,
-.menu-toggle::before,
-.menu-toggle::after {
-    content: "";
+/* Mobile menu – hidden by default */
+.mobile-menu {
+    display: none;
     position: absolute;
+    top: 100%;
     left: 0;
-    width: 100%;
-    height: var(--bar-thickness);
-    background: var(--bar-color);
-    border-radius: 2px;
-    transition:
-        transform var(--anim-duration) var(--anim-ease),
-        opacity  var(--anim-duration) var(--anim-ease);
-    transform-origin: center;               /* crucial for perfect rotation */
+    right: 0;
+    background: #fff;
+    border-top: 1px solid #e0e0e0;
+}
+.mobile-menu ul {
+    flex-direction: column;
+    padding: 1rem;
+}
+.mobile-menu a {
+    display: block;
+    padding: .5rem 0;
 }
 
-/* Position the three lines */
-.menu-toggle .bar    { top: 50%;  transform: translateY(-50%); }               /* middle */
-.menu-toggle::before { top: 0;   transform: translateY(calc(var(--gap)/2)); } /* top    */
-.menu-toggle::after  { bottom:0; transform: translateY(calc(-var(--gap)/2)); }/* bottom */
-
-/* -------------------------------------------------
-   OPEN STATE – when the button has the .open class
-   ------------------------------------------------- */
-.menu-toggle.open .bar {
-    opacity: 0;                              /* hide the middle line */
-}
-
-/* Top line rotates 45° and moves down to the centre */
-.menu-toggle.open::before {
-    transform:
-        translateY(calc(50% + var(--gap)/2 + var(--bar-thickness)))
-        rotate(45deg);
-}
-
-/* Bottom line rotates -45° and moves up to the centre */
-.menu-toggle.open::after {
-    transform:
-        translateY(calc(-50% - var(--gap)/2 - var(--bar-thickness)))
-        rotate(-45deg);
-}
-
-/* -------------------------------------------------
-   OPTIONAL: make the button invisible on large screens
-   ------------------------------------------------- */
-@media (min-width: 601px) {
-    .menu-toggle { display: none; }
-}
-    /* When the menu is open, expand it */
-    .site-nav.open {
-        max-height: 300px;         /* enough for the three links */
-        transition: max-height var(--anim-duration) ease-in;
-    }
-
-    .nav-list {
-        flex-direction: column;
-        gap: 0;
-    }
-    .nav-list li {
-        border-top: 1px solid #e0e0e0;
-    }
-    .nav-list a {
-        display: block;
-        padding: 1rem 2rem;
-    }
-
-    /* Hide the separate close button – the animated hamburger doubles as the close trigger */
-    .menu-close { display: none; }
-}
-
-/* -------------------------------------------------
-   MAIN CONTENT (demo only)
-   ------------------------------------------------- */
-.content {
-    padding: 2rem;
+/* ---------- Responsive breakpoint ---------- */
+@media (max-width: 768px) {
+    nav { display: none; }                 /* hide desktop nav */
+    .hamburger { display: flex; }         /* show burger */
+    .mobile-menu.show { display: block; } /* toggled via JS */
 }
