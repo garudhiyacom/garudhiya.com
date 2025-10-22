@@ -11,6 +11,32 @@ html {
     background-color: #fafafa;
 }
 
+/* Hero section â€“ you can replace the background with a real photo */
+.hero {
+    background: url('https://images.unsplash.com/photo-1586190848861-99aa4a171e90?auto=format&fit=crop&w=1400&q=80')
+                center/cover no-repeat;
+    color: #fff;
+    text-align: center;
+    padding: 4rem 1rem;
+    position: relative;
+}
+.hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+}
+.hero h1 {
+    font-size: 2.8rem;
+    margin-bottom: .5rem;
+    position: relative;
+}
+.hero .subtitle {
+    font-size: 1.2rem;
+    position: relative;
+}
+
+
 /* Header container */
 header {
     background-color: #e0e0e0;   /* Dark blue background */
