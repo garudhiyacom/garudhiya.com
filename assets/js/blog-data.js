@@ -1,6 +1,3 @@
-/* --------------------------------------------------------------
-   BLOG DATA – shared between blog list and detail page
-   -------------------------------------------------------------- */
 const BLOGS = [
     {
         id: 1,
@@ -33,9 +30,6 @@ const BLOGS = [
             <p>Today, modern kitchens preserve the same technique, but many chefs experiment with additional herbs like curry leaves or lemongrass to add a contemporary twist.</p>
         `
     },
-    // -----------------------------------------------------------------
-    // Add the rest of your posts here (same structure as above)
-    // -----------------------------------------------------------------
     {
         id: 3,
         title: "5 Ways to Use Kelp in Everyday Cooking",
@@ -53,6 +47,5 @@ const BLOGS = [
                 <li><strong>Snack Seasoning:</strong> Sprinkle toasted kelp flakes over popcorn or roasted nuts.</li>
             </ul>
         `
-    },
-    // ... continue adding more posts up to however many you need ...
+    }
 ];
