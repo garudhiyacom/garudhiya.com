@@ -67,7 +67,3 @@ document.getElementById('contactForm').addEventListener('submit', async e => {
     } else {
         showToast('error', '❌ Something went wrong – try again later.');
     }
-
-    showToast('success', '✅ Demo: message accepted (no network call).');
-    e.target.reset();
-});
