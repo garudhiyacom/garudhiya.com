@@ -26,20 +26,30 @@
 <main class="main-content">
     <section>
         <h2>Contact Us</h2>
-        <form class="contact-form">
+        <form class="contact-form"
+              action="https://formspree.io/f/YOUR_FORMSPREE_ID"
+              method="POST">
+
+            <!-- OPTIONAL: hide your address from bots – keep it in the Formspree dashboard -->
+            <input type="hidden" name="_subject" value="New message from Garudhiya site">
+
             <label>
-                Name<br>
-                <input type="text" name="name" required>
+                Your name<br>
+                <input type="text" name="name" placeholder="John Doe" required>
             </label>
+
             <label>
-                Email<br>
-                <input type="email" name="email" required>
+                Your e‑mail<br>
+                <input type="email" name="email" placeholder="you@example.com" required>
             </label>
+
             <label>
                 Message<br>
-                <textarea name="message" rows="4" required></textarea>
+                <textarea name="message" rows="5"
+                          placeholder="Hi, I’d love to learn more…" required></textarea>
             </label>
-            <button type="submit" class="btn-primary">Send</button>
+
+            <button type="submit" class="btn-primary">Send message</button>
         </form>
     </section>
 </main>
