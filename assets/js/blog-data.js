@@ -1,3 +1,6 @@
+/* --------------------------------------------------------------
+   BLOG DATA – shared between the list page and the detail page
+   -------------------------------------------------------------- */
 const BLOGS = [
     {
         id: 1,
@@ -48,108 +51,75 @@ const BLOGS = [
             </ul>
         `
     },
+
+    /* -----------------------------------------------------------------
+       Add as many additional posts as you like – keep the same shape.
+       ----------------------------------------------------------------- */
     {
         id: 4,
-        title: "The History of Garudhiya Soup in the Maldives",
-        excerpt: "A deep dive into the centuries‑old tradition of the beloved fish soup.",
-        img: "https://images.unsplash.com/photo-1562967916-eb82221dfb36?auto=format&fit=crop&w=800&q=80",
-        date: "2025-02-05",
-        author: "Mohan Raza",
-        content: `
-            <p>Garudhiya, a clear fish broth, has been a staple of Maldivian cuisine for generations. Traditionally prepared with freshly caught tuna, the soup reflects the islands’ reliance on the sea.</p>
-            <p>Historically, families would gather at dawn to clean and fillet the fish, then simmer it with a handful of aromatic herbs. The simplicity of the broth highlights the quality of the fish itself.</p>
-            <p>Today, modern kitchens preserve the same technique, but many chefs experiment with additional herbs like curry leaves or lemongrass to add a contemporary twist.</p>
-        `
+        title: "Sustainable Fishing Practices in the Maldives",
+        excerpt: "How local fisheries protect reefs while providing fresh fish for Garudhiya soup.",
+        img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80",
+        date: "2025-04-02",
+        author: "Ahmed Zahir",
+        content: `<p>…full article…</p>`
     },
     {
         id: 5,
-        title: "The History of Garudhiya Soup in the Maldives",
-        excerpt: "A deep dive into the centuries‑old tradition of the beloved fish soup.",
-        img: "https://images.unsplash.com/photo-1562967916-eb82221dfb36?auto=format&fit=crop&w=800&q=80",
-        date: "2025-02-05",
-        author: "Mohan Raza",
-        content: `
-            <p>Garudhiya, a clear fish broth, has been a staple of Maldivian cuisine for generations. Traditionally prepared with freshly caught tuna, the soup reflects the islands’ reliance on the sea.</p>
-            <p>Historically, families would gather at dawn to clean and fillet the fish, then simmer it with a handful of aromatic herbs. The simplicity of the broth highlights the quality of the fish itself.</p>
-            <p>Today, modern kitchens preserve the same technique, but many chefs experiment with additional herbs like curry leaves or lemongrass to add a contemporary twist.</p>
-        `
+        title: "Morning Rituals: Pairing Garudhiya Energy Drink with Yoga",
+        excerpt: "Boost your sunrise flow with the perfect beverage.",
+        img: "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?auto=format&fit=crop&w=800&q=80",
+        date: "2025-04-22",
+        author: "Nadia Patel",
+        content: `<p>…full article…</p>`
     },
     {
         id: 6,
-        title: "The History of Garudhiya Soup in the Maldives",
-        excerpt: "A deep dive into the centuries‑old tradition of the beloved fish soup.",
-        img: "https://images.unsplash.com/photo-1562967916-eb82221dfb36?auto=format&fit=crop&w=800&q=80",
-        date: "2025-02-05",
-        author: "Mohan Raza",
-        content: `
-            <p>Garudhiya, a clear fish broth, has been a staple of Maldivian cuisine for generations. Traditionally prepared with freshly caught tuna, the soup reflects the islands’ reliance on the sea.</p>
-            <p>Historically, families would gather at dawn to clean and fillet the fish, then simmer it with a handful of aromatic herbs. The simplicity of the broth highlights the quality of the fish itself.</p>
-            <p>Today, modern kitchens preserve the same technique, but many chefs experiment with additional herbs like curry leaves or lemongrass to add a contemporary twist.</p>
-        `
+        title: "How to Make the Perfect Garudhiya Soup at Home",
+        excerpt: "Step‑by‑step guide to recreating the classic Maldivian broth.",
+        img: "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?auto=format&fit=crop&w=800&q=80",
+        date: "2025-05-10",
+        author: "Rashid Ali",
+        content: `<p>…full article…</p>`
     },
     {
         id: 7,
-        title: "The History of Garudhiya Soup in the Maldives",
-        excerpt: "A deep dive into the centuries‑old tradition of the beloved fish soup.",
-        img: "https://images.unsplash.com/photo-1562967916-eb82221dfb36?auto=format&fit=crop&w=800&q=80",
-        date: "2025-02-05",
-        author: "Mohan Raza",
-        content: `
-            <p>Garudhiya, a clear fish broth, has been a staple of Maldivian cuisine for generations. Traditionally prepared with freshly caught tuna, the soup reflects the islands’ reliance on the sea.</p>
-            <p>Historically, families would gather at dawn to clean and fillet the fish, then simmer it with a handful of aromatic herbs. The simplicity of the broth highlights the quality of the fish itself.</p>
-            <p>Today, modern kitchens preserve the same technique, but many chefs experiment with additional herbs like curry leaves or lemongrass to add a contemporary twist.</p>
-        `
+        title: "The Science Behind Natural Caffeine in Green Tea",
+        excerpt: "Why our energy drink feels smoother than coffee.",
+        img: "https://images.unsplash.com/photo-1514516870922-0d5e2c5e5c40?auto=format&fit=crop&w=800&q=80",
+        date: "2025-05-28",
+        author: "Leila Khan",
+        content: `<p>…full article…</p>`
     },
     {
         id: 8,
-        title: "The History of Garudhiya Soup in the Maldives",
-        excerpt: "A deep dive into the centuries‑old tradition of the beloved fish soup.",
-        img: "https://images.unsplash.com/photo-1562967916-eb82221dfb36?auto=format&fit=crop&w=800&q=80",
-        date: "2025-02-05",
-        author: "Mohan Raza",
-        content: `
-            <p>Garudhiya, a clear fish broth, has been a staple of Maldivian cuisine for generations. Traditionally prepared with freshly caught tuna, the soup reflects the islands’ reliance on the sea.</p>
-            <p>Historically, families would gather at dawn to clean and fillet the fish, then simmer it with a handful of aromatic herbs. The simplicity of the broth highlights the quality of the fish itself.</p>
-            <p>Today, modern kitchens preserve the same technique, but many chefs experiment with additional herbs like curry leaves or lemongrass to add a contemporary twist.</p>
-        `
+        title: "Top 5 Beaches Near Malé",
+        excerpt: "Plan your island getaway while sipping Garudhiya Energy.",
+        img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80",
+        date: "2025-06-14",
+        author: "Tomás Silva",
+        content: `<p>…full article…</p>`
     },
     {
         id: 9,
-        title: "The History of Garudhiya Soup in the Maldives",
-        excerpt: "A deep dive into the centuries‑old tradition of the beloved fish soup.",
-        img: "https://images.unsplash.com/photo-1562967916-eb82221dfb36?auto=format&fit=crop&w=800&q=80",
-        date: "2025-02-05",
-        author: "Mohan Raza",
-        content: `
-            <p>Garudhiya, a clear fish broth, has been a staple of Maldivian cuisine for generations. Traditionally prepared with freshly caught tuna, the soup reflects the islands’ reliance on the sea.</p>
-            <p>Historically, families would gather at dawn to clean and fillet the fish, then simmer it with a handful of aromatic herbs. The simplicity of the broth highlights the quality of the fish itself.</p>
-            <p>Today, modern kitchens preserve the same technique, but many chefs experiment with additional herbs like curry leaves or lemongrass to add a contemporary twist.</p>
-        `
+        title: "DIY Coconut‑Infused Water Bottles",
+        excerpt: "Turn ordinary bottles into refreshing island‑style hydration.",
+        img: "https://images.unsplash.com/photo-1498654896293-37aacf113fd9?auto=format&fit=crop&w=800&q=80",
+        date: "2025-07-01",
+        author: "Emily Wu",
+        content: `<p>…full article…</p>`
     },
+
+    /* -----------------------------------------------------------------
+       Add more posts beyond 9 to see pagination in action.
+       ----------------------------------------------------------------- */
     {
         id: 10,
-        title: "The History of Garudhiya Soup in the Maldives",
-        excerpt: "A deep dive into the centuries‑old tradition of the beloved fish soup.",
-        img: "https://images.unsplash.com/photo-1562967916-eb82221dfb36?auto=format&fit=crop&w=800&q=80",
-        date: "2025-02-05",
-        author: "Mohan Raza",
-        content: `
-            <p>Garudhiya, a clear fish broth, has been a staple of Maldivian cuisine for generations. Traditionally prepared with freshly caught tuna, the soup reflects the islands’ reliance on the sea.</p>
-            <p>Historically, families would gather at dawn to clean and fillet the fish, then simmer it with a handful of aromatic herbs. The simplicity of the broth highlights the quality of the fish itself.</p>
-            <p>Today, modern kitchens preserve the same technique, but many chefs experiment with additional herbs like curry leaves or lemongrass to add a contemporary twist.</p>
-        `
-    },
-    {
-        id: 11,
-        title: "The History of Garudhiya Soup in the Maldives",
-        excerpt: "A deep dive into the centuries‑old tradition of the beloved fish soup.",
-        img: "https://images.unsplash.com/photo-1562967916-eb82221dfb36?auto=format&fit=crop&w=800&q=80",
-        date: "2025-02-05",
-        author: "Mohan Raza",
-        content: `
-            <p>Garudhiya, a clear fish broth, has been a staple of Maldivian cuisine for generations. Traditionally prepared with freshly caught tuna, the soup reflects the islands’ reliance on the sea.</p>
-            <p>Historically, families would gather at dawn to clean and fillet the fish, then simmer it with a handful of aromatic herbs. The simplicity of the broth highlights the quality of the fish itself.</p>
-            <p>Today, modern kitchens preserve the same technique, but many chefs experiment with additional herbs like curry leaves or lemongrass to add a contemporary twist.</p>
-        `
+        title: "Behind the Scenes: Crafting Garudhiya Energy Drink",
+        excerpt: "A look at the production process from kelp harvest to bottling.",
+        img: "https://images.unsplash.com/photo-1556912995-5a1c5f1b6c43?auto=format&fit=crop&w=800&q=80",
+        date: "2025-07-15",
+        author: "Jenna Ortiz",
+        content: `<p>…full article…</p>`
     }
 ];
