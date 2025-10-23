@@ -27,30 +27,46 @@
 <main class="main-content">
     <section>
         <h2>Contact Us</h2>
-        <form class="contact-form"
-              action="https://formspree.io/f/xanpgvko"
-              method="POST">
 
+        <form id="contactForm" class="contact-form" novalidate>
             <input type="hidden" name="_subject" value="New message from garudhiya.com">
 
-            <label>
-                Your name<br>
-                <input type="text" name="name" placeholder="John Doe" required>
-            </label>
+            <div class="form-grid">
+                <div class="form-group">
+                    <input type="text"
+                           id="name"
+                           name="name"
+                           placeholder=" "
+                           required>
+                    <label for="name">Your name</label>
+                    <p class="error-msg">Please enter your name.</p>
+                </div>
 
-            <label>
-                Your e‑mail<br>
-                <input type="email" name="email" placeholder="you@example.com" required>
-            </label>
+                <div class="form-group">
+                    <input type="email"
+                           id="email"
+                           name="email"
+                           placeholder=" "
+                           required>
+                    <label for="email">Your e‑mail</label>
+                    <p class="error-msg">Enter a valid e‑mail address.</p>
+                </div>
+            </div>
 
-            <label>
-                Your Message<br>
-                <textarea name="message" rows="5"
-                          placeholder="Hi, I’d love to learn more…" required></textarea>
-            </label>
+            <div class="form-group">
+                <textarea id="message"
+                          name="message"
+                          rows="5"
+                          placeholder=" "
+                          required></textarea>
+                <label for="message">Your message</label>
+                <p class="error-msg">Message cannot be empty.</p>
+            </div>
 
-            <button type="submit" class="btn-primary">Send</button>
+            <button type="submit" class="btn-primary">Send message</button>
         </form>
+
+        <div id="toast" class="toast hidden"></div>
     </section>
 </main>
 
