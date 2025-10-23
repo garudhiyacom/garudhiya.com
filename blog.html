@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Garudhiya – Blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Your global stylesheet (already contains .blogs-grid, .blog-card, .pagination, etc.) -->
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
@@ -27,10 +28,10 @@
     <section class="blog-section">
         <h2 class="text-center mt-2 mb-2">Garudhiya Blog</h2>
 
-        <!-- Grid where cards will be injected -->
+        <!-- Grid where the cards will be injected -->
         <div id="blogGrid" class="blogs-grid"></div>
 
-        <!-- Pagination bar -->
+        <!-- Pagination bar (buttons will be injected here) -->
         <nav id="blogPagination" class="pagination"></nav>
     </section>
 </main>
@@ -39,48 +40,48 @@
     © 2025 Garudhiya • All rights reserved
 </footer>
 
-<!-- Load shared data first, then the core script (which already contains initLazyImages) -->
+<!-- Load the data first, then the core script that already defines initLazyImages() -->
 <script src="assets/js/blog-data.js"></script>
 <script src="assets/js/script.js"></script>
 
 <script>
 /* --------------------------------------------------------------
-   SETTINGS
+   SETTINGS – how many posts per page?
    -------------------------------------------------------------- */
-const POSTS_PER_PAGE = 9;               // how many cards per page
+const POSTS_PER_PAGE = 9;
 
 /* --------------------------------------------------------------
-   RENDERER – builds the grid and pagination UI
+   RENDER FUNCTION – builds the grid and pagination UI
    -------------------------------------------------------------- */
 function renderBlogPage(page = 1) {
     const grid       = document.getElementById('blogGrid');
     const pagination = document.getElementById('blogPagination');
 
-    // ---- Safety checks ----
+    // Safety – if the containers are missing, stop.
     if (!grid || !pagination) return;
 
-    // ---- Clear previous content ----
+    // Clear any previous content.
     grid.innerHTML = '';
     pagination.innerHTML = '';
 
-    // ---- Compute slice for the requested page ----
+    // ------- Slice the correct chunk of posts -------
     const startIdx = (page - 1) * POSTS_PER_PAGE;
     const endIdx   = startIdx + POSTS_PER_PAGE;
     const pagePosts = BLOGS.slice(startIdx, endIdx);
 
-    // ---- If there are no posts for this page (edge case) ----
+    // If there are no posts for this page (shouldn't happen unless you have a bad page number)
     if (pagePosts.length === 0) {
         grid.innerHTML = '<p class="text-center">No posts found for this page.</p>';
         return;
     }
 
-    // ---- Build each card ----
+    // ------- Build each card -------
     pagePosts.forEach(post => {
         const card = document.createElement('article');
         card.className = 'card blog-card';
 
         const img = document.createElement('img');
-        img.dataset.src = post.img;          // lazy‑load
+        img.dataset.src = post.img;          // lazy‑load (initLazyImages will swap in src)
         img.alt = post.title;
         img.className = 'blog-img';
         card.appendChild(img);
@@ -113,10 +114,10 @@ function renderBlogPage(page = 1) {
         grid.appendChild(card);
     });
 
-    // ---- Activate lazy‑loading for newly added images ----
+    // Activate lazy‑loading for the newly added images.
     initLazyImages();
 
-    // ---- Build pagination buttons ----
+    // ------- Build pagination buttons -------
     const totalPages = Math.ceil(BLOGS.length / POSTS_PER_PAGE);
     for (let i = 1; i <= totalPages; i++) {
         const btn = document.createElement('button');
@@ -128,7 +129,7 @@ function renderBlogPage(page = 1) {
 }
 
 /* --------------------------------------------------------------
-   INITIAL render (page 1)
+   INITIAL RENDER – page 1
    -------------------------------------------------------------- */
 document.addEventListener('DOMContentLoaded', () => {
     renderBlogPage(1);
