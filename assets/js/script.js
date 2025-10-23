@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     navLinks.forEach(link => {
         const linkTarget = link.getAttribute('href');
-        // If linkTarget matches the filename (or empty for index.html) mark it active
         if (
             (linkTarget === '' && (currentPath === '' || currentPath === 'index.html')) ||
             linkTarget === currentPath
@@ -13,4 +12,21 @@ document.addEventListener('DOMContentLoaded', () => {
             link.classList.add('active');
         }
     });
+
+    // ----- Mobile hamburger menu -----
+    const hamburger = document.querySelector('.hamburger');
+    const navMenu   = document.querySelector('.site-nav');
+
+    if (hamburger && navMenu) {
+        hamburger.addEventListener('click', () => {
+            navMenu.classList.toggle('show');
+        });
+
+        // Close the menu when a link is clicked (nice UX on mobile)
+        navLinks.forEach(l => {
+            l.addEventListener('click', () => {
+                navMenu.classList.remove('show');
+            });
+        });
+    }
 });
