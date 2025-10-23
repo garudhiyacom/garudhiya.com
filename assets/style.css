@@ -23,18 +23,18 @@ body {
     /* ---------- Light‑mode palette ---------- */
     --bg-light:        #ffffff;   /* page background */
     --text-light:      #000000;   /* body text */
-    --primary:         #399DF3;   /* header & footer background (navy) */
-    --primary-dark:    #1e4470;   /* hover/active for header/footer */
-    --accent:          #4a81c2;   /* buttons, links */
-    --accent-dark:     #3a6a9e;   /* accent hover (light mode) */
+    --primary:         #E5E4E2;   /* header & footer background (Platinum) */
+    --primary-dark:    #C0C0C0;   /* hover/active for header/footer */
+    --accent:          #D3D3D3;   /* buttons, links */
+    --accent-dark:     #C0C0C0;   /* accent hover (light mode) */
 
     /* ---------- Dark‑mode palette ---------- */
-    --bg-dark:         #0C6FC6;   /* dark page background */
+    --bg-dark:         #808080;   /* dark page background */
     --text-dark:       #e0e0e0;   /* light text */
-    --primary-dk:      #399DF3;   /* header/footer in dark mode */
-    --primary-dk-dark: #0d1a2b;   /* hover/active (dark mode) */
-    --accent-dk:       #5c92c5;   /* accent in dark mode */
-    --accent-dk-dark:  #4a78a5;   /* accent hover (dark mode) */
+    --primary-dk:      #71797E;   /* header/footer in dark mode */
+    --primary-dk-dark: #C0C0C0;   /* hover/active (dark mode) */
+    --accent-dk:       #D3D3D3;   /* accent in dark mode */
+    --accent-dk-dark:  #C0C0C0;   /* accent hover (dark mode) */
 }
 
 /* ==============================================================
