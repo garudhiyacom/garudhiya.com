@@ -2,17 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>Garudhiya – Traditional Maldivian Fish Soup & Energy Drink</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Shared stylesheet (your modern design) -->
     <link rel="stylesheet" href="assets/css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <title>Garudhiya – Maldivian Fish Soup</title>
 </head>
 <body>
 
 <header class="site-header">
-    <a href="index.html" class="logo-link">
-        <h1 class="logo">Garudhiya</h1>
-    </a>
+    <a href="index.html" class="logo-link"><h1 class="logo">Garudhiya</h1></a>
+
     <div class="hamburger" aria-label="Toggle navigation" role="button">
         <span></span><span></span><span></span>
     </div>
@@ -26,17 +25,58 @@
 
 <main class="main-content">
 
-    <section>
-        <h2>Garudhiya – Traditional Maldivian Fish Soup</h2>
+    <!-- -------------------------------------------------
+         HERO SECTION – big visual + tagline
+         ------------------------------------------------- -->
+    <section class="hero">
+        <div class="hero-content">
+            <h2>Pure Island Energy</h2>
+            <p class="hero-sub">Traditional Maldivian flavors meet modern performance.</p>
+            <a href="products.html" class="btn-primary hero-btn">Explore Our Products</a>
+        </div>
+    </section>
+
+    <!-- -------------------------------------------------
+         FEATURED PRODUCT – quick teaser on the home page
+         ------------------------------------------------- -->
+    <section class="featured-product text-center mt-2 mb-2">
+        <h2>Featured: Garudhiya Energy Drink</h2>
+        <div class="product-card featured-card">
+            <img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=800&q=80"
+                 alt="Garudhiya Energy Drink"
+                 class="product-img">
+
+            <div class="product-info">
+                <h3 class="product-title">Garudhiya Energy Drink</h3>
+                <p class="product-description">
+                    Low‑calorie, kelp‑infused, natural caffeine. The perfect boost for island life.
+                </p>
+                <div class="price-and-action">
+                    <span class="price-badge">$4.99</span>
+                    <a href="https://example.com/checkout?product=energy-drink"
+                       class="btn-primary buy-btn"
+                       target="_blank"
+                       rel="noopener noreferrer">Buy Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- -------------------------------------------------
+         RECIPE SECTION – the classic Garudhiya soup
+         ------------------------------------------------- -->
+    <section class="recipe-section mt-2 mb-2">
+        <h2 class="text-center">Garudhiya – Traditional Maldivian Fish Soup</h2>
 
         <article class="recipe-card">
             <img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90?auto=format&fit=crop&w=800&q=80"
-                 alt="Bowl of Garudhiya soup" class="recipe-img">
+                 alt="Bowl of Garudhiya soup"
+                 class="recipe-img">
 
             <div class="recipe-content">
                 <h3>Ingredients</h3>
                 <ul>
-                    <li>1 kg fresh tuna or reef fish (cut into chunks)</li>
+                    <li>1 kg fresh tuna or reef fish, cut into chunks</li>
                     <li>2 L cold water</li>
                     <li>½ tsp sea salt (adjust to taste)</li>
                     <li>1 onion, thinly sliced</li>
@@ -48,13 +88,30 @@
                 <h3>Directions</h3>
                 <ol>
                     <li>Bring water to a gentle boil in a large pot.</li>
-                    <li>Add the fish pieces, salt, onion, tomatoes, and chilies.</li>
+                    <li>Add the fish, salt, onion, tomatoes, and chilies.</li>
                     <li>Simmer 12‑15 minutes until the fish is cooked through.</li>
                     <li>Stir in curry leaves and cilantro just before turning off the heat.</li>
                     <li>Serve hot with steamed rice or flatbread.</li>
                 </ol>
             </div>
         </article>
+    </section>
+
+    <!-- -------------------------------------------------
+         CALL‑TO‑ACTION – newsletter or social follow
+         ------------------------------------------------- -->
+    <section class="cta-section text-center mt-2 mb-2">
+        <h2>Stay Fresh with Garudhiya</h2>
+        <p>Subscribe for new recipes, product launches, and exclusive island‑inspired discounts.</p>
+        <form id="newsletterForm" class="contact-form" novalidate>
+            <div class="form-group">
+                <input type="email" name="email" id="newsletter-email"
+                       placeholder=" " required>
+                <label for="newsletter-email">Your e‑mail</label>
+                <p class="error-msg">Please enter a valid e‑mail.</p>
+            </div>
+            <button type="submit" class="btn-primary">Subscribe</button>
+        </form>
     </section>
 
 </main>
