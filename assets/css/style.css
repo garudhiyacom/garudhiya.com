@@ -222,6 +222,102 @@ padding: 1rem 2rem;
 }
 
 /* --------------------------------------------------------------
+   CONTACT FORM – grid layout
+   -------------------------------------------------------------- */
+.form-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+.form-grid .form-group {
+    flex: 1 1 260px;               /* grow/shrink, min‑width ~260 px */
+}
+
+/* --------------------------------------------------------------
+   FORM GROUP – floating label + error message
+   -------------------------------------------------------------- */
+.form-group {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+.form-group input,
+.form-group textarea {
+    font: inherit;
+    padding: .9rem .8rem .4rem;
+    border: 1px solid #cfd8dc;
+    border-radius: var(--radius);
+    background: #fff;
+    transition: var(--transition);
+}
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(0,150,136,.15);
+}
+.form-group label {
+    position: absolute;
+    left: .9rem;
+    top: .9rem;
+    color: #757575;
+    font-size: .95rem;
+    pointer-events: none;
+    transition: var(--transition);
+}
+.form-group input:not(:placeholder-shown) + label,
+.form-group textarea:not(:placeholder-shown) + label,
+.form-group input:focus + label,
+.form-group textarea:focus + label {
+    top: .2rem;
+    left: .7rem;
+    font-size: .75rem;
+    color: var(--accent);
+    background: #fff;
+    padding: 0 .2rem;
+}
+
+/* Error message – hidden by default */
+.error-msg {
+    color: #d32f2f;
+    font-size: .85rem;
+    margin-top: .3rem;
+    display: none;
+}
+
+/* --------------------------------------------------------------
+   TOAST NOTIFICATIONS
+   -------------------------------------------------------------- */
+.toast {
+    position: fixed;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 260px;
+    max-width: 90%;
+    padding: .9rem 1.2rem;
+    border-radius: var(--radius);
+    color: #fff;
+    font-weight: 500;
+    text-align: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .3s ease;
+    z-index: 999;
+}
+.toast.success { background: var(--accent); }
+.toast.error   { background: #d32f2f; }
+.toast:not(.hidden) { opacity: 1; pointer-events: auto; }
+.toast.hidden { display: none; }
+
+/* --------------------------------------------------------------
+   RESPONSIVE ADJUSTMENTS (keep existing media queries)
+   -------------------------------------------------------------- */
+@media (max-width: 640px) {
+    .form-grid { flex-direction: column; }
+}
+
+/* --------------------------------------------------------------
    Footer – always at bottom
    -------------------------------------------------------------- */
 .site-footer {
