@@ -292,3 +292,52 @@ body {
 .card + .card {
     margin-top: 1.5rem;
 }
+.hero {
+    background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+    padding: 6rem 2rem;
+    color: #fff;
+    text-align: center;
+    position: relative;
+}
+.hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,.45);
+    z-index: 0;
+}
+.hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 720px;
+    margin: 0 auto;
+}
+.hero h2 {
+    font-size: 2.4rem;
+    margin-bottom: .8rem;
+}
+.hero-sub {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+}
+.hero-btn {
+    font-size: 1rem;
+    padding: .8rem 1.6rem;
+}
+.featured-card {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 1.5rem;
+}
+.cta-section {
+    background: var(--bg-header);
+    padding: 2rem 1rem;
+    border-radius: var(--radius);
+}
+.cta-section .contact-form {
+    max-width: 400px;
+    margin: 1rem auto 0;
+}
+.mt-2 { margin-top: 1.5rem; }
+.mb-2 { margin-bottom: 1.5rem; }
+.text-center { text-align: center; }
