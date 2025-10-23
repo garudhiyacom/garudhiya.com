@@ -1,25 +1,44 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const currentPath = window.location.pathname.split('/').pop();
-    const navLinks = document.querySelectorAll('.nav-link');
+/* ============================================================
+   Garudhiya – UI helpers
+   ------------------------------------------------------------
+   • Highlights the active navigation link
+   • Toggles the mobile (hamburger) menu
+   • Shows toast notifications
+   • Validates & submits the contact form (Formspree)
+   ============================================================ */
+'use strict';
 
+/* ------------------------------------------------------------
+   1️⃣  NAVIGATION – active link & hamburger toggle
+   ------------------------------------------------------------ */
+document.addEventListener('DOMContentLoaded', () => {
+    const navLinks = document.querySelectorAll('.nav-link');
+    const currentPath = window.location.pathname.split('/').pop(); // e.g. "products.html"
+
+    // ---- Highlight the link that matches the current page ----
     navLinks.forEach(link => {
-        const linkTarget = link.getAttribute('href');
-        if (
-            (linkTarget === '' && (currentPath === '' || currentPath === 'index.html')) ||
-            linkTarget === currentPath
-        ) {
+        const target = link.getAttribute('href');
+
+        const isHome = (target === '' || target === 'index.html');
+        const matchesCurrent = target === currentPath;
+
+        if ((isHome && (currentPath === '' || currentPath === 'index.html')) ||
+            matchesCurrent) {
             link.classList.add('active');
         }
     });
 
+    // ---- Mobile hamburger menu -------------------------------------------------
     const hamburger = document.querySelector('.hamburger');
     const navMenu   = document.querySelector('.site-nav');
 
     if (hamburger && navMenu) {
+        // Open / close the menu
         hamburger.addEventListener('click', () => {
             navMenu.classList.toggle('show');
         });
 
+        // When a link is clicked, hide the menu again (good UX on mobile)
         navLinks.forEach(l => {
             l.addEventListener('click', () => {
                 navMenu.classList.remove('show');
@@ -27,43 +46,88 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+/* ------------------------------------------------------------
+   2️⃣  TOAST NOTIFICATIONS
+   ------------------------------------------------------------ */
 function showToast(type, message) {
     const toast = document.getElementById('toast');
+    if (!toast) return; // safety net – nothing to show
+
     toast.textContent = message;
-    toast.className = `toast ${type}`;
+    toast.className = `toast ${type}`; // sets both the base class and success/error
     toast.classList.remove('hidden');
 
+    // Auto‑hide after 3 seconds
     setTimeout(() => toast.classList.add('hidden'), 3000);
 }
-document.getElementById('contactForm').addEventListener('submit', async e => {
-    e.preventDefault();
-    
-    const errors = document.querySelectorAll('.error-msg');
-    errors.forEach(el => el.style.display = 'none');
 
-    const name    = e.target.name.value.trim();
-    const email   = e.target.email.value.trim();
-    const message = e.target.message.value.trim();
+/* ------------------------------------------------------------
+   3️⃣  CONTACT FORM – validation + Formspree submit
+   ------------------------------------------------------------ */
+const contactForm = document.getElementById('contactForm');
 
-    let hasError = false;
+if (contactForm) {
+    contactForm.addEventListener('submit', async e => {
+        e.preventDefault();
 
-    if (!name)    { e.target.name.parentElement.querySelector('.error-msg').style.display = 'block'; hasError = true; }
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        e.target.email.parentElement.querySelector('.error-msg').style.display = 'block';
-        hasError = true;
-    }
-    if (!message) { e.target.message.parentElement.querySelector('.error-msg').style.display = 'block'; hasError = true; }
+        // ---- Reset any previous error messages ----
+        document.querySelectorAll('.error-msg')
+                .forEach(el => el.style.display = 'none');
 
-    if (hasError) return;
+        // ---- Grab values (trimmed) ----
+        const nameVal    = contactForm.name?.value.trim() ?? '';
+        const emailVal   = contactForm.email?.value.trim() ?? '';
+        const messageVal = contactForm.message?.value.trim() ?? '';
 
-    const response = await fetch('https://formspree.io/f/xanpgvko', {
-        method: 'POST',
-        headers: { 'Accept': 'application/json' },
-        body: new FormData(e.target)
+        let hasError = false;
+
+        // ---- Simple client‑side validation ----
+        if (!nameVal) {
+            showFieldError(contactForm.name, 'Please enter your name.');
+            hasError = true;
+        }
+        if (!emailVal || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
+            showFieldError(contactForm.email, 'Enter a valid e‑mail address.');
+            hasError = true;
+        }
+        if (!messageVal) {
+            showFieldError(contactForm.message, 'Message cannot be empty.');
+            hasError = true;
+        }
+
+        if (hasError) return; // stop submission
+
+        // ---- Send to Formspree (or any endpoint you prefer) ----
+        try {
+            const response = await fetch('https://formspree.io/f/xanpgvko', {
+                method: 'POST',
+                headers: { 'Accept': 'application/json' },
+                body: new FormData(contactForm)
+            });
+
+            if (response.ok) {
+                showToast('success', '✅ Your message has been sent!');
+                contactForm.reset();
+            } else {
+                showToast('error', '❌ Something went wrong – please try again later.');
+            }
+        } catch (err) {
+            // Network‑level failure (offline, CORS, etc.)
+            console.error('Form submission error:', err);
+            showToast('error', '❌ Unable to send – check your connection.');
+        }
     });
-    if (response.ok) {
-        showToast('success', '✅ Your message has been sent!');
-        e.target.reset();
-    } else {
-        showToast('error', '❌ Something went wrong – try again later.');
+}
+
+/**
+ * Helper – show the inline error message for a given input element.
+ * The markup expects a sibling element with class `.error-msg`.
+ */
+function showFieldError(inputEl, msg) {
+    const errorEl = inputEl?.parentElement?.querySelector('.error-msg');
+    if (errorEl) {
+        errorEl.textContent = msg;
+        errorEl.style.display = 'block';
     }
+}
