@@ -24,159 +24,55 @@
 </header>
 
 <main class="main-content">
-
     <section class="blog-section">
         <h2 class="text-center mt-2 mb-2">Garudhiya Blog</h2>
 
-        <!-- Grid container – the script will inject the cards here -->
+        <!-- Grid where cards will be injected -->
         <div id="blogGrid" class="blogs-grid"></div>
 
-        <!-- Pagination bar – the script will fill the numbers -->
+        <!-- Pagination bar -->
         <nav id="blogPagination" class="pagination"></nav>
     </section>
-
 </main>
 
 <footer class="site-footer">
     © 2025 Garudhiya • All rights reserved
 </footer>
 
+<!-- Load shared data first, then the core script (which already contains initLazyImages) -->
+<script src="assets/js/blog-data.js"></script>
 <script src="assets/js/script.js"></script>
 
-<!-- -------------------------------------------------
-     BLOG DATA & RENDERER – add your real posts here
-     ------------------------------------------------- -->
 <script>
 /* --------------------------------------------------------------
-   1️⃣  SAMPLE BLOG DATA – replace with your own content
+   SETTINGS
    -------------------------------------------------------------- */
-const BLOGS = [
-    {
-        id: 1,
-        title: "Why Island Ingredients Make the Best Energy Drink",
-        excerpt: "Discover how kelp, coconut water, and tropical fruits give Garudhiya Energy Drink its unique boost.",
-        img: "https://images.unsplash.com/photo-1526401485004-2ea33f8c8c9b?auto=format&fit=crop&w=800&q=80",
-        date: "2025-01-12",
-        author: "Lina Ahmed"
-    },
-    {
-        id: 2,
-        title: "The History of Garudhiya Soup in the Maldives",
-        excerpt: "A deep dive into the centuries‑old tradition of the beloved fish soup.",
-        img: "https://images.unsplash.com/photo-1562967916-eb82221dfb36?auto=format&fit=crop&w=800&q=80",
-        date: "2025-02-05",
-        author: "Mohan Raza"
-    },
-    {
-        id: 3,
-        title: "5 Ways to Use Kelp in Everyday Cooking",
-        excerpt: "From smoothies to sauces – kelp is a versatile superfood.",
-        img: "https://images.unsplash.com/photo-1589302168068-964664d93dc0?auto=format&fit=crop&w=800&q=80",
-        date: "2025-03-18",
-        author: "Sara Lee"
-    },
-    {
-        id: 4,
-        title: "Sustainable Fishing Practices in the Maldives",
-        excerpt: "How local fisheries protect reefs while providing fresh fish for Garudhiya soup.",
-        img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80",
-        date: "2025-04-02",
-        author: "Ahmed Zahir"
-    },
-    {
-        id: 5,
-        title: "Morning Rituals: Pairing Garudhiya Energy Drink with Yoga",
-        excerpt: "Boost your sunrise flow with the perfect beverage.",
-        img: "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?auto=format&fit=crop&w=800&q=80",
-        date: "2025-04-22",
-        author: "Nadia Patel"
-    },
-    {
-        id: 6,
-        title: "How to Make the Perfect Garudhiya Soup at Home",
-        excerpt: "Step‑by‑step guide to recreating the classic Maldivian broth.",
-        img: "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?auto=format&fit=crop&w=800&q=80",
-        date: "2025-05-10",
-        author: "Rashid Ali"
-    },
-    {
-        id: 7,
-        title: "The Science Behind Natural Caffeine in Green Tea",
-        excerpt: "Why our energy drink feels smoother than coffee.",
-        img: "https://images.unsplash.com/photo-1514516870922-0d5e2c5e5c40?auto=format&fit=crop&w=800&q=80",
-        date: "2025-05-28",
-        author: "Leila Khan"
-    },
-    {
-        id: 8,
-        title: "Travel Guide: Top 5 Beaches Near Malé",
-        excerpt: "Plan your island getaway while sipping Garudhiya Energy.",
-        img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80",
-        date: "2025-06-14",
-        author: "Tomás Silva"
-    },
-    {
-        id: 9,
-        title: "DIY Coconut‑Infused Water Bottles",
-        excerpt: "Turn ordinary bottles into refreshing island‑style hydration.",
-        img: "https://images.unsplash.com/photo-1498654896293-37aacf113fd9?auto=format&fit=crop&w=800&q=80",
-        date: "2025-07-01",
-        author: "Emily Wu"
-    },
-    {
-        id: 10,
-        title: "Behind the Scenes: Crafting Garudhiya Energy Drink",
-        excerpt: "A look at the production process from kelp harvest to bottling.",
-        img: "https://images.unsplash.com/photo-1556912995-5a1c5f1b6c43?auto=format&fit=crop&w=800&q=80",
-        date: "2025-07-15",
-        author: "Jenna Ortiz"
-    },
-    {
-        id: 11,
-        title: "Behind the Scenes: Crafting Garudhiya Energy Drink",
-        excerpt: "A look at the production process from kelp harvest to bottling.",
-        img: "https://images.unsplash.com/photo-1556912995-5a1c5f1b6c43?auto=format&fit=crop&w=800&q=80",
-        date: "2025-07-15",
-        author: "Jenna Ortiz"
-    },
-    {
-        id: 12,
-        title: "Behind the Scenes: Crafting Garudhiya Energy Drink",
-        excerpt: "A look at the production process from kelp harvest to bottling.",
-        img: "https://images.unsplash.com/photo-1556912995-5a1c5f1b6c43?auto=format&fit=crop&w=800&q=80",
-        date: "2025-07-15",
-        author: "Jenna Ortiz"
-    },
-    {
-        id: 13,
-        title: "Behind the Scenes: Crafting Garudhiya Energy Drink",
-        excerpt: "A look at the production process from kelp harvest to bottling.",
-        img: "https://images.unsplash.com/photo-1556912995-5a1c5f1b6c43?auto=format&fit=crop&w=800&q=80",
-        date: "2025-07-15",
-        author: "Jenna Ortiz"
-    },
-];
+const POSTS_PER_PAGE = 9;               // how many cards per page
 
 /* --------------------------------------------------------------
-   2️⃣  SETTINGS – how many posts per page?
-   -------------------------------------------------------------- */
-const POSTS_PER_PAGE = 9;
-
-/* --------------------------------------------------------------
-   3️⃣  RENDERER – builds the grid and pagination UI
+   RENDERER – builds the grid and pagination UI
    -------------------------------------------------------------- */
 function renderBlogPage(page = 1) {
-    const grid = document.getElementById('blogGrid');
+    const grid       = document.getElementById('blogGrid');
     const pagination = document.getElementById('blogPagination');
+
+    // ---- Safety checks ----
+    if (!grid || !pagination) return;
 
     // ---- Clear previous content ----
     grid.innerHTML = '';
     pagination.innerHTML = '';
 
-    // ---- Determine slice of posts for this page ----
+    // ---- Compute slice for the requested page ----
     const startIdx = (page - 1) * POSTS_PER_PAGE;
     const endIdx   = startIdx + POSTS_PER_PAGE;
     const pagePosts = BLOGS.slice(startIdx, endIdx);
+
+    // ---- If there are no posts for this page (edge case) ----
+    if (pagePosts.length === 0) {
+        grid.innerHTML = '<p class="text-center">No posts found for this page.</p>';
+        return;
+    }
 
     // ---- Build each card ----
     pagePosts.forEach(post => {
@@ -217,10 +113,10 @@ function renderBlogPage(page = 1) {
         grid.appendChild(card);
     });
 
-    // ---- Lazy‑load images after cards are in the DOM ----
+    // ---- Activate lazy‑loading for newly added images ----
     initLazyImages();
 
-    // ---- Build pagination numbers ----
+    // ---- Build pagination buttons ----
     const totalPages = Math.ceil(BLOGS.length / POSTS_PER_PAGE);
     for (let i = 1; i <= totalPages; i++) {
         const btn = document.createElement('button');
@@ -232,14 +128,11 @@ function renderBlogPage(page = 1) {
 }
 
 /* --------------------------------------------------------------
-   4️⃣  INITIAL render (page 1)
+   INITIAL render (page 1)
    -------------------------------------------------------------- */
 document.addEventListener('DOMContentLoaded', () => {
     renderBlogPage(1);
 });
 </script>
-    <!-- At the bottom of blog.html, after the existing script tag -->
-<script src="assets/js/blog-data.js"></script>
-<script src="assets/js/script.js"></script>
 </body>
 </html>
