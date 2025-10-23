@@ -289,3 +289,6 @@ body {
 .mb-2 {
     margin-bottom: .5rem;
 }
+.card + .card {
+    margin-top: 1.5rem;
+}
