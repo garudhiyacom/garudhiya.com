@@ -1,6 +1,5 @@
-// Highlight the active navigation link based on the current page URL
 document.addEventListener('DOMContentLoaded', () => {
-    const currentPath = window.location.pathname.split('/').pop(); // e.g., "products.html"
+    const currentPath = window.location.pathname.split('/').pop();
     const navLinks = document.querySelectorAll('.nav-link');
 
     navLinks.forEach(link => {
@@ -13,7 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ----- Mobile hamburger menu -----
     const hamburger = document.querySelector('.hamburger');
     const navMenu   = document.querySelector('.site-nav');
 
@@ -22,7 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
             navMenu.classList.toggle('show');
         });
 
-        // Close the menu when a link is clicked (nice UX on mobile)
         navLinks.forEach(l => {
             l.addEventListener('click', () => {
                 navMenu.classList.remove('show');
