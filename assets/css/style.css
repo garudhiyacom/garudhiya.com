@@ -455,3 +455,44 @@ body {
     margin-bottom:1rem;
     line-height:1.7;
 }
+/* --------------------------------------------------------------
+   BLOG DETAIL – typography & spacing
+   -------------------------------------------------------------- */
+.blog-detail{
+    max-width:720px;
+    margin:2rem auto;
+    padding:0 1rem;
+}
+.blog-detail-title{
+    margin-bottom:.5rem;
+    color:var(--accent);
+    font-size:2rem;
+}
+.blog-detail-meta{
+    font-size:.85rem;
+    color:var(--text-muted);
+    margin-bottom:1.5rem;
+}
+.blog-detail-img{
+    width:100%;
+    max-height:400px;
+    object-fit:cover;
+    border-radius:var(--radius);
+    margin-bottom:1.5rem;
+}
+.blog-detail-content p{
+    margin-bottom:1rem;
+    line-height:1.7;
+}
+.blog-detail-content h3{
+    margin-top:1.2rem;
+    margin-bottom:.5rem;
+    color:var(--accent);
+}
+.blog-detail-content ul{
+    margin-left:1.2rem;
+    margin-bottom:1rem;
+}
+.blog-detail-content li{
+    margin-bottom:.3rem;
+}
