@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Garudhiya – Traditional Maldivian Fish Soup & Energy Drink</title>
+    <title>Garudhiya – Island Energy & Traditional Soup</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Shared stylesheet (your modern design) -->
     <link rel="stylesheet" href="assets/css/style.css">
@@ -12,10 +12,12 @@
 <header class="site-header">
     <a href="index.html" class="logo-link"><h1 class="logo">Garudhiya</h1></a>
 
+    <!-- Hamburger – only visible on mobile -->
     <div class="hamburger" aria-label="Toggle navigation" role="button">
         <span></span><span></span><span></span>
     </div>
 
+    <!-- Navigation -->
     <nav class="site-nav">
         <a href="index.html"      class="nav-link">Home</a>
         <a href="products.html"  class="nav-link">Products</a>
@@ -25,22 +27,21 @@
 
 <main class="main-content">
 
-    <!-- -------------------------------------------------
-         HERO SECTION – big visual + tagline
-         ------------------------------------------------- -->
+    <!-- ====================== HERO ====================== -->
     <section class="hero">
         <div class="hero-content">
             <h2>Pure Island Energy</h2>
-            <p class="hero-sub">Traditional Maldivian flavors meet modern performance.</p>
-            <a href="products.html" class="btn-primary hero-btn">Explore Our Products</a>
+            <p class="hero-sub">
+                Traditional Maldivian flavors meet modern performance.
+            </p>
+            <a href="products.html" class="btn-primary hero-btn">Explore Products</a>
         </div>
     </section>
 
-    <!-- -------------------------------------------------
-         FEATURED PRODUCT – quick teaser on the home page
-         ------------------------------------------------- -->
+    <!-- ====================== FEATURED PRODUCT ====================== -->
     <section class="featured-product text-center mt-2 mb-2">
         <h2>Featured: Garudhiya Energy Drink</h2>
+
         <div class="product-card featured-card">
             <img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=800&q=80"
                  alt="Garudhiya Energy Drink"
@@ -62,9 +63,7 @@
         </div>
     </section>
 
-    <!-- -------------------------------------------------
-         RECIPE SECTION – the classic Garudhiya soup
-         ------------------------------------------------- -->
+    <!-- ====================== RECIPE SECTION ====================== -->
     <section class="recipe-section mt-2 mb-2">
         <h2 class="text-center">Garudhiya – Traditional Maldivian Fish Soup</h2>
 
@@ -97,16 +96,18 @@
         </article>
     </section>
 
-    <!-- -------------------------------------------------
-         CALL‑TO‑ACTION – newsletter or social follow
-         ------------------------------------------------- -->
+    <!-- ====================== NEWSLETTER CTA ====================== -->
     <section class="cta-section text-center mt-2 mb-2">
         <h2>Stay Fresh with Garudhiya</h2>
         <p>Subscribe for new recipes, product launches, and exclusive island‑inspired discounts.</p>
+
         <form id="newsletterForm" class="contact-form" novalidate>
             <div class="form-group">
-                <input type="email" name="email" id="newsletter-email"
-                       placeholder=" " required>
+                <input type="email"
+                       name="email"
+                       id="newsletter-email"
+                       placeholder=" "
+                       required>
                 <label for="newsletter-email">Your e‑mail</label>
                 <p class="error-msg">Please enter a valid e‑mail.</p>
             </div>
