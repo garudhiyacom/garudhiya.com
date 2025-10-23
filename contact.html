@@ -2,21 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>Garudhiya – Contact</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="assets/css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <title>Garudhiya – Contact</title>
 </head>
 <body>
 
 <header class="site-header">
-    <a href="index.html" class="logo-link">
-        <h1 class="logo">Garudhiya</h1>
-    </a>
+    <a href="index.html" class="logo-link"><h1 class="logo">Garudhiya</h1></a>
     <div class="hamburger" aria-label="Toggle navigation" role="button">
         <span></span><span></span><span></span>
     </div>
-
     <nav class="site-nav">
         <a href="index.html"      class="nav-link">Home</a>
         <a href="products.html"  class="nav-link">Products</a>
@@ -27,45 +23,27 @@
 <main class="main-content">
     <section>
         <h2>Contact Us</h2>
-
         <form id="contactForm" class="contact-form" novalidate>
             <input type="hidden" name="_subject" value="New message from garudhiya.com">
-
             <div class="form-grid">
                 <div class="form-group">
-                    <input type="text"
-                           id="name"
-                           name="name"
-                           placeholder=" "
-                           required>
+                    <input type="text" id="name" name="name" placeholder=" " required>
                     <label for="name">Your name</label>
                     <p class="error-msg">Please enter your name.</p>
                 </div>
-
                 <div class="form-group">
-                    <input type="email"
-                           id="email"
-                           name="email"
-                           placeholder=" "
-                           required>
+                    <input type="email" id="email" name="email" placeholder=" " required>
                     <label for="email">Your e‑mail</label>
                     <p class="error-msg">Enter a valid e‑mail address.</p>
                 </div>
             </div>
-
             <div class="form-group">
-                <textarea id="message"
-                          name="message"
-                          rows="5"
-                          placeholder=" "
-                          required></textarea>
+                <textarea id="message" name="message" rows="5" placeholder=" " required></textarea>
                 <label for="message">Your message</label>
                 <p class="error-msg">Message cannot be empty.</p>
             </div>
-
             <button type="submit" class="btn-primary">Send message</button>
         </form>
-
         <div id="toast" class="toast hidden"></div>
     </section>
 </main>
