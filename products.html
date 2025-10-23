@@ -2,21 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>Garudhiya – Products</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="assets/css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <title>Garudhiya – Products</title>
 </head>
 <body>
 
 <header class="site-header">
-    <a href="index.html" class="logo-link">
-        <h1 class="logo">Garudhiya</h1>
-    </a>
+    <a href="index.html" class="logo-link"><h1 class="logo">Garudhiya</h1></a>
     <div class="hamburger" aria-label="Toggle navigation" role="button">
         <span></span><span></span><span></span>
     </div>
-
     <nav class="site-nav">
         <a href="index.html"      class="nav-link">Home</a>
         <a href="products.html"  class="nav-link">Products</a>
@@ -26,9 +22,27 @@
 
 <main class="main-content">
     <section>
-        <h2>Our Products</h2>
-        <p>We’re preparing a line of premium Maldivian seafood kits, spice blends, and cooking guides.
-        Stay tuned for launch dates and special pre‑order offers!</p>
+        <h2 class="text-center mt-2 mb-2">Our Products</h2>
+
+        <article class="card product-card">
+            <img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=800&q=80"
+                 alt="Garudhiya Spice Mix"
+                 class="product-img">
+
+            <div class="product-info">
+                <h3 class="product-title">Garudhiya Spice Mix</h3>
+
+                <p class="product-description">
+                    A handcrafted blend of Icelandic‑inspired herbs and sea‑salt, perfect for creating authentic Garudhiya fish soup at home.
+                    Comes in a resealable 250 g pouch.
+                </p>
+
+                <div class="price-and-action">
+                    <span class="price-badge">$19.99</span>
+                    <button class="btn-primary buy-btn">Buy Now</button>
+                </div>
+            </div>
+        </article>
     </section>
 </main>
 
@@ -37,5 +51,63 @@
 </footer>
 
 <script src="assets/js/script.js"></script>
+
+<style>
+    .product-card {
+        display: flex;
+        flex-direction: row;
+        gap: 1.5rem;
+        padding: 1rem;
+        align-items: stretch;
+    }
+    .product-img {
+        width: 200px;
+        height: auto;
+        object-fit: cover;
+        border-radius: var(--radius);
+    }
+    .product-info {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    .product-title {
+        margin-bottom: .5rem;
+        color: var(--accent);
+    }
+    .product-description {
+        flex-grow: 1;
+        margin-bottom: 1rem;
+        color: var(--text-muted);
+    }
+    .price-and-action {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+    .price-badge {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--accent-dark);
+    }
+    .buy-btn {
+        flex-shrink: 0;
+    }
+    @media (max-width: 640px) {
+        .product-card {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .product-img {
+            width: 100%;
+            max-width: 280px;
+        }
+        .price-and-action {
+            justify-content: center;
+        }
+    }
+</style>
 </body>
 </html>
