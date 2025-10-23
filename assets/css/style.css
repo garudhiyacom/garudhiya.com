@@ -25,6 +25,7 @@
     padding: 0;
 }
 html { font-size: 100%; }               /* 16 px base */
+html { scroll-behavior: smooth; }
 body {
     font-family: var(--font-base);
     line-height: 1.6;
@@ -34,14 +35,17 @@ body {
     display: flex;
     flex-direction: column;
 }
-
+body { opacity: 0; animation: fadeIn .4s forwards ease-in-out; }
+@keyframes fadeIn { to { opacity: 1; } }
 /* --------------------------------------------------------------
    Header & Footer – light, thin border
    -------------------------------------------------------------- */
 .site-header,
 .site-footer {
-    background: var(--bg-header);
-    padding: 1rem 2rem;
+    text-align: center;
+    font-size: .9rem;
+    color: var(--text-muted);
+    background-color: #f2f2f2;   /* <-- light gray background */
 }
 .site-header {
     position: sticky;
