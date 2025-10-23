@@ -25,24 +25,8 @@
 
 <main class="main-content">
 
-    <article class="blog-detail">
-        <h2 class="blog-detail-title">Why Island Ingredients Make the Best Energy Drink</h2>
-        <p class="blog-detail-meta">Lina Ahmed • January 12, 2025</p>
-
-        <img src="https://images.unsplash.com/photo-1526401485004-2ea33f8c8c9b?auto=format&fit=crop&w=1200&q=80"
-             alt="Island ingredients"
-             class="blog-detail-img">
-
-        <section class="blog-detail-content">
-            <p>*(Insert the full article text here. Use <p>, <h3>, <ul>, <blockquote> etc. as needed.)*</p>
-
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc vel gravida
-            fermentum, ligula massa aliquet arcu, nec ultricies odio mauris a justo. Integer
-            tristique, turpis non porta viverra, mi augue interdum erat, a bibendum orci nisl
-            non lorem.</p>
-
-            <!-- Add more paragraphs, images, lists, etc. -->
-        </section>
+    <article id="blogDetail" class="blog-detail">
+        <!-- Content will be injected by JavaScript -->
     </article>
 
 </main>
@@ -51,6 +35,59 @@
     © 2025 Garudhiya • All rights reserved
 </footer>
 
+<!-- Load the shared data first, then the core script (which contains initLazyImages) -->
+<script src="assets/js/blog-data.js"></script>
 <script src="assets/js/script.js"></script>
+
+<script>
+/* --------------------------------------------------------------
+   1️⃣  Parse the `id` query‑parameter from the URL
+   -------------------------------------------------------------- */
+function getQueryParam(name) {
+    const params = new URLSearchParams(window.location.search);
+    return params.get(name);
+}
+
+/* --------------------------------------------------------------
+   2️⃣  Render the post (or a not‑found message)
+   -------------------------------------------------------------- */
+function renderBlogDetail() {
+    const id = getQueryParam('id');
+    const post = BLOGS.find(p => p.id === Number(id));
+
+    const container = document.getElementById('blogDetail');
+
+    if (!post) {
+        container.innerHTML = `
+            <h2 class="text-center mt-2 mb-2">Post Not Found</h2>
+            <p class="text-center">Sorry, we couldn’t locate the article you’re looking for.</p>
+            <p class="text-center"><a href="blog.html" class="btn-primary">Back to Blog</a></p>
+        `;
+        return;
+    }
+
+    // ----------------------------------------------------------
+    // Build the HTML for a valid post
+    // ----------------------------------------------------------
+    container.innerHTML = `
+        <h2 class="blog-detail-title">${post.title}</h2>
+        <p class="blog-detail-meta">${post.author} • ${new Date(post.date).toLocaleDateString()}</p>
+
+        <img src="${post.img}" alt="${post.title}" class="blog-detail-img lazy">
+
+        <section class="blog-detail-content">
+            ${post.content}
+        </section>
+    `;
+
+    // Lazy‑load the main image (re‑use the same helper)
+    initLazyImages();
+}
+
+/* --------------------------------------------------------------
+   3️⃣  Run on DOM ready
+   -------------------------------------------------------------- */
+document.addEventListener('DOMContentLoaded', renderBlogDetail);
+</script>
 </body>
 </html>
