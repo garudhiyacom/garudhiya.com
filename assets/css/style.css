@@ -188,35 +188,51 @@ img.loaded {
 .hamburger {
     display: none;
     flex-direction: column;
-    justify-content: center;
-    gap: 6px;
+    justify-content: space-around;
     cursor: pointer;
     z-index: 102;
     position: relative;
-    width: 30px;
-    height: 30px;
+    width: 28px;
+    height: 24px;
+    padding: 4px 0;
 }
 
 .hamburger span {
     width: 100%;
-    height: 2px;
+    height: 3px;
     background: var(--text-primary);
     border-radius: 2px;
     transition: all .3s ease;
     display: block;
+    position: absolute;
+    left: 0;
+}
+
+.hamburger span:nth-child(1) {
+    top: 0;
+}
+
+.hamburger span:nth-child(2) {
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.hamburger span:nth-child(3) {
+    bottom: 0;
 }
 
 .hamburger.active span:nth-child(1) {
-    transform: rotate(45deg) translate(8px, 8px);
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
 }
 
 .hamburger.active span:nth-child(2) {
     opacity: 0;
-    transform: translateX(-20px);
 }
 
 .hamburger.active span:nth-child(3) {
-    transform: rotate(-45deg) translate(8px, -8px);
+    bottom: 50%;
+    transform: translateY(50%) rotate(-45deg);
 }
 
 /* --------------------------------------------------------------
@@ -1048,7 +1064,7 @@ img.loaded {
         flex-direction: column;
         align-items: stretch;
         width: 280px;
-        padding: 4rem 1.5rem 2rem;
+        padding: 1.5rem;
         gap: 0;
         box-shadow: -4px 0 24px rgba(0, 0, 0, 0.15);
         transition: right .4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -1064,7 +1080,7 @@ img.loaded {
         display: block;
         max-width: 100%;
         width: 100%;
-        margin-bottom: 2rem;
+        margin-bottom: 1.5rem;
         order: -1;
     }
     
@@ -1080,6 +1096,11 @@ img.loaded {
         padding: 1rem 0;
         border-bottom: 1px solid var(--border-light);
         text-align: left;
+        font-size: 1rem;
+    }
+    
+    .site-nav .nav-link:first-of-type {
+        border-top: 1px solid var(--border-light);
     }
     
     .site-nav .nav-link:last-child {
