@@ -188,30 +188,35 @@ img.loaded {
 .hamburger {
     display: none;
     flex-direction: column;
-    gap: 5px;
+    justify-content: center;
+    gap: 6px;
     cursor: pointer;
     z-index: 102;
     position: relative;
+    width: 30px;
+    height: 30px;
 }
 
 .hamburger span {
-    width: 24px;
-    height: 2.5px;
+    width: 100%;
+    height: 2px;
     background: var(--text-primary);
     border-radius: 2px;
-    transition: var(--transition);
+    transition: all .3s ease;
+    display: block;
 }
 
 .hamburger.active span:nth-child(1) {
-    transform: rotate(45deg) translate(6px, 6px);
+    transform: rotate(45deg) translate(8px, 8px);
 }
 
 .hamburger.active span:nth-child(2) {
     opacity: 0;
+    transform: translateX(-20px);
 }
 
 .hamburger.active span:nth-child(3) {
-    transform: rotate(-45deg) translate(6px, -6px);
+    transform: rotate(-45deg) translate(8px, -8px);
 }
 
 /* --------------------------------------------------------------
@@ -1041,9 +1046,10 @@ img.loaded {
         background: var(--bg-header);
         backdrop-filter: blur(12px);
         flex-direction: column;
+        align-items: stretch;
         width: 280px;
-        padding: 5rem 2rem 2rem;
-        gap: 1.5rem;
+        padding: 4rem 1.5rem 2rem;
+        gap: 0;
         box-shadow: -4px 0 24px rgba(0, 0, 0, 0.15);
         transition: right .4s cubic-bezier(0.4, 0, 0.2, 1);
         border-left: 1px solid var(--border);
@@ -1057,7 +1063,31 @@ img.loaded {
     .site-nav .search-container {
         display: block;
         max-width: 100%;
+        width: 100%;
+        margin-bottom: 2rem;
         order: -1;
+    }
+    
+    .site-nav .search-container .search-bar {
+        padding-left: 2.5rem;
+    }
+    
+    .site-nav .search-container .search-icon {
+        left: .8rem;
+    }
+    
+    .site-nav .nav-link {
+        padding: 1rem 0;
+        border-bottom: 1px solid var(--border-light);
+        text-align: left;
+    }
+    
+    .site-nav .nav-link:last-child {
+        border-bottom: none;
+    }
+    
+    .site-nav .nav-link::after {
+        display: none;
     }
     
     .product-card {
