@@ -54,9 +54,15 @@ function renderBlogPage(page = 1) {
     grid.innerHTML = '';
     pagination.innerHTML = '';
 
+    // Sort blogs by date (newest first), then by ID (highest first) for same dates
+    const sortedBlogs = [...BLOGS].sort((a, b) => {
+        const dateCompare = new Date(b.date) - new Date(a.date);
+        return dateCompare !== 0 ? dateCompare : b.id - a.id;
+    });
+
     const startIdx = (page - 1) * POSTS_PER_PAGE;
     const endIdx = startIdx + POSTS_PER_PAGE;
-    const pagePosts = BLOGS.slice(startIdx, endIdx);
+    const pagePosts = sortedBlogs.slice(startIdx, endIdx);
 
     if (pagePosts.length === 0) {
         grid.innerHTML = '<p class="text-center">No posts found for this page.</p>';
@@ -103,7 +109,7 @@ function renderBlogPage(page = 1) {
 
     initLazyImages();
 
-    const totalPages = Math.ceil(BLOGS.length / POSTS_PER_PAGE);
+    const totalPages = Math.ceil(sortedBlogs.length / POSTS_PER_PAGE);
     for (let i = 1; i <= totalPages; i++) {
         const btn = document.createElement('button');
         btn.textContent = i;
