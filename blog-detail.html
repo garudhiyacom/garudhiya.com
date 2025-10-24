@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Garudhiya – Blog Detail</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Garudhiya — Blog Detail</title>
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
@@ -11,46 +11,37 @@
 <header class="site-header">
     <a href="index.html" class="logo-link"><h1 class="logo">Garudhiya</h1></a>
 
-    <div class="hamburger" aria-label="Toggle navigation" role="button">
+    <div class="hamburger" aria-label="Toggle navigation" role="button" tabindex="0">
         <span></span><span></span><span></span>
     </div>
 
     <nav class="site-nav">
-        <a href="index.html"      class="nav-link">Home</a>
-        <a href="products.html"  class="nav-link">Products</a>
-        <a href="blog.html"      class="nav-link active">Blog</a>
-        <a href="contact.html"   class="nav-link">Contact</a>
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="products.html" class="nav-link">Products</a>
+        <a href="blog.html" class="nav-link active">Blog</a>
+        <a href="contact.html" class="nav-link">Contact</a>
     </nav>
 </header>
 
 <main class="main-content">
-
     <article id="blogDetail" class="blog-detail">
         <!-- Content will be injected by JavaScript -->
     </article>
-
 </main>
 
 <footer class="site-footer">
     © 2025 Garudhiya • All rights reserved
 </footer>
 
-<!-- Load the shared data first, then the core script (which contains initLazyImages) -->
 <script src="assets/js/blog-data.js"></script>
 <script src="assets/js/script.js"></script>
 
 <script>
-/* --------------------------------------------------------------
-   1️⃣  Parse the `id` query‑parameter from the URL
-   -------------------------------------------------------------- */
 function getQueryParam(name) {
     const params = new URLSearchParams(window.location.search);
     return params.get(name);
 }
 
-/* --------------------------------------------------------------
-   2️⃣  Render the post (or a not‑found message)
-   -------------------------------------------------------------- */
 function renderBlogDetail() {
     const id = getQueryParam('id');
     const post = BLOGS.find(p => p.id === Number(id));
@@ -60,33 +51,30 @@ function renderBlogDetail() {
     if (!post) {
         container.innerHTML = `
             <h2 class="text-center mt-2 mb-2">Post Not Found</h2>
-            <p class="text-center">Sorry, we couldn’t locate the article you’re looking for.</p>
+            <p class="text-center">Sorry, we couldn't locate the article you're looking for.</p>
             <p class="text-center"><a href="blog.html" class="btn-primary">Back to Blog</a></p>
         `;
         return;
     }
 
-    // ----------------------------------------------------------
-    // Build the HTML for a valid post
-    // ----------------------------------------------------------
     container.innerHTML = `
         <h2 class="blog-detail-title">${post.title}</h2>
         <p class="blog-detail-meta">${post.author} • ${new Date(post.date).toLocaleDateString()}</p>
 
-        <img src="${post.img}" alt="${post.title}" class="blog-detail-img lazy">
+        <img data-src="${post.img}" alt="${post.title}" class="blog-detail-img">
 
         <section class="blog-detail-content">
             ${post.content}
         </section>
+        
+        <p class="text-center mt-2">
+            <a href="blog.html" class="btn-primary">← Back to Blog</a>
+        </p>
     `;
 
-    // Lazy‑load the main image (re‑use the same helper)
     initLazyImages();
 }
 
-/* --------------------------------------------------------------
-   3️⃣  Run on DOM ready
-   -------------------------------------------------------------- */
 document.addEventListener('DOMContentLoaded', renderBlogDetail);
 </script>
 </body>
