@@ -16,10 +16,12 @@
     margin: 0;
     padding: 0;
 }
+
 html {
     font-size: 100%;
     scroll-behavior: smooth;
 }
+
 body {
     font-family: var(--font-base);
     line-height: 1.6;
@@ -31,14 +33,20 @@ body {
     opacity: 0;
     animation: fadeIn .4s forwards ease-in-out;
 }
+
 @keyframes fadeIn {
     to { opacity: 1; }
 }
+
+/* --------------------------------------------------------------
+   HEADER & NAVIGATION
+   -------------------------------------------------------------- */
 .site-header,
 .site-footer {
     background-color: #f2f2f2;
     padding: 1rem 2rem;
 }
+
 .site-header {
     position: sticky;
     top: 0;
@@ -48,22 +56,27 @@ body {
     justify-content: space-between;
     z-index: 10;
 }
+
 .logo {
     font-size: 1.6rem;
     font-weight: 600;
     color: var(--accent);
 }
+
 .logo-link {
     text-decoration: none;
     color: inherit;
 }
+
 .logo-link:hover {
     cursor: pointer;
 }
+
 .site-nav {
     display: flex;
     gap: 1.5rem;
 }
+
 .nav-link {
     text-decoration: none;
     color: var(--text-muted);
@@ -72,10 +85,12 @@ body {
     padding: .3rem .1rem;
     transition: var(--transition);
 }
+
 .nav-link:hover,
 .nav-link.active {
     color: var(--accent);
 }
+
 .nav-link::after {
     content: "";
     position: absolute;
@@ -86,64 +101,135 @@ body {
     background: var(--accent);
     transition: width .25s;
 }
+
 .nav-link:hover::after,
 .nav-link.active::after {
     width: 100%;
 }
+
 .hamburger {
     display: none;
     flex-direction: column;
     gap: 4px;
     cursor: pointer;
 }
+
 .hamburger span {
     width: 24px;
     height: 3px;
     background: var(--text-muted);
     border-radius: 2px;
+    transition: var(--transition);
 }
+
+/* --------------------------------------------------------------
+   MAIN CONTENT
+   -------------------------------------------------------------- */
 .main-content {
     flex: 1;
     max-width: 960px;
     margin: 2rem auto;
     padding: 0 1rem;
 }
+
+/* --------------------------------------------------------------
+   CARDS
+   -------------------------------------------------------------- */
 .card {
     background: var(--bg-card);
     border-radius: var(--radius);
     box-shadow: 0 2px 8px rgba(0,0,0,.07);
     overflow: hidden;
-    transition: transform var(--transition);
+    transition: transform var(--transition), box-shadow var(--transition);
 }
+
 .card:hover {
     transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0,0,0,.12);
 }
-.recipe-card {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
+
+.card + .card {
+    margin-top: 1.5rem;
+}
+
+/* --------------------------------------------------------------
+   PRODUCT CARDS
+   -------------------------------------------------------------- */
+.product-card {
+    display: flex;
+    flex-direction: row;
     gap: 1.5rem;
+    padding: 1rem;
+    align-items: stretch;
 }
-.recipe-img {
-    width: 100%;
-    height: 100%;
+
+.product-img {
+    width: 200px;
+    height: auto;
     object-fit: cover;
+    border-radius: var(--radius);
 }
-.recipe-content h3 {
-    margin-top: 1rem;
+
+.product-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.product-title {
     margin-bottom: .5rem;
     color: var(--accent);
 }
+
+.product-description {
+    flex-grow: 1;
+    margin-bottom: 1rem;
+    color: var(--text-muted);
+}
+
+.price-and-action {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.price-badge {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--accent-dark);
+}
+
+.buy-btn {
+    flex-shrink: 0;
+}
+
+/* --------------------------------------------------------------
+   FORMS
+   -------------------------------------------------------------- */
 .contact-form {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
     max-width: 540px;
 }
+
+.form-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.form-grid .form-group {
+    flex: 1 1 260px;
+}
+
 .form-group {
     position: relative;
     display: flex;
     flex-direction: column;
 }
+
 .form-group input,
 .form-group textarea {
     font: inherit;
@@ -153,12 +239,14 @@ body {
     background: #fff;
     transition: var(--transition);
 }
+
 .form-group input:focus,
 .form-group textarea:focus {
     outline: none;
     border-color: var(--accent);
     box-shadow: 0 0 0 2px rgba(0,150,136,.15);
 }
+
 .form-group label {
     position: absolute;
     left: .9rem;
@@ -168,6 +256,7 @@ body {
     pointer-events: none;
     transition: var(--transition);
 }
+
 .form-group input:not(:placeholder-shown) + label,
 .form-group textarea:not(:placeholder-shown) + label,
 .form-group input:focus + label,
@@ -179,6 +268,17 @@ body {
     background: #fff;
     padding: 0 .2rem;
 }
+
+.error-msg {
+    color: #d32f2f;
+    font-size: .85rem;
+    margin-top: .3rem;
+    display: none;
+}
+
+/* --------------------------------------------------------------
+   BUTTONS
+   -------------------------------------------------------------- */
 .btn-primary {
     align-self: start;
     background: var(--accent);
@@ -188,26 +288,19 @@ body {
     border-radius: var(--radius);
     cursor: pointer;
     font-weight: 500;
+    text-decoration: none;
+    display: inline-block;
     transition: var(--transition);
 }
+
 .btn-primary:hover {
     background: var(--accent-dark);
     transform: translateY(-2px);
 }
-.form-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.5rem;
-}
-.form-grid .form-group {
-    flex: 1 1 260px;
-}
-.error-msg {
-    color: #d32f2f;
-    font-size: .85rem;
-    margin-top: .3rem;
-    display: none;
-}
+
+/* --------------------------------------------------------------
+   TOAST NOTIFICATIONS
+   -------------------------------------------------------------- */
 .toast {
     position: fixed;
     bottom: 1.5rem;
@@ -225,274 +318,106 @@ body {
     transition: opacity .3s ease;
     z-index: 999;
 }
+
 .toast.success {
     background: var(--accent);
 }
+
 .toast.error {
     background: #d32f2f;
 }
+
 .toast:not(.hidden) {
     opacity: 1;
     pointer-events: auto;
 }
+
 .toast.hidden {
     display: none;
 }
-@media (max-width: 640px) {
-    .form-grid {
-        flex-direction: column;
-    }
-}
-.site-footer {
+
+/* --------------------------------------------------------------
+   HERO SECTION
+   -------------------------------------------------------------- */
+.hero {
+    background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+    padding: 5rem 2rem;
+    color: #fff;
     text-align: center;
-    font-size: .9rem;
-    color: var(--text-muted);
+    position: relative;
 }
-@media (max-width: 768px) {
-    .nav-link {
-        padding: .5rem .2rem;
-    }
-}
-@media (max-width: 640px) {
-    .site-header,
-    .site-footer {
-        padding: .8rem 1rem;
-    }
-    .hamburger {
-        display: flex;
-    }
-    .site-nav {
-        position: absolute;
-        top: 100%;
-        right: 0;
-        background: var(--bg-header);
-        flex-direction: column;
-        width: 200px;
-        padding: .8rem 1rem;
-        gap: .8rem;
-        box-shadow: -2px 2px 6px rgba(0,0,0,.1);
-        display: none;
-    }
-    .site-nav.show {
-        display: flex;
-    }
-    .recipe-card {
-        grid-template-columns: 1fr;
-    }
-}
-.text-center {
-    text-align: center;
-}
-.mt-2 {
-    margin-top: .5rem;
-}
-.mb-2 {
-    margin-bottom: .5rem;
-}
-.card + .card {
-    margin-top: 1.5rem;
-}
-/* --------------------------------------------------------------
-   HERO – full‑width background with dark overlay
-   -------------------------------------------------------------- */
-.hero{
-    background:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
-    padding:5rem 2rem;
-    color:#fff;
-    text-align:center;
-    position:relative;
-}
-.hero::before{
-    content:"";
-    position:absolute;
-    inset:0;
-    background:rgba(0,0,0,.45);
-    z-index:0;
-}
-.hero-content{
-    position:relative;
-    z-index:1;
-    max-width:720px;
-    margin:0 auto;
-}
-.hero h2{font-size:2.2rem;margin-bottom:.8rem;}
-.hero-sub{font-size:1.1rem;margin-bottom:1.5rem;}
-.hero-btn{font-size:1rem;padding:.8rem 1.6rem;}
 
-/* --------------------------------------------------------------
-   FEATURED PRODUCT – a slightly larger card
-   -------------------------------------------------------------- */
-.featured-card{
-    max-width:720px;
-    margin:0 auto;
-    padding:1.5rem;
+.hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,.45);
+    z-index: 0;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+.hero h2 {
+    font-size: 2.2rem;
+    margin-bottom: .8rem;
+}
+
+.hero-sub {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+
+.hero-btn {
+    font-size: 1rem;
+    padding: .8rem 1.6rem;
 }
 
 /* --------------------------------------------------------------
-   CTA SECTION – simple centered form
+   FEATURED PRODUCT
    -------------------------------------------------------------- */
-.cta-section{
-    background:var(--bg-header);
-    padding:2rem 1rem;
-    border-radius:var(--radius);
-}
-.cta-section .contact-form{
-    max-width:380px;
-    margin:1rem auto 0;
+.featured-card {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 1.5rem;
 }
 
 /* --------------------------------------------------------------
-   UTILITIES – keep spacing helpers (if not already present)
+   CTA SECTION
    -------------------------------------------------------------- */
-.mt-2{margin-top:1.5rem;}
-.mb-2{margin-bottom:1.5rem;}
-.text-center{text-align:center;}
-/* --------------------------------------------------------------
-   BLOG LISTING – grid, cards, pagination
-   -------------------------------------------------------------- */
-.blogs-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));
-    gap:1.5rem;
-    margin-top:2rem;
+.cta-section {
+    background: var(--bg-header);
+    padding: 2rem 1rem;
+    border-radius: var(--radius);
 }
 
-/* Blog card – inherits the generic .card styles, plus specifics */
-.blog-card{
-    display:flex;
-    flex-direction:column;
-    overflow:hidden;
-    background:#fff;
-    border-radius:var(--radius);
-    box-shadow:0 2px 8px rgba(0,0,0,.07);
-    transition:transform var(--transition);
-}
-.blog-card:hover{transform:translateY(-4px);}
-
-/* Image – lazy‑loaded, fills the top of the card */
-.blog-img{
-    width:100%;
-    height:180px;
-    object-fit:cover;
-}
-
-/* Info container inside the card */
-.blog-info{
-    padding:1rem;
-    flex:1;
-    display:flex;
-    flex-direction:column;
-}
-.blog-title{
-    margin-bottom:.5rem;
-    color:var(--accent);
-    font-size:1.2rem;
-}
-.blog-meta{
-    font-size:.85rem;
-    color:var(--text-muted);
-    margin-bottom:.8rem;
-}
-.blog-excerpt{
-    flex-grow:1;
-    margin-bottom:1rem;
-    color:var(--text-primary);
-}
-.blog-readmore{
-    align-self:start;
-    font-size:.9rem;
+.cta-section .contact-form {
+    max-width: 380px;
+    margin: 1rem auto 0;
 }
 
 /* --------------------------------------------------------------
-   PAGINATION BAR
+   BLOG LISTING
    -------------------------------------------------------------- */
-.pagination{
-    display:flex;
-    justify-content:center;
-    gap:.5rem;
-    margin:2rem 0;
-}
-.pagination button{
-    background:var(--bg-header);
-    border:1px solid #ddd;
-    border-radius:.4rem;
-    padding:.4rem .8rem;
-    cursor:pointer;
-    transition:var(--transition);
-}
-.pagination button.active,
-.pagination button:hover{
-    background:var(--accent);
-    color:#fff;
-    border-color:var(--accent);
+.blogs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
 }
 
-/* --------------------------------------------------------------
-   BLOG DETAIL PAGE – optional styling
-   -------------------------------------------------------------- */
-.blog-detail{
-    max-width:720px;
-    margin:2rem auto;
-    padding:0 1rem;
+.blog-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: #fff;
+    border-radius: var(--radius);
+    box-shadow: 0 2px 8px rgba(0,0,0,.07);
+    transition: transform var(--transition), box-shadow var(--transition);
 }
-.blog-detail-title{
-    margin-bottom:.5rem;
-    color:var(--accent);
-}
-.blog-detail-meta{
-    font-size:.85rem;
-    color:var(--text-muted);
-    margin-bottom:1.5rem;
-}
-.blog-detail-img{
-    width:100%;
-    max-height:400px;
-    object-fit:cover;
-    border-radius:var(--radius);
-    margin-bottom:1.5rem;
-}
-.blog-detail-content p{
-    margin-bottom:1rem;
-    line-height:1.7;
-}
-/* --------------------------------------------------------------
-   BLOG DETAIL – typography & spacing
-   -------------------------------------------------------------- */
-.blog-detail{
-    max-width:720px;
-    margin:2rem auto;
-    padding:0 1rem;
-}
-.blog-detail-title{
-    margin-bottom:.5rem;
-    color:var(--accent);
-    font-size:2rem;
-}
-.blog-detail-meta{
-    font-size:.85rem;
-    color:var(--text-muted);
-    margin-bottom:1.5rem;
-}
-.blog-detail-img{
-    width:100%;
-    max-height:400px;
-    object-fit:cover;
-    border-radius:var(--radius);
-    margin-bottom:1.5rem;
-}
-.blog-detail-content p{
-    margin-bottom:1rem;
-    line-height:1.7;
-}
-.blog-detail-content h3{
-    margin-top:1.2rem;
-    margin-bottom:.5rem;
-    color:var(--accent);
-}
-.blog-detail-content ul{
-    margin-left:1.2rem;
-    margin-bottom:1rem;
-}
-.blog-detail-content li{
-    margin-bottom:.3rem;
-}
+
+.blog-card:hover {
