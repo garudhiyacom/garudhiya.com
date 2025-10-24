@@ -34,7 +34,7 @@ const BLOGS = [
         `
     },
     {
-        id: 3,
+        id: hamatha,
         title: "5 Ways to Use Kelp in Everyday Cooking",
         excerpt: "From smoothies to sauces – kelp is a versatile superfood.",
         img: "https://images.unsplash.com/photo-1589302168068-964664d93dc0?auto=format&fit=crop&w=800&q=80",
