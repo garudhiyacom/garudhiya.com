@@ -68,21 +68,8 @@
             <a href="products.html" class="section-link">View All Products →</a>
         </div>
         
-        <div class="card product-card featured-card">
-            <img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=800&q=80"
-                 alt="Garudhiya Energy Drink"
-                 class="product-img">
-
-            <div class="product-info">
-                <h3 class="product-title">Garudhiya Energy Drink</h3>
-                <p class="product-description">
-                    Low-calorie, kelp-infused, natural caffeine. The perfect boost for island life. Experience sustained energy from traditional Maldivian ingredients that have fueled generations.
-                </p>
-                <div class="price-and-action">
-                    <span class="price-badge">$4.99</span>
-                    <a href="products.html" class="btn-primary buy-btn">Learn More</a>
-                </div>
-            </div>
+        <div id="featuredProduct" class="card product-card featured-card">
+            <!-- Product will be loaded dynamically -->
         </div>
     </section>
 
@@ -122,13 +109,40 @@
     © 2025 Garudhiya • All rights reserved
 </footer>
 
+<script src="assets/js/products-data.js"></script>
 <script src="assets/js/blog-data.js"></script>
 <script src="assets/js/script.js"></script>
 <script>
-// Load latest 3 blog posts on homepage
+// Load featured product (latest) on homepage
 document.addEventListener('DOMContentLoaded', () => {
-    const container = document.getElementById('latestBlogPosts');
-    if (!container) return;
+    // Load featured product
+    const productContainer = document.getElementById('featuredProduct');
+    if (productContainer && PRODUCTS.length > 0) {
+        // Sort products by date (newest first)
+        const sortedProducts = [...PRODUCTS].sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded));
+        const featuredProduct = sortedProducts[0];
+        
+        productContainer.innerHTML = `
+            <img src="${featuredProduct.image}"
+                 alt="${featuredProduct.name}"
+                 class="product-img">
+
+            <div class="product-info">
+                <h3 class="product-title">${featuredProduct.name}</h3>
+                <p class="product-description">
+                    ${featuredProduct.shortDescription}
+                </p>
+                <div class="price-and-action">
+                    <span class="price-badge">${featuredProduct.price.toFixed(2)}</span>
+                    <a href="products.html" class="btn-primary buy-btn">Learn More</a>
+                </div>
+            </div>
+        `;
+    }
+    
+    // Load latest 3 blog posts
+    const blogContainer = document.getElementById('latestBlogPosts');
+    if (!blogContainer) return;
 
     // Sort blogs by date (newest first)
     const sortedBlogs = [...BLOGS].sort((a, b) => {
@@ -173,7 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
         info.appendChild(readMore);
 
         card.appendChild(info);
-        container.appendChild(card);
+        blogContainer.appendChild(card);
     });
 
     initLazyImages();
@@ -189,11 +203,9 @@ if (globalSearchInput) {
             const query = e.target.value.toLowerCase().trim();
             
             if (query.length < 2) {
-                // Clear any search results display
                 return;
             }
 
-            // Search in blog posts
             const blogResults = BLOGS.filter(post => 
                 post.title.toLowerCase().includes(query) ||
                 post.excerpt.toLowerCase().includes(query) ||
@@ -202,16 +214,9 @@ if (globalSearchInput) {
             );
 
             console.log(`Found ${blogResults.length} blog results for: "${query}"`);
-            
-            // If there are results, you could redirect to blog page or show dropdown
-            if (blogResults.length > 0 && query.length >= 3) {
-                // Option: redirect to blog with search pre-filled
-                // window.location.href = `blog.html?q=${encodeURIComponent(query)}`;
-            }
         }, 300);
     });
     
-    // On Enter key, redirect to blog search
     globalSearchInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
             const query = e.target.value.trim();
