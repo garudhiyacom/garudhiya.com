@@ -218,12 +218,17 @@ img.loaded {
 /* --------------------------------------------------------------
    FORMS
    -------------------------------------------------------------- */
+.contact-section {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
 .contact-form {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
-    max-width: 540px;
-    margin: 0 auto;
+    gap: 1.2rem;
+    width: 100%;
 }
 
 .form-grid {
@@ -641,12 +646,11 @@ img.loaded {
         padding: 3rem 1rem;
     }
     
-    .form-grid {
-        grid-template-columns: 1fr;
+    .contact-form {
         gap: 1rem;
     }
     
-    .contact-form {
-        gap: 1rem;
+    .form-group {
+        margin-bottom: 0;
     }
 }
