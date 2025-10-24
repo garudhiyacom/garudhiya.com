@@ -2,21 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Garudhiya – Products</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Garudhiya — Products</title>
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 
 <header class="site-header">
     <a href="index.html" class="logo-link"><h1 class="logo">Garudhiya</h1></a>
-    <div class="hamburger" aria-label="Toggle navigation" role="button">
+
+    <div class="hamburger" aria-label="Toggle navigation" role="button" tabindex="0">
         <span></span><span></span><span></span>
     </div>
+
     <nav class="site-nav">
-        <a href="index.html"      class="nav-link">Home</a>
-        <a href="products.html"  class="nav-link">Products</a>
-        <a href="contact.html"   class="nav-link">Contact</a>
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="products.html" class="nav-link active">Products</a>
+        <a href="blog.html" class="nav-link">Blog</a>
+        <a href="contact.html" class="nav-link">Contact</a>
     </nav>
 </header>
 
@@ -34,7 +37,7 @@
 
                 <p class="product-description">
                     <strong>Fuel your day the Maldivian way.</strong>  
-                    A refreshing, low‑calorie energy drink infused with Maldivian tuna, natural caffeine from curry leaves, and a hint of sea‑salt minerals.  
+                    A refreshing, low-calorie energy drink infused with Maldivian tuna, natural caffeine from curry leaves, and a hint of sea-salt minerals.  
                     Boosts focus, hydrates faster, and tastes like a crisp ocean breeze—perfect for early mornings, workouts, or long study sessions.
                 </p>
 
@@ -58,63 +61,5 @@
 </footer>
 
 <script src="assets/js/script.js"></script>
-
-<style>
-    .product-card {
-        display: flex;
-        flex-direction: row;
-        gap: 1.5rem;
-        padding: 1rem;
-        align-items: stretch;
-    }
-    .product-img {
-        width: 200px;
-        height: auto;
-        object-fit: cover;
-        border-radius: var(--radius);
-    }
-    .product-info {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
-    .product-title {
-        margin-bottom: .5rem;
-        color: var(--accent);
-    }
-    .product-description {
-        flex-grow: 1;
-        margin-bottom: 1rem;
-        color: var(--text-muted);
-    }
-    .price-and-action {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-    }
-    .price-badge {
-        font-size: 1.2rem;
-        font-weight: 600;
-        color: var(--accent-dark);
-    }
-    .buy-btn {
-        flex-shrink: 0;
-    }
-    @media (max-width: 640px) {
-        .product-card {
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
-        .product-img {
-            width: 100%;
-            max-width: 280px;
-        }
-        .price-and-action {
-            justify-content: center;
-        }
-    }
-</style>
 </body>
 </html>
