@@ -11,19 +11,18 @@
 <header class="site-header">
     <a href="index.html" class="logo-link"><h1 class="logo">Garudhiya</h1></a>
 
-    <div class="search-container">
-        <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="11" cy="11" r="8"></circle>
-            <path d="m21 21-4.35-4.35"></path>
-        </svg>
-        <input type="text" id="blogSearch" class="search-bar" placeholder="Search blog posts...">
-    </div>
-
     <div class="hamburger" aria-label="Toggle navigation" role="button" tabindex="0">
         <span></span><span></span><span></span>
     </div>
 
     <nav class="site-nav">
+        <div class="search-container">
+            <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+            </svg>
+            <input type="text" id="blogSearch" class="search-bar" placeholder="Search blog posts...">
+        </div>
         <a href="index.html" class="nav-link">Home</a>
         <a href="products.html" class="nav-link">Products</a>
         <a href="blog.html" class="nav-link active">Blog</a>
@@ -55,6 +54,12 @@ const POSTS_PER_PAGE = 9;
 let currentSearchQuery = '';
 let sortedBlogs = [];
 
+// Check for search query in URL
+function getSearchQuery() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('q') || '';
+}
+
 function renderBlogPage(page = 1) {
     const grid = document.getElementById('blogGrid');
     const pagination = document.getElementById('blogPagination');
@@ -73,19 +78,25 @@ function renderBlogPage(page = 1) {
     // Filter by search query if exists
     let filteredBlogs = sortedBlogs;
     if (currentSearchQuery) {
-        filteredBlogs = sortedBlogs.filter(post =>
-            post.title.toLowerCase().includes(currentSearchQuery) ||
-            post.excerpt.toLowerCase().includes(currentSearchQuery) ||
-            post.author.toLowerCase().includes(currentSearchQuery)
-        );
+        filteredBlogs = sortedBlogs.filter(post => {
+            const searchText = `${post.title} ${post.excerpt} ${post.author} ${post.content}`.toLowerCase();
+            return searchText.includes(currentSearchQuery);
+        });
     }
 
     const startIdx = (page - 1) * POSTS_PER_PAGE;
     const endIdx = startIdx + POSTS_PER_PAGE;
     const pagePosts = filteredBlogs.slice(startIdx, endIdx);
 
-    if (pagePosts.length === 0) {
-        grid.innerHTML = '<p class="text-center" style="grid-column: 1/-1; padding: 3rem;">No posts found matching your search.</p>';
+    if (filteredBlogs.length === 0) {
+        grid.innerHTML = `
+            <div style="grid-column: 1/-1; padding: 3rem; text-align: center;">
+                <p style="font-size: 1.2rem; color: var(--text-muted); margin-bottom: 1rem;">
+                    No posts found matching "${currentSearchQuery}"
+                </p>
+                <button onclick="clearSearch()" class="btn-secondary">Clear Search</button>
+            </div>
+        `;
         return;
     }
 
@@ -147,6 +158,14 @@ function renderBlogPage(page = 1) {
     }
 }
 
+function clearSearch() {
+    currentSearchQuery = '';
+    const searchInput = document.getElementById('blogSearch');
+    if (searchInput) searchInput.value = '';
+    history.replaceState(null, '', 'blog.html');
+    renderBlogPage(1);
+}
+
 // Blog search functionality
 const blogSearchInput = document.getElementById('blogSearch');
 if (blogSearchInput) {
@@ -155,12 +174,19 @@ if (blogSearchInput) {
         clearTimeout(searchTimeout);
         searchTimeout = setTimeout(() => {
             currentSearchQuery = e.target.value.toLowerCase().trim();
-            renderBlogPage(1); // Reset to page 1 on new search
-        }, 300); // Debounce for 300ms
+            renderBlogPage(1);
+        }, 300);
     });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Check if there's a search query in URL
+    const urlQuery = getSearchQuery();
+    if (urlQuery) {
+        currentSearchQuery = urlQuery.toLowerCase();
+        const searchInput = document.getElementById('blogSearch');
+        if (searchInput) searchInput.value = urlQuery;
+    }
     renderBlogPage(1);
 });
 </script>
