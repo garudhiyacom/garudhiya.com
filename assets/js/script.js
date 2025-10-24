@@ -22,13 +22,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (hamburger && navMenu) {
         hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
             navMenu.classList.toggle('show');
         });
 
+        // Close menu when clicking nav links
         navLinks.forEach(l => {
             l.addEventListener('click', () => {
+                hamburger.classList.remove('active');
                 navMenu.classList.remove('show');
             });
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('show');
+            }
         });
     }
 
