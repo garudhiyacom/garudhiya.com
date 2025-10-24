@@ -1008,14 +1008,7 @@ img.loaded {
     }
     
     .search-container {
-        order: 3;
-        width: 100%;
-        max-width: 100%;
-        margin-top: 1rem;
-    }
-    
-    .site-header {
-        flex-wrap: wrap;
+        display: none;
     }
     
     .site-nav {
@@ -1028,7 +1021,7 @@ img.loaded {
         flex-direction: column;
         width: 280px;
         padding: 5rem 2rem 2rem;
-        gap: 2rem;
+        gap: 1.5rem;
         box-shadow: -4px 0 24px rgba(0, 0, 0, 0.15);
         transition: right .4s cubic-bezier(0.4, 0, 0.2, 1);
         border-left: 1px solid var(--border);
@@ -1036,6 +1029,12 @@ img.loaded {
     
     .site-nav.show {
         right: 0;
+    }
+    
+    .site-nav .search-container {
+        display: block;
+        max-width: 100%;
+        order: -1;
     }
     
     .product-card {
