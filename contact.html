@@ -24,21 +24,19 @@
 </header>
 
 <main class="main-content">
-    <section>
+    <section class="contact-section">
         <h2 class="text-center mt-2 mb-2">Contact Us</h2>
         <form id="contactForm" class="contact-form" novalidate>
             <input type="hidden" name="_subject" value="New message from garudhiya.com">
-            <div class="form-grid">
-                <div class="form-group">
-                    <input type="text" id="name" name="name" placeholder=" " required>
-                    <label for="name">Your name</label>
-                    <p class="error-msg">Please enter your name.</p>
-                </div>
-                <div class="form-group">
-                    <input type="email" id="email" name="email" placeholder=" " required>
-                    <label for="email">Your e-mail</label>
-                    <p class="error-msg">Enter a valid e-mail address.</p>
-                </div>
+            <div class="form-group">
+                <input type="text" id="name" name="name" placeholder=" " required>
+                <label for="name">Your name</label>
+                <p class="error-msg">Please enter your name.</p>
+            </div>
+            <div class="form-group">
+                <input type="email" id="email" name="email" placeholder=" " required>
+                <label for="email">Your e-mail</label>
+                <p class="error-msg">Enter a valid e-mail address.</p>
             </div>
             <div class="form-group">
                 <textarea id="message" name="message" rows="5" placeholder=" " required></textarea>
