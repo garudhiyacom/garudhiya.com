@@ -11,19 +11,18 @@
 <header class="site-header">
     <a href="index.html" class="logo-link"><h1 class="logo">Garudhiya</h1></a>
 
-    <div class="search-container">
-        <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="11" cy="11" r="8"></circle>
-            <path d="m21 21-4.35-4.35"></path>
-        </svg>
-        <input type="text" id="globalSearch" class="search-bar" placeholder="Search products, blog posts...">
-    </div>
-
     <div class="hamburger" aria-label="Toggle navigation" role="button" tabindex="0">
         <span></span><span></span><span></span>
     </div>
 
     <nav class="site-nav">
+        <div class="search-container">
+            <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+            </svg>
+            <input type="text" id="globalSearch" class="search-bar" placeholder="Search everything...">
+        </div>
         <a href="index.html" class="nav-link active">Home</a>
         <a href="products.html" class="nav-link">Products</a>
         <a href="blog.html" class="nav-link">Blog</a>
@@ -180,25 +179,46 @@ document.addEventListener('DOMContentLoaded', () => {
     initLazyImages();
 });
 
-// Global search functionality
+// Global search functionality for homepage
 const globalSearchInput = document.getElementById('globalSearch');
 if (globalSearchInput) {
+    let searchTimeout;
     globalSearchInput.addEventListener('input', (e) => {
-        const query = e.target.value.toLowerCase().trim();
-        
-        if (query.length < 2) return;
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            const query = e.target.value.toLowerCase().trim();
+            
+            if (query.length < 2) {
+                // Clear any search results display
+                return;
+            }
 
-        // Search in blog posts
-        const blogResults = BLOGS.filter(post => 
-            post.title.toLowerCase().includes(query) ||
-            post.excerpt.toLowerCase().includes(query) ||
-            post.author.toLowerCase().includes(query)
-        );
+            // Search in blog posts
+            const blogResults = BLOGS.filter(post => 
+                post.title.toLowerCase().includes(query) ||
+                post.excerpt.toLowerCase().includes(query) ||
+                post.author.toLowerCase().includes(query) ||
+                post.content.toLowerCase().includes(query)
+            );
 
-        // You can add product search here when you have product data
-        
-        console.log('Search results:', blogResults);
-        // You could display results in a dropdown here
+            console.log(`Found ${blogResults.length} blog results for: "${query}"`);
+            
+            // If there are results, you could redirect to blog page or show dropdown
+            if (blogResults.length > 0 && query.length >= 3) {
+                // Option: redirect to blog with search pre-filled
+                // window.location.href = `blog.html?q=${encodeURIComponent(query)}`;
+            }
+        }, 300);
+    });
+    
+    // On Enter key, redirect to blog search
+    globalSearchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            const query = e.target.value.trim();
+            if (query) {
+                window.location.href = `blog.html?q=${encodeURIComponent(query)}`;
+            }
+        }
     });
 }
 </script>
