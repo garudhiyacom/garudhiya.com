@@ -35,31 +35,7 @@
         <h2 class="text-center mt-2 mb-2">Our Products</h2>
 
         <div id="productsContainer">
-            <article class="card product-card" data-product-name="garudhiya energy drink" data-keywords="kelp tuna caffeine energy boost maldivian">
-                <img src="assets/images/garudhiya-energy-drink.png"
-                     alt="Garudhiya Energy Drink"
-                     class="product-img">
-
-                <div class="product-info">
-                    <h3 class="product-title">Garudhiya Energy Drink</h3>
-
-                    <p class="product-description">
-                        <strong>Fuel your day the Maldivian way.</strong>  
-                        A refreshing, low-calorie energy drink infused with Maldivian tuna, natural caffeine from curry leaves, and a hint of sea-salt minerals.  
-                        Boosts focus, hydrates faster, and tastes like a crisp ocean breeze—perfect for early mornings, workouts, or long study sessions.
-                    </p>
-
-                    <div class="price-and-action">
-                        <span class="price-badge">$4.99</span>
-                        <a href="https://youtu.be/dQw4w9WgXcQ?si=lPxYPYlHRuWUJliP"
-                           class="btn-primary buy-btn"
-                           target="_blank"
-                           rel="noopener noreferrer">
-                            Buy Now
-                        </a>
-                    </div>
-                </div>
-            </article>
+            <!-- Products will be loaded dynamically -->
         </div>
         
         <div id="noProductResults" class="hidden" style="text-align: center; padding: 3rem; color: var(--text-muted);">
@@ -72,9 +48,52 @@
     © 2025 Garudhiya • All rights reserved
 </footer>
 
+<script src="assets/js/products-data.js"></script>
 <script src="assets/js/script.js"></script>
 
 <script>
+// Load products dynamically
+document.addEventListener('DOMContentLoaded', () => {
+    const productsContainer = document.getElementById('productsContainer');
+    
+    if (productsContainer && PRODUCTS.length > 0) {
+        productsContainer.innerHTML = '';
+        
+        PRODUCTS.forEach(product => {
+            const article = document.createElement('article');
+            article.className = 'card product-card';
+            article.dataset.productName = product.name.toLowerCase();
+            article.dataset.keywords = product.keywords;
+            
+            article.innerHTML = `
+                <img src="${product.image}"
+                     alt="${product.name}"
+                     class="product-img">
+
+                <div class="product-info">
+                    <h3 class="product-title">${product.name}</h3>
+
+                    <p class="product-description">
+                        ${product.description}
+                    </p>
+
+                    <div class="price-and-action">
+                        <span class="price-badge">${product.price.toFixed(2)}</span>
+                        <a href="https://youtu.be/dQw4w9WgXcQ?si=lPxYPYlHRuWUJliP"
+                           class="btn-primary buy-btn"
+                           target="_blank"
+                           rel="noopener noreferrer">
+                            Buy Now
+                        </a>
+                    </div>
+                </div>
+            `;
+            
+            productsContainer.appendChild(article);
+        });
+    }
+});
+
 // Product search functionality
 const productSearchInput = document.getElementById('productSearch');
 const productsContainer = document.getElementById('productsContainer');
@@ -104,7 +123,6 @@ if (productSearchInput && productsContainer) {
             }
         });
 
-        // Show/hide no results message
         if (visibleCount === 0 && query !== '') {
             noResultsDiv.classList.remove('hidden');
         } else {
