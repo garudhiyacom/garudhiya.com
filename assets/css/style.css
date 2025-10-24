@@ -1,8 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
 
 :root {
-    --font-base: 'Inter', system-ui, sans-serif;
-    --font-display: 'Space Grotesk', sans-serif;
+    --font-base: 'DM Sans', system-ui, sans-serif;
     --bg-page: #fafaf9;
     --bg-card: #ffffff;
     --bg-header: rgba(255, 255, 255, 0.85);
@@ -91,28 +90,16 @@ img.loaded {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 2rem;
     z-index: 100;
     box-shadow: var(--shadow-sm);
 }
 
 .logo {
-    font-family: var(--font-display);
     font-size: 1.5rem;
     font-weight: 700;
     color: var(--text-primary);
     letter-spacing: -0.5px;
-    position: relative;
-}
-
-.logo::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 40%;
-    height: 3px;
-    background: var(--accent);
-    border-radius: 2px;
 }
 
 .logo-link {
@@ -123,6 +110,40 @@ img.loaded {
 
 .logo-link:hover {
     opacity: 0.8;
+}
+
+/* Search Bar */
+.search-container {
+    flex: 1;
+    max-width: 400px;
+    position: relative;
+}
+
+.search-bar {
+    width: 100%;
+    padding: .7rem 1rem .7rem 2.75rem;
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    font: inherit;
+    font-size: .9rem;
+    background: var(--bg-card);
+    color: var(--text-primary);
+    transition: var(--transition);
+}
+
+.search-bar:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+}
+
+.search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    pointer-events: none;
 }
 
 .site-nav {
@@ -138,6 +159,7 @@ img.loaded {
     position: relative;
     padding: .5rem 0;
     transition: var(--transition);
+    white-space: nowrap;
 }
 
 .nav-link::after {
@@ -229,6 +251,130 @@ img.loaded {
 }
 
 /* --------------------------------------------------------------
+   HOME PAGE SECTIONS
+   -------------------------------------------------------------- */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.section-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.section-link {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: .95rem;
+    transition: var(--transition);
+}
+
+.section-link:hover {
+    color: var(--accent-dark);
+}
+
+/* Stats Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin: 3rem 0;
+}
+
+.stat-card {
+    background: var(--bg-card);
+    padding: 2rem;
+    border-radius: var(--radius-lg);
+    text-align: center;
+    border: 1px solid var(--border-light);
+    transition: var(--transition);
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--accent);
+    display: block;
+    margin-bottom: .5rem;
+}
+
+.stat-label {
+    color: var(--text-muted);
+    font-size: .9rem;
+}
+
+/* Products Preview */
+.products-preview {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin: 3rem 0;
+}
+
+.product-preview-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--border-light);
+    transition: var(--transition);
+    box-shadow: var(--shadow-md);
+}
+
+.product-preview-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-xl);
+}
+
+.product-preview-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.product-preview-info {
+    padding: 1.5rem;
+}
+
+.product-preview-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: .5rem;
+}
+
+.product-preview-price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 1rem;
+}
+
+.product-preview-desc {
+    color: var(--text-secondary);
+    font-size: .9rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+/* Blog Preview Grid */
+.blog-preview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin: 3rem 0;
+}
+
+/* --------------------------------------------------------------
    PRODUCT CARDS
    -------------------------------------------------------------- */
 .product-card {
@@ -261,7 +407,6 @@ img.loaded {
 }
 
 .product-title {
-    font-family: var(--font-display);
     font-size: 2.5rem;
     font-weight: 700;
     color: var(--text-primary);
@@ -286,7 +431,6 @@ img.loaded {
     font-size: 2.25rem;
     font-weight: 700;
     color: var(--accent);
-    font-family: var(--font-display);
 }
 
 /* --------------------------------------------------------------
@@ -407,6 +551,26 @@ img.loaded {
     transform: translateY(0);
 }
 
+.btn-secondary {
+    background: transparent;
+    color: var(--accent);
+    border: 2px solid var(--accent);
+    padding: .9rem 2rem;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    transition: var(--transition);
+    font-size: .95rem;
+}
+
+.btn-secondary:hover {
+    background: var(--accent);
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
 /* --------------------------------------------------------------
    TOAST NOTIFICATIONS
    -------------------------------------------------------------- */
@@ -484,7 +648,6 @@ img.loaded {
 }
 
 .hero h2 {
-    font-family: var(--font-display);
     font-size: 4rem;
     margin-bottom: 1.5rem;
     font-weight: 700;
@@ -552,7 +715,6 @@ img.loaded {
 }
 
 .cta-section h2 {
-    font-family: var(--font-display);
     font-size: 2.75rem;
     margin-bottom: 1rem;
     color: var(--text-primary);
@@ -587,7 +749,6 @@ img.loaded {
 }
 
 .blog-section h2 {
-    font-family: var(--font-display);
     font-size: 3rem;
     font-weight: 700;
     color: var(--text-primary);
@@ -643,7 +804,6 @@ img.loaded {
     font-size: 1.4rem;
     font-weight: 600;
     line-height: 1.35;
-    font-family: var(--font-display);
 }
 
 .blog-meta {
@@ -720,7 +880,6 @@ img.loaded {
 }
 
 .blog-detail-title {
-    font-family: var(--font-display);
     margin-bottom: 1rem;
     font-size: 3rem;
     font-weight: 700;
@@ -757,7 +916,6 @@ img.loaded {
 }
 
 .blog-detail-content h3 {
-    font-family: var(--font-display);
     margin-top: 2.5rem;
     margin-bottom: 1rem;
     color: var(--accent);
@@ -810,6 +968,10 @@ img.loaded {
     margin-bottom: 2rem;
 }
 
+.hidden {
+    display: none;
+}
+
 /* --------------------------------------------------------------
    RESPONSIVE
    -------------------------------------------------------------- */
@@ -818,7 +980,12 @@ img.loaded {
         font-size: 2.75rem;
     }
     
-    .blogs-grid {
+    .blogs-grid,
+    .blog-preview-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .products-preview {
         grid-template-columns: 1fr;
     }
     
@@ -829,11 +996,26 @@ img.loaded {
     .site-header {
         padding: 1.25rem 1.5rem;
     }
+    
+    .search-container {
+        max-width: 300px;
+    }
 }
 
 @media (max-width: 640px) {
     .hamburger {
         display: flex;
+    }
+    
+    .search-container {
+        order: 3;
+        width: 100%;
+        max-width: 100%;
+        margin-top: 1rem;
+    }
+    
+    .site-header {
+        flex-wrap: wrap;
     }
     
     .site-nav {
@@ -905,11 +1087,16 @@ img.loaded {
         font-size: 2.25rem;
     }
     
-    .blog-section h2 {
-        font-size: 2.25rem;
+    .blog-section h2,
+    .section-title {
+        font-size: 2rem;
     }
     
     .main-content {
         padding: 2rem 1rem;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
     }
 }
