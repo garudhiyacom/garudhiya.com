@@ -38,6 +38,16 @@ body {
     to { opacity: 1; }
 }
 
+img[data-src] {
+    opacity: 0;
+    transition: opacity .3s ease;
+}
+
+img[data-src].loaded,
+img.loaded {
+    opacity: 1;
+}
+
 /* --------------------------------------------------------------
    HEADER & NAVIGATION
    -------------------------------------------------------------- */
@@ -130,6 +140,7 @@ body {
     max-width: 960px;
     margin: 2rem auto;
     padding: 0 1rem;
+    width: 100%;
 }
 
 /* --------------------------------------------------------------
@@ -380,6 +391,10 @@ body {
 /* --------------------------------------------------------------
    FEATURED PRODUCT
    -------------------------------------------------------------- */
+.featured-product {
+    margin: 2rem 0;
+}
+
 .featured-card {
     max-width: 720px;
     margin: 0 auto;
@@ -403,6 +418,10 @@ body {
 /* --------------------------------------------------------------
    BLOG LISTING
    -------------------------------------------------------------- */
+.blog-section {
+    width: 100%;
+}
+
 .blogs-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -421,3 +440,207 @@ body {
 }
 
 .blog-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0,0,0,.12);
+}
+
+.blog-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.blog-info {
+    padding: 1rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.blog-title {
+    margin-bottom: .5rem;
+    color: var(--accent);
+    font-size: 1.2rem;
+}
+
+.blog-meta {
+    font-size: .85rem;
+    color: var(--text-muted);
+    margin-bottom: .8rem;
+}
+
+.blog-excerpt {
+    flex-grow: 1;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.blog-readmore {
+    align-self: start;
+    font-size: .9rem;
+}
+
+/* --------------------------------------------------------------
+   PAGINATION
+   -------------------------------------------------------------- */
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: .5rem;
+    margin: 2rem 0;
+    flex-wrap: wrap;
+}
+
+.pagination button {
+    background: var(--bg-header);
+    border: 1px solid #ddd;
+    border-radius: .4rem;
+    padding: .4rem .8rem;
+    cursor: pointer;
+    transition: var(--transition);
+    font: inherit;
+}
+
+.pagination button.active,
+.pagination button:hover {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+}
+
+/* --------------------------------------------------------------
+   BLOG DETAIL PAGE
+   -------------------------------------------------------------- */
+.blog-detail {
+    max-width: 720px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.blog-detail-title {
+    margin-bottom: .5rem;
+    color: var(--accent);
+    font-size: 2rem;
+}
+
+.blog-detail-meta {
+    font-size: .85rem;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+}
+
+.blog-detail-img {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: var(--radius);
+    margin-bottom: 1.5rem;
+}
+
+.blog-detail-content p {
+    margin-bottom: 1rem;
+    line-height: 1.7;
+}
+
+.blog-detail-content h3 {
+    margin-top: 1.5rem;
+    margin-bottom: .5rem;
+    color: var(--accent);
+}
+
+.blog-detail-content ul {
+    margin-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.blog-detail-content li {
+    margin-bottom: .4rem;
+}
+
+/* --------------------------------------------------------------
+   FOOTER
+   -------------------------------------------------------------- */
+.site-footer {
+    text-align: center;
+    font-size: .9rem;
+    color: var(--text-muted);
+}
+
+/* --------------------------------------------------------------
+   UTILITY CLASSES
+   -------------------------------------------------------------- */
+.text-center {
+    text-align: center;
+}
+
+.mt-2 {
+    margin-top: 1.5rem;
+}
+
+.mb-2 {
+    margin-bottom: 1.5rem;
+}
+
+/* --------------------------------------------------------------
+   RESPONSIVE
+   -------------------------------------------------------------- */
+@media (max-width: 768px) {
+    .nav-link {
+        padding: .5rem .2rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .site-header,
+    .site-footer {
+        padding: .8rem 1rem;
+    }
+    
+    .hamburger {
+        display: flex;
+    }
+    
+    .site-nav {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background: var(--bg-header);
+        flex-direction: column;
+        width: 200px;
+        padding: .8rem 1rem;
+        gap: .8rem;
+        box-shadow: -2px 2px 6px rgba(0,0,0,.1);
+        display: none;
+    }
+    
+    .site-nav.show {
+        display: flex;
+    }
+    
+    .product-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .product-img {
+        width: 100%;
+        max-width: 280px;
+    }
+    
+    .price-and-action {
+        justify-content: center;
+    }
+    
+    .hero h2 {
+        font-size: 1.8rem;
+    }
+    
+    .hero {
+        padding: 3rem 1rem;
+    }
+    
+    .form-grid {
+        flex-direction: column;
+    }
+}
