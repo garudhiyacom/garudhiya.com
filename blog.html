@@ -2,9 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Garudhiya – Blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Your global stylesheet (already contains .blogs-grid, .blog-card, .pagination, etc.) -->
+    <title>Garudhiya — Blog</title>
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
@@ -12,15 +11,15 @@
 <header class="site-header">
     <a href="index.html" class="logo-link"><h1 class="logo">Garudhiya</h1></a>
 
-    <div class="hamburger" aria-label="Toggle navigation" role="button">
+    <div class="hamburger" aria-label="Toggle navigation" role="button" tabindex="0">
         <span></span><span></span><span></span>
     </div>
 
     <nav class="site-nav">
-        <a href="index.html"      class="nav-link">Home</a>
-        <a href="products.html"  class="nav-link">Products</a>
-        <a href="blog.html"      class="nav-link active">Blog</a>
-        <a href="contact.html"   class="nav-link">Contact</a>
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="products.html" class="nav-link">Products</a>
+        <a href="blog.html" class="nav-link active">Blog</a>
+        <a href="contact.html" class="nav-link">Contact</a>
     </nav>
 </header>
 
@@ -31,8 +30,8 @@
         <!-- Grid where the cards will be injected -->
         <div id="blogGrid" class="blogs-grid"></div>
 
-        <!-- Pagination bar (buttons will be injected here) -->
-        <nav id="blogPagination" class="pagination"></nav>
+        <!-- Pagination bar -->
+        <nav id="blogPagination" class="pagination" aria-label="Blog pagination"></nav>
     </section>
 </main>
 
@@ -40,48 +39,36 @@
     © 2025 Garudhiya • All rights reserved
 </footer>
 
-<!-- Load the data first, then the core script that already defines initLazyImages() -->
 <script src="assets/js/blog-data.js"></script>
 <script src="assets/js/script.js"></script>
 
 <script>
-/* --------------------------------------------------------------
-   SETTINGS – how many posts per page?
-   -------------------------------------------------------------- */
 const POSTS_PER_PAGE = 9;
 
-/* --------------------------------------------------------------
-   RENDER FUNCTION – builds the grid and pagination UI
-   -------------------------------------------------------------- */
 function renderBlogPage(page = 1) {
-    const grid       = document.getElementById('blogGrid');
+    const grid = document.getElementById('blogGrid');
     const pagination = document.getElementById('blogPagination');
 
-    // Safety – if the containers are missing, stop.
     if (!grid || !pagination) return;
 
-    // Clear any previous content.
     grid.innerHTML = '';
     pagination.innerHTML = '';
 
-    // ------- Slice the correct chunk of posts -------
     const startIdx = (page - 1) * POSTS_PER_PAGE;
-    const endIdx   = startIdx + POSTS_PER_PAGE;
+    const endIdx = startIdx + POSTS_PER_PAGE;
     const pagePosts = BLOGS.slice(startIdx, endIdx);
 
-    // If there are no posts for this page (shouldn't happen unless you have a bad page number)
     if (pagePosts.length === 0) {
         grid.innerHTML = '<p class="text-center">No posts found for this page.</p>';
         return;
     }
 
-    // ------- Build each card -------
     pagePosts.forEach(post => {
         const card = document.createElement('article');
         card.className = 'card blog-card';
 
         const img = document.createElement('img');
-        img.dataset.src = post.img;          // lazy‑load (initLazyImages will swap in src)
+        img.dataset.src = post.img;
         img.alt = post.title;
         img.className = 'blog-img';
         card.appendChild(img);
@@ -114,23 +101,23 @@ function renderBlogPage(page = 1) {
         grid.appendChild(card);
     });
 
-    // Activate lazy‑loading for the newly added images.
     initLazyImages();
 
-    // ------- Build pagination buttons -------
     const totalPages = Math.ceil(BLOGS.length / POSTS_PER_PAGE);
     for (let i = 1; i <= totalPages; i++) {
         const btn = document.createElement('button');
         btn.textContent = i;
         btn.className = (i === page) ? 'active' : '';
-        btn.addEventListener('click', () => renderBlogPage(i));
+        btn.setAttribute('aria-label', `Page ${i}`);
+        btn.setAttribute('aria-current', i === page ? 'page' : 'false');
+        btn.addEventListener('click', () => {
+            renderBlogPage(i);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
         pagination.appendChild(btn);
     }
 }
 
-/* --------------------------------------------------------------
-   INITIAL RENDER – page 1
-   -------------------------------------------------------------- */
 document.addEventListener('DOMContentLoaded', () => {
     renderBlogPage(1);
 });
