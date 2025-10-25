@@ -3,7 +3,7 @@ const BLOGS = [
         id: 1,
         title: "Behind the Scenes: Crafting Garudhiya Energy Drink",
         excerpt: "A look at the production process from tuna harvest to canning.",
-        img: "https://unsplash.com/photos/people-sitting-on-chair-inside-room-KP6XQIEjjPA",
+        img: "https://unsplash.com/photos/group-of-factory-employees-in-hardhats-and-blue-workwear-walking-in-line-between-compressor-units-in-industry-n9r0S3zfoMc",
         date: "2025-10-25",
         author: "Garudhiya Man",
         content: `
