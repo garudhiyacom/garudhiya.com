@@ -1,7 +1,3 @@
-/* --------------------------------------------------------------
-   BLOG DATA – shared between the list page and the detail page
-   NOTE: Posts are sorted by date (newest first)
-   -------------------------------------------------------------- */
 const BLOGS = [
     {
         id: 1,
@@ -145,7 +141,7 @@ const BLOGS = [
         title: "DIY Coconut-Infused Water Bottles",
         excerpt: "Turn ordinary bottles into refreshing island-style hydration.",
         img: "https://images.unsplash.com/photo-1498654896293-37aacf113fd9?auto=format&fit=crop&w=800&q=80",
-        date: "2025-07-01",
+        date: "2025-07-16",
         author: "Emily Wu",
         content: `
             <p>Create your own tropical hydration station at home with these simple infusion recipes.</p>
