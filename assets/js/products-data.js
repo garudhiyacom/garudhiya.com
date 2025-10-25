@@ -11,7 +11,7 @@ const PRODUCTS = [
         image: "assets/images/garudhiya-energy-drink.png",
         keywords: "kelp tuna caffeine energy boost maldivian",
         dateAdded: "2025-07-20"
-    }
+    },
    {
         id: 2,
         name: "Garudhiya Energy Drink",
