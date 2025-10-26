@@ -33,7 +33,6 @@
 <main class="main-content">
     <section class="blog-section">
         <h2 class="text-center mt-2 mb-2">Our Stories</h2>
-        <p class="text-center" style="color: var(--text-muted); max-width: 600px; margin: 0 auto 2rem;">Explore island wellness, traditional recipes, and sustainable living through our curated collection of stories.</p>
 
         <!-- Grid where the cards will be injected -->
         <div id="blogGrid" class="blogs-grid"></div>
@@ -104,6 +103,7 @@ function renderBlogPage(page = 1) {
     pagePosts.forEach(post => {
         const card = document.createElement('article');
         card.className = 'card blog-card';
+        card.onclick = () => window.location.href = `blog-detail.html?id=${post.id}`;
 
         const img = document.createElement('img');
         img.dataset.src = post.img;
@@ -117,6 +117,10 @@ function renderBlogPage(page = 1) {
         const title = document.createElement('h3');
         title.className = 'blog-title';
         title.textContent = post.title;
+        title.onclick = (e) => {
+            e.stopPropagation();
+            window.location.href = `blog-detail.html?id=${post.id}`;
+        };
         info.appendChild(title);
 
         const meta = document.createElement('p');
@@ -133,6 +137,7 @@ function renderBlogPage(page = 1) {
         readMore.className = 'btn-primary blog-readmore';
         readMore.href = `blog-detail.html?id=${post.id}`;
         readMore.textContent = 'Read More';
+        readMore.onclick = (e) => e.stopPropagation();
         info.appendChild(readMore);
 
         card.appendChild(info);
