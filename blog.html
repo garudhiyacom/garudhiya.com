@@ -1,9 +1,26 @@
-<!DOCTYPE html>
+<!-- HERO -->
+    <section class="hero">
+        <div class="hero-content">
+            <h2>Island Wellness & Natural Energy</h2>
+            <p class="hero-sub">Discover traditional Maldivian ingredients and sustainable living through our curated stories and products.</p>
+            <a href="blog.html" class="btn-primary hero-btn">Explore Stories</a>
+        </div>
+    </section>
+
+    <!-- FEATURED POST -->
+    <section class="featured-post">
+        <div class="section-header">
+            <h2 class="section-title">Featured Story</h2>
+        </div>
+        
+        <div id="featuredPost" class="featured-post-card">
+            <!-- Random post will be loaded here -->
+        </div><!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Garudhiya — Blog</title>
+    <title>Garudhiya — Island Energy & Soup</title>
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
@@ -21,89 +38,118 @@
                 <circle cx="11" cy="11" r="8"></circle>
                 <path d="m21 21-4.35-4.35"></path>
             </svg>
-            <input type="text" id="blogSearch" class="search-bar" placeholder="Search blog posts...">
+            <input type="text" id="globalSearch" class="search-bar" placeholder="Search everything...">
         </div>
-        <a href="index.html" class="nav-link">Home</a>
+        <a href="index.html" class="nav-link active">Home</a>
         <a href="products.html" class="nav-link">Products</a>
-        <a href="blog.html" class="nav-link active">Blog</a>
+        <a href="blog.html" class="nav-link">Blog</a>
         <a href="contact.html" class="nav-link">Contact</a>
     </nav>
 </header>
 
 <main class="main-content">
-    <section class="blog-section">
-        <h2 class="text-center mt-2 mb-2">Our Stories</h2>
 
-        <!-- Grid where the cards will be injected -->
-        <div id="blogGrid" class="blogs-grid"></div>
-
-        <!-- Pagination bar -->
-        <nav id="blogPagination" class="pagination" aria-label="Blog pagination"></nav>
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-content">
+            <h2>Discover Island Wellness</h2>
+            <p class="hero-sub">Where traditional Maldivian wisdom meets modern living. Explore our stories, recipes, and natural energy solutions.</p>
+            <a href="blog.html" class="btn-primary hero-btn">Explore Our Stories</a>
+        </div>
     </section>
+
+    <!-- FEATURED PRODUCTS -->
+    <section>
+        <div class="section-header">
+            <h2 class="section-title">Featured Products</h2>
+            <a href="products.html" class="section-link">View All →</a>
+        </div>
+        
+        <div id="featuredProducts" class="products-grid"></div>
+    </section>
+
+    <!-- LATEST BLOG POSTS -->
+    <section>
+        <div class="section-header">
+            <h2 class="section-title">Latest Stories</h2>
+            <a href="blog.html" class="section-link">View All →</a>
+        </div>
+        
+        <div id="latestBlogPosts" class="blogs-grid"></div>
+    </section>
+
+    <!-- NEWSLETTER CTA -->
+    <section class="cta-section text-center mt-2 mb-2">
+        <h2>Join Our Community</h2>
+        <p>Get the latest stories, island recipes, and wellness tips delivered to your inbox every week.</p>
+
+        <form id="newsletterForm" class="contact-form" novalidate>
+            <div class="form-group">
+                <input type="email"
+                       name="email"
+                       id="newsletter-email"
+                       placeholder=" "
+                       required>
+                <label for="newsletter-email">Your email address</label>
+                <p class="error-msg">Please enter a valid e-mail.</p>
+            </div>
+            <button type="submit" class="btn-primary">Subscribe Now</button>
+        </form>
+        <div id="toast" class="toast hidden"></div>
+    </section>
+
 </main>
 
 <footer class="site-footer">
     © 2025 Garudhiya • All rights reserved
 </footer>
 
+<script src="assets/js/products-data.js"></script>
 <script src="assets/js/blog-data.js"></script>
 <script src="assets/js/script.js"></script>
-
 <script>
-const POSTS_PER_PAGE = 9;
-let currentSearchQuery = '';
-let sortedBlogs = [];
+// Load featured product (latest) on homepage
+document.addEventListener('DOMContentLoaded', () => {
+    // Load featured product
+    const productContainer = document.getElementById('featuredProduct');
+    if (productContainer && PRODUCTS.length > 0) {
+        // Sort products by date (newest first)
+        const sortedProducts = [...PRODUCTS].sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded));
+        const featuredProduct = sortedProducts[0];
+        
+        productContainer.innerHTML = `
+            <img src="${featuredProduct.image}"
+                 alt="${featuredProduct.name}"
+                 class="product-img">
 
-// Check for search query in URL
-function getSearchQuery() {
-    const params = new URLSearchParams(window.location.search);
-    return params.get('q') || '';
-}
+            <div class="product-info">
+                <h3 class="product-title">${featuredProduct.name}</h3>
+                <p class="product-description">
+                    ${featuredProduct.shortDescription}
+                </p>
+                <div class="price-and-action">
+                    <span class="price-badge">${featuredProduct.price.toFixed(2)}</span>
+                    <a href="products.html" class="btn-primary buy-btn">Learn More</a>
+                </div>
+            </div>
+        `;
+    }
+    
+    // Load latest 3 blog posts
+    const blogContainer = document.getElementById('latestBlogPosts');
+    if (!blogContainer) return;
 
-function renderBlogPage(page = 1) {
-    const grid = document.getElementById('blogGrid');
-    const pagination = document.getElementById('blogPagination');
-
-    if (!grid || !pagination) return;
-
-    grid.innerHTML = '';
-    pagination.innerHTML = '';
-
-    // Sort blogs by date (newest first), then by ID (highest first) for same dates
-    sortedBlogs = [...BLOGS].sort((a, b) => {
+    // Sort blogs by date (newest first)
+    const sortedBlogs = [...BLOGS].sort((a, b) => {
         const dateCompare = new Date(b.date) - new Date(a.date);
         return dateCompare !== 0 ? dateCompare : b.id - a.id;
     });
 
-    // Filter by search query if exists
-    let filteredBlogs = sortedBlogs;
-    if (currentSearchQuery) {
-        filteredBlogs = sortedBlogs.filter(post => {
-            const searchText = `${post.title} ${post.excerpt} ${post.author} ${post.content}`.toLowerCase();
-            return searchText.includes(currentSearchQuery);
-        });
-    }
+    const latestPosts = sortedBlogs.slice(0, 3);
 
-    const startIdx = (page - 1) * POSTS_PER_PAGE;
-    const endIdx = startIdx + POSTS_PER_PAGE;
-    const pagePosts = filteredBlogs.slice(startIdx, endIdx);
-
-    if (filteredBlogs.length === 0) {
-        grid.innerHTML = `
-            <div style="grid-column: 1/-1; padding: 3rem; text-align: center;">
-                <p style="font-size: 1.2rem; color: var(--text-muted); margin-bottom: 1rem;">
-                    No posts found matching "${currentSearchQuery}"
-                </p>
-                <button onclick="clearSearch()" class="btn-secondary">Clear Search</button>
-            </div>
-        `;
-        return;
-    }
-
-    pagePosts.forEach(post => {
+    latestPosts.forEach(post => {
         const card = document.createElement('article');
         card.className = 'card blog-card';
-        card.onclick = () => window.location.href = `blog-detail.html?id=${post.id}`;
 
         const img = document.createElement('img');
         img.dataset.src = post.img;
@@ -117,10 +163,6 @@ function renderBlogPage(page = 1) {
         const title = document.createElement('h3');
         title.className = 'blog-title';
         title.textContent = post.title;
-        title.onclick = (e) => {
-            e.stopPropagation();
-            window.location.href = `blog-detail.html?id=${post.id}`;
-        };
         info.appendChild(title);
 
         const meta = document.createElement('p');
@@ -134,67 +176,51 @@ function renderBlogPage(page = 1) {
         info.appendChild(excerpt);
 
         const readMore = document.createElement('a');
-        readMore.className = 'btn-primary blog-readmore';
+        readMore.className = 'btn-secondary blog-readmore';
         readMore.href = `blog-detail.html?id=${post.id}`;
         readMore.textContent = 'Read More';
-        readMore.onclick = (e) => e.stopPropagation();
         info.appendChild(readMore);
 
         card.appendChild(info);
-        grid.appendChild(card);
+        blogContainer.appendChild(card);
     });
 
     initLazyImages();
+});
 
-    const totalPages = Math.ceil(filteredBlogs.length / POSTS_PER_PAGE);
-    
-    if (totalPages > 1) {
-        for (let i = 1; i <= totalPages; i++) {
-            const btn = document.createElement('button');
-            btn.textContent = i;
-            btn.className = (i === page) ? 'active' : '';
-            btn.setAttribute('aria-label', `Page ${i}`);
-            btn.setAttribute('aria-current', i === page ? 'page' : 'false');
-            btn.addEventListener('click', () => {
-                renderBlogPage(i);
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
-            pagination.appendChild(btn);
-        }
-    }
-}
-
-function clearSearch() {
-    currentSearchQuery = '';
-    const searchInput = document.getElementById('blogSearch');
-    if (searchInput) searchInput.value = '';
-    history.replaceState(null, '', 'blog.html');
-    renderBlogPage(1);
-}
-
-// Blog search functionality
-const blogSearchInput = document.getElementById('blogSearch');
-if (blogSearchInput) {
+// Global search functionality for homepage
+const globalSearchInput = document.getElementById('globalSearch');
+if (globalSearchInput) {
     let searchTimeout;
-    blogSearchInput.addEventListener('input', (e) => {
+    globalSearchInput.addEventListener('input', (e) => {
         clearTimeout(searchTimeout);
         searchTimeout = setTimeout(() => {
-            currentSearchQuery = e.target.value.toLowerCase().trim();
-            renderBlogPage(1);
+            const query = e.target.value.toLowerCase().trim();
+            
+            if (query.length < 2) {
+                return;
+            }
+
+            const blogResults = BLOGS.filter(post => 
+                post.title.toLowerCase().includes(query) ||
+                post.excerpt.toLowerCase().includes(query) ||
+                post.author.toLowerCase().includes(query) ||
+                post.content.toLowerCase().includes(query)
+            );
+
+            console.log(`Found ${blogResults.length} blog results for: "${query}"`);
         }, 300);
     });
+    
+    globalSearchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            const query = e.target.value.trim();
+            if (query) {
+                window.location.href = `blog.html?q=${encodeURIComponent(query)}`;
+            }
+        }
+    });
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-    // Check if there's a search query in URL
-    const urlQuery = getSearchQuery();
-    if (urlQuery) {
-        currentSearchQuery = urlQuery.toLowerCase();
-        const searchInput = document.getElementById('blogSearch');
-        if (searchInput) searchInput.value = urlQuery;
-    }
-    renderBlogPage(1);
-});
 </script>
 </body>
 </html>
