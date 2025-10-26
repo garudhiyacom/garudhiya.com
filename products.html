@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Garudhiya — Products</title>
+    <title>Garudhiya — Blog</title>
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
@@ -21,26 +21,24 @@
                 <circle cx="11" cy="11" r="8"></circle>
                 <path d="m21 21-4.35-4.35"></path>
             </svg>
-            <input type="text" id="productSearch" class="search-bar" placeholder="Search products...">
+            <input type="text" id="blogSearch" class="search-bar" placeholder="Search blog posts...">
         </div>
         <a href="index.html" class="nav-link">Home</a>
-        <a href="products.html" class="nav-link active">Products</a>
-        <a href="blog.html" class="nav-link">Blog</a>
+        <a href="products.html" class="nav-link">Products</a>
+        <a href="blog.html" class="nav-link active">Blog</a>
         <a href="contact.html" class="nav-link">Contact</a>
     </nav>
 </header>
 
 <main class="main-content">
-    <section>
-        <h2 class="text-center mt-2 mb-2">Our Products</h2>
+    <section class="blog-section">
+        <h2 class="text-center mt-2 mb-2">Our Stories</h2>
 
-        <div id="productsContainer">
-            <!-- Products will be loaded dynamically -->
-        </div>
-        
-        <div id="noProductResults" class="hidden" style="text-align: center; padding: 3rem; color: var(--text-muted);">
-            <p>No products found matching your search.</p>
-        </div>
+        <!-- Grid where the cards will be injected -->
+        <div id="blogGrid" class="blogs-grid"></div>
+
+        <!-- Pagination bar -->
+        <nav id="blogPagination" class="pagination" aria-label="Blog pagination"></nav>
     </section>
 </main>
 
@@ -48,88 +46,155 @@
     © 2025 Garudhiya • All rights reserved
 </footer>
 
-<script src="assets/js/products-data.js"></script>
+<script src="assets/js/blog-data.js"></script>
 <script src="assets/js/script.js"></script>
 
 <script>
-// Load products dynamically
-document.addEventListener('DOMContentLoaded', () => {
-    const productsContainer = document.getElementById('productsContainer');
-    
-    if (productsContainer && PRODUCTS.length > 0) {
-        productsContainer.innerHTML = '';
-        
-        PRODUCTS.forEach(product => {
-            const article = document.createElement('article');
-            article.className = 'card product-card';
-            article.dataset.productName = product.name.toLowerCase();
-            article.dataset.keywords = product.keywords;
-            
-            article.innerHTML = `
-                <img src="${product.image}"
-                     alt="${product.name}"
-                     class="product-img">
+const POSTS_PER_PAGE = 9;
+let currentSearchQuery = '';
+let sortedBlogs = [];
 
-                <div class="product-info">
-                    <h3 class="product-title">${product.name}</h3>
+// Check for search query in URL
+function getSearchQuery() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('q') || '';
+}
 
-                    <p class="product-description">
-                        ${product.description}
-                    </p>
+function renderBlogPage(page = 1) {
+    const grid = document.getElementById('blogGrid');
+    const pagination = document.getElementById('blogPagination');
 
-                    <div class="price-and-action">
-                        <span class="price-badge">${product.price.toFixed(2)}</span>
-                        <a href="https://youtu.be/dQw4w9WgXcQ?si=lPxYPYlHRuWUJliP"
-                           class="btn-primary buy-btn"
-                           target="_blank"
-                           rel="noopener noreferrer">
-                            Buy Now
-                        </a>
-                    </div>
-                </div>
-            `;
-            
-            productsContainer.appendChild(article);
+    if (!grid || !pagination) return;
+
+    grid.innerHTML = '';
+    pagination.innerHTML = '';
+
+    // Sort blogs by date (newest first), then by ID (highest first) for same dates
+    sortedBlogs = [...BLOGS].sort((a, b) => {
+        const dateCompare = new Date(b.date) - new Date(a.date);
+        return dateCompare !== 0 ? dateCompare : b.id - a.id;
+    });
+
+    // Filter by search query if exists
+    let filteredBlogs = sortedBlogs;
+    if (currentSearchQuery) {
+        filteredBlogs = sortedBlogs.filter(post => {
+            const searchText = `${post.title} ${post.excerpt} ${post.author} ${post.content}`.toLowerCase();
+            return searchText.includes(currentSearchQuery);
         });
     }
-});
 
-// Product search functionality
-const productSearchInput = document.getElementById('productSearch');
-const productsContainer = document.getElementById('productsContainer');
-const noResultsDiv = document.getElementById('noProductResults');
+    const startIdx = (page - 1) * POSTS_PER_PAGE;
+    const endIdx = startIdx + POSTS_PER_PAGE;
+    const pagePosts = filteredBlogs.slice(startIdx, endIdx);
 
-if (productSearchInput && productsContainer) {
-    productSearchInput.addEventListener('input', (e) => {
-        const query = e.target.value.toLowerCase().trim();
-        const productCards = productsContainer.querySelectorAll('.product-card');
-        let visibleCount = 0;
+    if (filteredBlogs.length === 0) {
+        grid.innerHTML = `
+            <div style="grid-column: 1/-1; padding: 3rem; text-align: center;">
+                <p style="font-size: 1.2rem; color: var(--text-muted); margin-bottom: 1rem;">
+                    No posts found matching "${currentSearchQuery}"
+                </p>
+                <button onclick="clearSearch()" class="btn-secondary">Clear Search</button>
+            </div>
+        `;
+        return;
+    }
 
-        productCards.forEach(card => {
-            const productName = card.dataset.productName || '';
-            const keywords = card.dataset.keywords || '';
-            const description = card.querySelector('.product-description')?.textContent.toLowerCase() || '';
-            const title = card.querySelector('.product-title')?.textContent.toLowerCase() || '';
+    pagePosts.forEach(post => {
+        const card = document.createElement('article');
+        card.className = 'card blog-card';
+        card.onclick = () => window.location.href = `blog-detail.html?id=${post.id}`;
 
-            if (query === '' || 
-                productName.includes(query) || 
-                keywords.includes(query) ||
-                description.includes(query) ||
-                title.includes(query)) {
-                card.style.display = 'flex';
-                visibleCount++;
-            } else {
-                card.style.display = 'none';
-            }
-        });
+        const img = document.createElement('img');
+        img.dataset.src = post.img;
+        img.alt = post.title;
+        img.className = 'blog-img';
+        card.appendChild(img);
 
-        if (visibleCount === 0 && query !== '') {
-            noResultsDiv.classList.remove('hidden');
-        } else {
-            noResultsDiv.classList.add('hidden');
+        const info = document.createElement('div');
+        info.className = 'blog-info';
+
+        const title = document.createElement('h3');
+        title.className = 'blog-title';
+        title.textContent = post.title;
+        title.onclick = (e) => {
+            e.stopPropagation();
+            window.location.href = `blog-detail.html?id=${post.id}`;
+        };
+        info.appendChild(title);
+
+        const meta = document.createElement('p');
+        meta.className = 'blog-meta';
+        meta.textContent = `${post.author} • ${new Date(post.date).toLocaleDateString()}`;
+        info.appendChild(meta);
+
+        const excerpt = document.createElement('p');
+        excerpt.className = 'blog-excerpt';
+        excerpt.textContent = post.excerpt;
+        info.appendChild(excerpt);
+
+        const readMore = document.createElement('a');
+        readMore.className = 'btn-primary blog-readmore';
+        readMore.href = `blog-detail.html?id=${post.id}`;
+        readMore.textContent = 'Read More';
+        readMore.onclick = (e) => e.stopPropagation();
+        info.appendChild(readMore);
+
+        card.appendChild(info);
+        grid.appendChild(card);
+    });
+
+    initLazyImages();
+
+    const totalPages = Math.ceil(filteredBlogs.length / POSTS_PER_PAGE);
+    
+    if (totalPages > 1) {
+        for (let i = 1; i <= totalPages; i++) {
+            const btn = document.createElement('button');
+            btn.textContent = i;
+            btn.className = (i === page) ? 'active' : '';
+            btn.setAttribute('aria-label', `Page ${i}`);
+            btn.setAttribute('aria-current', i === page ? 'page' : 'false');
+            btn.addEventListener('click', () => {
+                renderBlogPage(i);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+            pagination.appendChild(btn);
         }
+    }
+}
+
+function clearSearch() {
+    currentSearchQuery = '';
+    const searchInput = document.getElementById('blogSearch');
+    if (searchInput) searchInput.value = '';
+    history.replaceState(null, '', 'blog.html');
+    renderBlogPage(1);
+}
+
+// Blog search functionality
+const blogSearchInput = document.getElementById('blogSearch');
+if (blogSearchInput) {
+    let searchTimeout;
+    blogSearchInput.addEventListener('input', (e) => {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            currentSearchQuery = e.target.value.toLowerCase().trim();
+            renderBlogPage(1);
+        }, 300);
     });
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Check if there's a search query in URL
+    const urlQuery = getSearchQuery();
+    if (urlQuery) {
+        currentSearchQuery = urlQuery.toLowerCase();
+        const searchInput = document.getElementById('blogSearch');
+        if (searchInput) searchInput.value = urlQuery;
+    }
+    renderBlogPage(1);
+});
 </script>
 </body>
 </html>
