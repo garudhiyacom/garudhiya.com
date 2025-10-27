@@ -3,61 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Garudhiya — Blog</title>
+    <meta name="description" content="Read stories about island wellness, traditional Maldivian recipes, and sustainable living.">
+    <title>Garudhiya — Blog & Stories</title>
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
 <header class="site-header">
-    <a href="index.html" class="logo-link"><h1 class="logo">Garudhiya</h1></a>
+    <div class="header-container">
+        <a href="index.html" class="logo-link" aria-label="Garudhiya Home">
+            <h1 class="logo">Garudhiya</h1>
+        </a>
 
-    <div class="hamburger" aria-label="Toggle navigation" role="button" tabindex="0">
-        <span></span><span></span><span></span>
-    </div>
-
-    <nav class="site-nav">
-        <div class="search-container">
-            <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="11" cy="11" r="8"></circle>
-                <path d="m21 21-4.35-4.35"></path>
-            </svg>
-            <input type="text" id="blogSearch" class="search-bar" placeholder="Search blog posts...">
+        <div class="hamburger" aria-label="Toggle navigation" role="button" tabindex="0" aria-expanded="false">
+            <span></span><span></span><span></span>
         </div>
-        <a href="index.html" class="nav-link">Home</a>
-        <a href="products.html" class="nav-link">Products</a>
-        <a href="blog.html" class="nav-link active">Blog</a>
-        <a href="contact.html" class="nav-link">Contact</a>
-    </nav>
+
+        <nav class="site-nav" aria-label="Main navigation">
+            <div class="search-container">
+                <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.35-4.35"></path>
+                </svg>
+                <input type="search" id="blogSearch" class="search-bar" placeholder="Search blog posts..." aria-label="Search blog posts">
+            </div>
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="products.html" class="nav-link">Products</a>
+            <a href="blog.html" class="nav-link active">Blog</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+        </nav>
+    </div>
 </header>
 
-<main class="main-content">
+<main class="main-content" id="main-content">
+
     <!-- HERO -->
-    <section class="hero">
+    <section class="hero" aria-labelledby="hero-title">
         <div class="hero-content">
-            <h2>Island Wellness & Natural Energy</h2>
-            <p class="hero-sub">Discover traditional Maldivian ingredients and sustainable living through our curated stories and products.</p>
-            <a href="blog.html" class="btn-primary hero-btn">Explore Stories</a>
+            <h2 id="hero-title">Island Wellness & Natural Energy</h2>
+            <p class="hero-sub">Discover traditional Maldivian ingredients and sustainable living through our curated stories.</p>
         </div>
     </section>
 
     <!-- FEATURED POST -->
-    <section class="featured-post">
+    <section class="container" aria-labelledby="featured-story-title">
         <div class="section-header">
-            <h2 class="section-title">Featured Story</h2>
+            <h2 class="section-title" id="featured-story-title">Featured Story</h2>
         </div>
-        <div id="featuredPost" class="featured-post-card">
-            <!-- Random post will be loaded here -->
+        
+        <div id="featuredPost" class="featured-post">
+            <!-- Featured post will be loaded here -->
         </div>
     </section>
 
-    <!-- LATEST BLOG POSTS -->
-    <section>
+    <!-- ALL BLOG POSTS -->
+    <section class="container" aria-labelledby="all-stories-title">
         <div class="section-header">
-            <h2 class="section-title">Latest Stories</h2>
-            <a href="blog.html" class="section-link">View All →</a>
+            <h2 class="section-title" id="all-stories-title">All Stories</h2>
+            <div id="searchResults" class="search-results-info" role="status" aria-live="polite"></div>
         </div>
-        <div id="latestBlogPosts" class="blogs-grid"></div>
+        
+        <div id="allBlogPosts" class="blog-grid"></div>
+        
+        <div id="noBlogResults" class="hidden" style="text-align: center; padding: 3rem; color: var(--text-muted);">
+            <p>No blog posts found matching your search.</p>
+        </div>
     </section>
+
 </main>
 
 <footer class="site-footer">
@@ -68,72 +82,164 @@
 <script src="assets/js/script.js"></script>
 
 <script>
-/* ---------- Featured Post (random) ---------- */
-function renderFeaturedPost() {
-    if (!BLOGS.length) return;
-    const random = BLOGS[Math.floor(Math.random() * BLOGS.length)];
-    const container = document.getElementById('featuredPost');
+document.addEventListener('DOMContentLoaded', () => {
+    loadFeaturedPost();
+    loadAllBlogPosts();
+    initBlogSearch();
+});
 
-    container.innerHTML = `
+function loadFeaturedPost() {
+    const featuredContainer = document.getElementById('featuredPost');
+    if (!featuredContainer || !window.BLOGS || BLOGS.length === 0) return;
+
+    // Get random post for featured
+    const randomIndex = Math.floor(Math.random() * BLOGS.length);
+    const featured = BLOGS[randomIndex];
+
+    featuredContainer.innerHTML = `
         <div class="featured-post-content">
-            <h3>${random.title}</h3>
-            <p class="featured-meta">${random.author} • ${new Date(random.date).toLocaleDateString()}</p>
-            <p class="featured-excerpt">${random.excerpt}</p>
-            <a href="blog-detail.html?id=${random.id}" class="btn-secondary">Read More</a>
+            <span class="featured-badge">Featured</span>
+            <a href="blog-detail.html?id=${featured.id}">
+                <h3>${escapeHtml(featured.title)}</h3>
+            </a>
+            <p class="featured-meta">${escapeHtml(featured.author)} • ${new Date(featured.date).toLocaleDateString()}</p>
+            <p class="featured-excerpt">${escapeHtml(featured.excerpt)}</p>
+            <a href="blog-detail.html?id=${featured.id}" class="btn btn-primary">Read Full Story</a>
         </div>
         <div class="featured-post-image">
-            <img data-src="${random.img}" alt="${random.title}" loading="lazy">
+            <img data-src="${featured.img}" alt="${escapeHtml(featured.title)}" loading="lazy">
         </div>
     `;
+
+    initLazyImages();
 }
 
-/* ---------- Latest Blog Posts ---------- */
-function renderLatestPosts() {
-    const container = document.getElementById('latestBlogPosts');
-    if (!container) return;
+function loadAllBlogPosts() {
+    const blogContainer = document.getElementById('allBlogPosts');
+    if (!blogContainer || !window.BLOGS) return;
 
-    const sorted = [...BLOGS].sort((a, b) => new Date(b.date) - new Date(a.date));
-    const latest = sorted.slice(0, 3);
-
-    latest.forEach(post => {
-        const article = document.createElement('article');
-        article.className = 'card blog-card';
-
-        article.innerHTML = `
-            <img data-src="${post.img}" alt="${post.title}" class="blog-img" loading="lazy">
-            <div class="blog-info">
-                <h3 class="blog-title">${post.title}</h3>
-                <p class="blog-meta">${post.author} • ${new Date(post.date).toLocaleDateString()}</p>
-                <p class="blog-excerpt">${post.excerpt}</p>
-                <a href="blog-detail.html?id=${post.id}" class="btn-secondary blog-readmore">Read More</a>
-            </div>
-        `;
-        container.appendChild(article);
+    // Sort blogs by date (newest first)
+    const sortedBlogs = [...BLOGS].sort((a, b) => {
+        const dateCompare = new Date(b.date) - new Date(a.date);
+        return dateCompare !== 0 ? dateCompare : b.id - a.id;
     });
+
+    // Check for search query
+    const urlParams = new URLSearchParams(window.location.search);
+    const searchQuery = urlParams.get('q');
+
+    let postsToShow = sortedBlogs;
+
+    if (searchQuery) {
+        const query = searchQuery.toLowerCase().trim();
+        postsToShow = sortedBlogs.filter(post => 
+            post.title.toLowerCase().includes(query) ||
+            post.excerpt.toLowerCase().includes(query) ||
+            post.author.toLowerCase().includes(query) ||
+            post.content.toLowerCase().includes(query)
+        );
+
+        const resultsInfo = document.getElementById('searchResults');
+        if (resultsInfo) {
+            resultsInfo.textContent = `Found ${postsToShow.length} result${postsToShow.length !== 1 ? 's' : ''} for "${searchQuery}"`;
+        }
+    }
+
+    renderBlogPosts(postsToShow, blogContainer);
+
+    // Show/hide no results message
+    const noResults = document.getElementById('noBlogResults');
+    if (postsToShow.length === 0 && noResults) {
+        noResults.classList.remove('hidden');
+        blogContainer.classList.add('hidden');
+    }
 }
 
-/* ---------- Blog Search (redirect) ---------- */
-const blogSearchInput = document.getElementById('blogSearch');
-if (blogSearchInput) {
-    blogSearchInput.addEventListener('keypress', e => {
+function initBlogSearch() {
+    const blogSearchInput = document.getElementById('blogSearch');
+    if (!blogSearchInput) return;
+
+    // Set initial value from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const searchQuery = urlParams.get('q');
+    if (searchQuery) {
+        blogSearchInput.value = searchQuery;
+    }
+
+    let searchTimeout;
+    blogSearchInput.addEventListener('input', (e) => {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            const query = e.target.value.toLowerCase().trim();
+            
+            if (!window.BLOGS) return;
+
+            const blogContainer = document.getElementById('allBlogPosts');
+            const noResults = document.getElementById('noBlogResults');
+            const resultsInfo = document.getElementById('searchResults');
+
+            if (query.length === 0) {
+                // Show all posts
+                const sortedBlogs = [...BLOGS].sort((a, b) => {
+                    const dateCompare = new Date(b.date) - new Date(a.date);
+                    return dateCompare !== 0 ? dateCompare : b.id - a.id;
+                });
+                renderBlogPosts(sortedBlogs, blogContainer);
+                if (noResults) noResults.classList.add('hidden');
+                if (blogContainer) blogContainer.classList.remove('hidden');
+                if (resultsInfo) resultsInfo.textContent = '';
+                return;
+            }
+
+            const filteredPosts = BLOGS.filter(post => 
+                post.title.toLowerCase().includes(query) ||
+                post.excerpt.toLowerCase().includes(query) ||
+                post.author.toLowerCase().includes(query) ||
+                post.content.toLowerCase().includes(query)
+            );
+
+            // Sort filtered results
+            const sortedFiltered = filteredPosts.sort((a, b) => {
+                const dateCompare = new Date(b.date) - new Date(a.date);
+                return dateCompare !== 0 ? dateCompare : b.id - a.id;
+            });
+
+            renderBlogPosts(sortedFiltered, blogContainer);
+
+            // Update results info
+            if (resultsInfo) {
+                resultsInfo.textContent = `Found ${sortedFiltered.length} result${sortedFiltered.length !== 1 ? 's' : ''} for "${query}"`;
+            }
+
+            // Show/hide no results message
+            if (sortedFiltered.length === 0) {
+                if (noResults) noResults.classList.remove('hidden');
+                if (blogContainer) blogContainer.classList.add('hidden');
+            } else {
+                if (noResults) noResults.classList.add('hidden');
+                if (blogContainer) blogContainer.classList.remove('hidden');
+            }
+        }, 300);
+    });
+
+    blogSearchInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
+            e.preventDefault();
             const query = e.target.value.trim();
             if (query) {
                 window.location.href = `blog.html?q=${encodeURIComponent(query)}`;
+            } else {
+                window.location.href = 'blog.html';
             }
         }
     });
 }
 
-/* ---------- Init ---------- */
-document.addEventListener('DOMContentLoaded', () => {
-    renderFeaturedPost();
-    renderLatestPosts();
-
-    if (typeof initLazyImages === 'function') {
-        initLazyImages();
-    }
-});
+function escapeHtml(unsafe) {
+    const div = document.createElement('div');
+    div.textContent = unsafe;
+    return div.innerHTML;
+}
 </script>
 </body>
 </html>
