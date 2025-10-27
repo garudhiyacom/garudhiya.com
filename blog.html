@@ -3,63 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Read stories about island wellness, traditional Maldivian recipes, and sustainable living.">
-    <title>Garudhiya — Blog & Stories</title>
+    <title>Garudhiya — Blog</title>
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 
-<a href="#main-content" class="skip-link">Skip to main content</a>
-
 <header class="site-header">
-    <div class="header-container">
-        <a href="index.html" class="logo-link" aria-label="Garudhiya Home">
-            <h1 class="logo">Garudhiya</h1>
-        </a>
+    <a href="index.html" class="logo-link"><h1 class="logo">Garudhiya</h1></a>
 
-        <div class="hamburger" aria-label="Toggle navigation" role="button" tabindex="0" aria-expanded="false">
-            <span></span><span></span><span></span>
-        </div>
-
-        <nav class="site-nav" aria-label="Main navigation">
-            <div class="search-container">
-                <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <path d="m21 21-4.35-4.35"></path>
-                </svg>
-                <input type="search" id="blogSearch" class="search-bar" placeholder="Search blog posts..." aria-label="Search blog posts">
-            </div>
-            <a href="index.html" class="nav-link">Home</a>
-            <a href="products.html" class="nav-link">Products</a>
-            <a href="blog.html" class="nav-link active">Blog</a>
-            <a href="contact.html" class="nav-link">Contact</a>
-        </nav>
+    <div class="hamburger" aria-label="Toggle navigation" role="button" tabindex="0">
+        <span></span><span></span><span></span>
     </div>
+
+    <nav class="site-nav">
+        <div class="search-container">
+            <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+            </svg>
+            <input type="text" id="blogSearch" class="search-bar" placeholder="Search blog posts...">
+        </div>
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="products.html" class="nav-link">Products</a>
+        <a href="blog.html" class="nav-link active">Blog</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+    </nav>
 </header>
 
-<main class="main-content" id="main-content">
-
+<main class="main-content">
     <!-- HERO -->
-    <section class="hero" aria-labelledby="hero-title">
+    <section class="hero">
         <div class="hero-content">
-            <h2 id="hero-title">Island Wellness & Natural Energy</h2>
-            <p class="hero-sub">Discover traditional Maldivian ingredients and sustainable living through our curated stories.</p>
+            <h2>Island Wellness & Natural Energy</h2>
+            <p class="hero-sub">Discover traditional Maldivian ingredients and sustainable living through our curated stories and products.</p>
+            <a href="blog.html" class="btn-primary hero-btn">Explore Stories</a>
         </div>
     </section>
 
     <!-- FEATURED POST -->
-    <section class="container" aria-labelledby="featured-story-title">
+    <section class="featured-post">
         <div class="section-header">
-            <h2 class="section-title" id="featured-story-title">Featured Story</h2>
+            <h2 class="section-title">Featured Story</h2>
         </div>
-        
-        <div id="featuredPost" class="featured-post">
-            <!-- Featured post will be loaded here -->
+        <div id="featuredPost" class="featured-post-card">
+            <!-- Random post will be loaded here -->
         </div>
     </section>
 
-    <!-- ALL BLOG POSTS -->
-    <section class="container" aria-labelledby="all-stories-title">
+    <!-- LATEST BLOG POSTS -->
+    <section>
         <div class="section-header">
-            <h2 class="section-title" id="all-stories-title">All Stories</h2>
-            <div id="searchResults" class="search-results-info" role="status" aria-live="polite"></div
+            <h2 class="section-title">Latest Stories</h2>
+            <a href="blog.html" class="section-link">View All →</a>
+        </div>
+        <div id="latestBlogPosts" class="blogs-grid"></div>
+    </section>
+</main>
+
+<footer class="site-footer">
+    © 2025 Garudhiya • All rights reserved
+</footer>
+
+<script src="assets/js/blog-data.js"></script>
+<script src="assets/js/script.js"></script>
+
+<script>
+/* ---------- Featured Post (random) ---------- */
+function renderFeaturedPost() {
+    if (!BLOGS.length) return;
+    const random = BLOGS[Math.floor(Math.random() * BLOGS.length)];
+    const container = document.getElementById('featuredPost');
+
+    container.innerHTML = `
+        <div class="featured-post-content">
+            <h3>${random.title}</h3>
+            <p class="featured-meta">${random.author} • ${new Date(random.date).toLocaleDateString()}</p>
+            <p class="featured-excerpt">${random.excerpt}</p>
+            <a href="blog-detail.html?id=${random.id}" class="btn-secondary">Read More</a>
+        </div>
+        <div class="featured-post-image">
+            <img data-src="${random.img}" alt="${random.title}" loading="lazy">
+        </div>
+    `;
+}
+
+/* ---------- Latest Blog Posts ---------- */
+function renderLatestPosts() {
+    const container = document.getElementById('latestBlogPosts');
+    if (!container) return;
+
+    const sorted = [...BLOGS].sort((a, b) => new Date(b.date) - new Date(a.date));
+    const latest = sorted.slice(0, 3);
+
+    latest.forEach(post => {
+        const article = document.createElement('article');
+        article.className = 'card blog-card';
+
+        article.innerHTML = `
+            <img data-src="${post.img}" alt="${post.title}" class="blog-img" loading="lazy">
+            <div class="blog-info">
+                <h3 class="blog-title">${post.title}</h3>
+                <p class="blog-meta">${post.author} • ${new Date(post.date).toLocaleDateString()}</p>
+                <p class="blog-excerpt">${post.excerpt}</p>
+                <a href="blog-detail.html?id=${post.id}" class="btn-secondary blog-readmore">Read More</a>
+            </div>
+        `;
+        container.appendChild(article);
+    });
+}
+
+/* ---------- Blog Search (redirect) ---------- */
+const blogSearchInput = document.getElementById('blogSearch');
+if (blogSearchInput) {
+    blogSearchInput.addEventListener('keypress', e => {
+        if (e.key === 'Enter') {
+            const query = e.target.value.trim();
+            if (query) {
+                window.location.href = `blog.html?q=${encodeURIComponent(query)}`;
+            }
+        }
+    });
+}
+
+/* ---------- Init ---------- */
+document.addEventListener('DOMContentLoaded', () => {
+    renderFeaturedPost();
+    renderLatestPosts();
+
+    if (typeof initLazyImages === 'function') {
+        initLazyImages();
+    }
+});
+</script>
+</body>
+</html>
