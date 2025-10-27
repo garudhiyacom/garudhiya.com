@@ -3,46 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Garudhiya — Island Energy & Soup</title>
+    <meta name="description" content="Discover traditional Maldivian wellness through Garudhiya energy drinks and island recipes.">
+    <title>Garudhiya — Island Energy & Wellness</title>
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
 <header class="site-header">
-    <a href="index.html" class="logo-link"><h1 class="logo">Garudhiya</h1></a>
+    <div class="header-container">
+        <a href="index.html" class="logo-link" aria-label="Garudhiya Home">
+            <h1 class="logo">Garudhiya</h1>
+        </a>
 
-    <div class="hamburger" aria-label="Toggle navigation" role="button" tabindex="0">
-        <span></span><span></span><span></span>
-    </div>
-
-    <nav class="site-nav">
-        <div class="search-container">
-            <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="11" cy="11" r="8"></circle>
-                <path d="m21 21-4.35-4.35"></path>
-            </svg>
-            <input type="text" id="globalSearch" class="search-bar" placeholder="Search everything...">
+        <div class="hamburger" aria-label="Toggle navigation" role="button" tabindex="0" aria-expanded="false">
+            <span></span><span></span><span></span>
         </div>
-        <a href="index.html" class="nav-link active">Home</a>
-        <a href="products.html" class="nav-link">Products</a>
-        <a href="blog.html" class="nav-link">Blog</a>
-        <a href="contact.html" class="nav-link">Contact</a>
-    </nav>
+
+        <nav class="site-nav" aria-label="Main navigation">
+            <div class="search-container">
+                <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.35-4.35"></path>
+                </svg>
+                <input type="search" id="globalSearch" class="search-bar" placeholder="Search everything..." aria-label="Search site">
+            </div>
+            <a href="index.html" class="nav-link active">Home</a>
+            <a href="products.html" class="nav-link">Products</a>
+            <a href="blog.html" class="nav-link">Blog</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+        </nav>
+    </div>
 </header>
 
-<main class="main-content">
+<main class="main-content" id="main-content">
 
     <!-- HERO -->
-    <section class="hero">
+    <section class="hero" aria-labelledby="hero-title">
         <div class="hero-content">
-            <h2>Discover Island Wellness</h2>
+            <h2 id="hero-title">Discover Island Wellness</h2>
             <p class="hero-sub">Where traditional Maldivian wisdom meets modern living. Explore our stories, recipes, and natural energy solutions.</p>
-            <a href="blog.html" class="btn-primary hero-btn">Explore Our Stories</a>
+            <a href="blog.html" class="btn btn-primary hero-btn">Explore Our Stories</a>
         </div>
     </section>
 
     <!-- STATS -->
-    <section class="stats-grid">
+    <section class="stats-grid container" aria-label="Key statistics">
         <div class="stat-card">
             <span class="stat-number">100%</span>
             <span class="stat-label">Natural & Organic</span>
@@ -62,45 +69,47 @@
     </section>
 
     <!-- FEATURED PRODUCT -->
-    <section class="featured-product">
+    <section class="container" aria-labelledby="featured-product-title">
         <div class="section-header">
-            <h2 class="section-title">Featured Product</h2>
+            <h2 class="section-title" id="featured-product-title">Featured Product</h2>
             <a href="products.html" class="section-link">View All Products →</a>
         </div>
         
-        <div id="featuredProduct" class="card product-card featured-card">
+        <div id="featuredProduct" class="featured-product-card">
             <!-- Product will be loaded dynamically -->
         </div>
     </section>
 
     <!-- LATEST BLOG POSTS -->
-    <section>
+    <section class="container" aria-labelledby="latest-stories-title">
         <div class="section-header">
-            <h2 class="section-title">Latest Stories</h2>
+            <h2 class="section-title" id="latest-stories-title">Latest Stories</h2>
             <a href="blog.html" class="section-link">View All Posts →</a>
         </div>
         
-        <div id="latestBlogPosts" class="blog-preview-grid"></div>
+        <div id="latestBlogPosts" class="blog-grid"></div>
     </section>
 
     <!-- NEWSLETTER CTA -->
-    <section class="cta-section text-center mt-2 mb-2">
-        <h2>Join Our Community</h2>
+    <section class="container cta-section" aria-labelledby="newsletter-title">
+        <h2 id="newsletter-title">Join Our Community</h2>
         <p>Get the latest stories, island recipes, and wellness tips delivered to your inbox every week.</p>
 
-        <form id="newsletterForm" class="contact-form" novalidate>
+        <form id="newsletterForm" class="form-container" novalidate>
             <div class="form-group">
                 <input type="email"
                        name="email"
                        id="newsletter-email"
+                       class="form-input"
                        placeholder=" "
-                       required>
-                <label for="newsletter-email">Your email address</label>
-                <p class="error-msg">Please enter a valid e-mail.</p>
+                       required
+                       aria-describedby="newsletter-error">
+                <label for="newsletter-email" class="form-label">Your email address</label>
+                <p class="error-msg" id="newsletter-error" role="alert">Please enter a valid email.</p>
             </div>
-            <button type="submit" class="btn-primary">Subscribe Now</button>
+            <button type="submit" class="btn btn-primary">Subscribe Now</button>
         </form>
-        <div id="toast" class="toast hidden"></div>
+        <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
     </section>
 
 </main>
@@ -113,36 +122,45 @@
 <script src="assets/js/blog-data.js"></script>
 <script src="assets/js/script.js"></script>
 <script>
-// Load featured product (latest) on homepage
+// Load featured product and blog posts on homepage
 document.addEventListener('DOMContentLoaded', () => {
-    // Load featured product
-    const productContainer = document.getElementById('featuredProduct');
-    if (productContainer && PRODUCTS.length > 0) {
-        // Sort products by date (newest first)
-        const sortedProducts = [...PRODUCTS].sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded));
-        const featuredProduct = sortedProducts[0];
-        
-        productContainer.innerHTML = `
-            <img src="${featuredProduct.image}"
-                 alt="${featuredProduct.name}"
-                 class="product-img">
+    loadFeaturedProduct();
+    loadLatestBlogPosts();
+    initGlobalSearch();
+});
 
-            <div class="product-info">
-                <h3 class="product-title">${featuredProduct.name}</h3>
-                <p class="product-description">
-                    ${featuredProduct.shortDescription}
-                </p>
-                <div class="price-and-action">
-                    <span class="price-badge">${featuredProduct.price.toFixed(2)}</span>
-                    <a href="products.html" class="btn-primary buy-btn">Learn More</a>
-                </div>
-            </div>
-        `;
-    }
+function loadFeaturedProduct() {
+    const productContainer = document.getElementById('featuredProduct');
+    if (!productContainer || !window.PRODUCTS || PRODUCTS.length === 0) return;
+
+    // Sort products by date (newest first)
+    const sortedProducts = [...PRODUCTS].sort((a, b) => new Date(b.date) - new Date(a.date));
+    const featuredProduct = sortedProducts[0];
     
-    // Load latest 3 blog posts
+    productContainer.innerHTML = `
+        <img data-src="${featuredProduct.image}"
+             alt="${featuredProduct.name}"
+             class="product-image"
+             loading="lazy">
+
+        <div class="product-content">
+            <h3 class="product-title">${featuredProduct.name}</h3>
+            <p class="product-description">
+                ${featuredProduct.shortDescription}
+            </p>
+            <div class="product-actions">
+                <span class="product-price">$${featuredProduct.price.toFixed(2)}</span>
+                <a href="products.html" class="btn btn-primary">Learn More</a>
+            </div>
+        </div>
+    `;
+    
+    initLazyImages();
+}
+
+function loadLatestBlogPosts() {
     const blogContainer = document.getElementById('latestBlogPosts');
-    if (!blogContainer) return;
+    if (!blogContainer || !window.BLOGS) return;
 
     // Sort blogs by date (newest first)
     const sortedBlogs = [...BLOGS].sort((a, b) => {
@@ -150,61 +168,21 @@ document.addEventListener('DOMContentLoaded', () => {
         return dateCompare !== 0 ? dateCompare : b.id - a.id;
     });
 
-    const latestPosts = sortedBlogs.slice(0, 3);
+    renderBlogPosts(sortedBlogs, blogContainer, { limit: 3 });
+}
 
-    latestPosts.forEach(post => {
-        const card = document.createElement('article');
-        card.className = 'card blog-card';
+function initGlobalSearch() {
+    const globalSearchInput = document.getElementById('globalSearch');
+    if (!globalSearchInput || !window.BLOGS) return;
 
-        const img = document.createElement('img');
-        img.dataset.src = post.img;
-        img.alt = post.title;
-        img.className = 'blog-img';
-        card.appendChild(img);
-
-        const info = document.createElement('div');
-        info.className = 'blog-info';
-
-        const title = document.createElement('h3');
-        title.className = 'blog-title';
-        title.textContent = post.title;
-        info.appendChild(title);
-
-        const meta = document.createElement('p');
-        meta.className = 'blog-meta';
-        meta.textContent = `${post.author} • ${new Date(post.date).toLocaleDateString()}`;
-        info.appendChild(meta);
-
-        const excerpt = document.createElement('p');
-        excerpt.className = 'blog-excerpt';
-        excerpt.textContent = post.excerpt;
-        info.appendChild(excerpt);
-
-        const readMore = document.createElement('a');
-        readMore.className = 'btn-secondary blog-readmore';
-        readMore.href = `blog-detail.html?id=${post.id}`;
-        readMore.textContent = 'Read More';
-        info.appendChild(readMore);
-
-        card.appendChild(info);
-        blogContainer.appendChild(card);
-    });
-
-    initLazyImages();
-});
-
-// Global search functionality for homepage
-const globalSearchInput = document.getElementById('globalSearch');
-if (globalSearchInput) {
     let searchTimeout;
+    
     globalSearchInput.addEventListener('input', (e) => {
         clearTimeout(searchTimeout);
         searchTimeout = setTimeout(() => {
             const query = e.target.value.toLowerCase().trim();
             
-            if (query.length < 2) {
-                return;
-            }
+            if (query.length < 2) return;
 
             const blogResults = BLOGS.filter(post => 
                 post.title.toLowerCase().includes(query) ||
@@ -217,8 +195,9 @@ if (globalSearchInput) {
         }, 300);
     });
     
-    globalSearchInput.addEventListener('keypress', (e) => {
+    globalSearchInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
+            e.preventDefault();
             const query = e.target.value.trim();
             if (query) {
                 window.location.href = `blog.html?q=${encodeURIComponent(query)}`;
