@@ -44,15 +44,15 @@
 <script src="assets/js/script.js"></script>
 
 <script>
+/* ---------- Helper ---------- */
 function getQueryParam(name) {
-    const params = new URLSearchParams(window.location.search);
-    return params.get(name);
+    return new URLSearchParams(window.location.search).get(name);
 }
 
+/* ---------- Render Blog Detail ---------- */
 function renderBlogDetail() {
-    const id = getQueryParam('id');
-    const post = BLOGS.find(p => p.id === Number(id));
-
+    const id = Number(getQueryParam('id'));
+    const post = BLOGS.find(p => p.id === id);
     const container = document.getElementById('blogDetail');
 
     if (!post) {
@@ -68,24 +68,31 @@ function renderBlogDetail() {
         <h2 class="blog-detail-title">${post.title}</h2>
         <p class="blog-detail-meta">${post.author} • ${new Date(post.date).toLocaleDateString()}</p>
 
-        <img data-src="${post.img}" alt="${post.title}" class="blog-detail-img">
+        <img data-src="${post.img}"
+             src="${post.img}"               <!-- fallback for browsers without lazy‑load -->
+             loading="lazy"
+             alt="${post.title}"
+             class="blog-detail-img">
 
         <section class="blog-detail-content">
             ${post.content}
         </section>
-        
+
         <p class="text-center mt-2">
-            <a href="blog.html" class="btn-primary">← Back to Blog</a>
+            <a href="blog.html" class="btn-primary" aria-label="Return to blog list">← Back to Blog</a>
         </p>
     `;
 
-    initLazyImages();
+    /* Initialise lazy‑image handling (defined in script.js) */
+    if (typeof initLazyImages === 'function') {
+        initLazyImages();
+    }
 }
 
-// Blog search - redirect to blog page with search query
+/* ---------- Blog Search (redirect) ---------- */
 const blogSearchInput = document.getElementById('blogSearch');
 if (blogSearchInput) {
-    blogSearchInput.addEventListener('keypress', (e) => {
+    blogSearchInput.addEventListener('keypress', e => {
         if (e.key === 'Enter') {
             const query = e.target.value.trim();
             if (query) {
@@ -95,6 +102,7 @@ if (blogSearchInput) {
     });
 }
 
+/* ---------- Run on page load ---------- */
 document.addEventListener('DOMContentLoaded', renderBlogDetail);
 </script>
 </body>
