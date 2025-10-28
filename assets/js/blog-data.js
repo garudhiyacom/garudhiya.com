@@ -9,10 +9,10 @@ const postsPerPage = 12;
 // Create blog card HTML
 function createBlogCard(post) {
     return `
-        <h2>${post.title}</h2>
         <img src="${post.img}" alt="${post.title}" onerror="this.src='assets/images/placeholder.jpg'">
+        <h2>${post.title}</h2>
         <p>${post.excerpt}</p>
-        <p>By ${post.author} on ${post.date}</p>
+        <p><small>By ${post.author} on ${post.date}</small></p>
         <a href="blog-details.html?id=${post.id}">Read More</a>
     `;
 }
@@ -48,12 +48,16 @@ function loadBlogCards(page = 1) {
     if (!main) return;
     
     if (!posts || posts.length === 0) {
-        main.innerHTML = '<article><h2>No blog posts available</h2><p>Check back soon for new content!</p></article>';
+        main.innerHTML = '<article class="message"><h2>No blog posts available</h2><p>Check back soon for new content!</p></article>';
         return;
     }
     
     currentPage = page;
     main.innerHTML = ''; // Clear existing content
+    
+    // Create grid container
+    const gridContainer = document.createElement('div');
+    gridContainer.className = 'card-grid';
     
     // Get posts for current page
     const paginatedPosts = getPaginatedPosts(currentPage, postsPerPage);
@@ -62,8 +66,10 @@ function loadBlogCards(page = 1) {
     paginatedPosts.forEach(post => {
         const article = document.createElement('article');
         article.innerHTML = createBlogCard(post);
-        main.appendChild(article);
+        gridContainer.appendChild(article);
     });
+    
+    main.appendChild(gridContainer);
     
     // Add pagination
     const totalPages = getTotalPages(postsPerPage);
@@ -89,7 +95,7 @@ function goToPage(page) {
 // Create blog details HTML
 function createBlogDetails(post) {
     return `
-        <article>
+        <article class="single">
             <h2>${post.title}</h2>
             <img src="${post.img}" alt="${post.title}" onerror="this.src='assets/images/placeholder.jpg'">
             <p>By ${post.author} on ${post.date}</p>
@@ -102,7 +108,7 @@ function createBlogDetails(post) {
 // Display error message
 function displayBlogError(message) {
     return `
-        <article>
+        <article class="message">
             <h2>Error</h2>
             <p>${message}</p>
             <a href="blog.html">← Back to Blog</a>
