@@ -1,4 +1,20 @@
-function loadSinglePost() {
+function loadBlogCards() {
+    const main = document.querySelector('main');
+    
+    posts.forEach(post => {
+        const article = document.createElement('article');
+        article.innerHTML = `
+            <h2>${post.title}</h2>
+            <img src="${post.img}" alt="${post.title}">
+            <p>${post.excerpt}</p>
+            <p>By ${post.author} on ${post.date}</p>
+            <a href="blog-details.html?id=${post.id}">Read More</a>
+        `;
+        main.appendChild(article);
+    });
+}
+
+function loadBlogDetails() {
     const urlParams = new URLSearchParams(window.location.search);
     const postId = parseInt(urlParams.get('id'));
     
@@ -17,6 +33,10 @@ function loadSinglePost() {
     }
 }
 
-if (window.location.search.includes('id=')) {
-    loadSinglePost();
+if (window.location.pathname.includes('blog.html')) {
+    loadBlogCards();
+}
+
+if (window.location.pathname.includes('blog-details.html')) {
+    loadBlogDetails();
 }
