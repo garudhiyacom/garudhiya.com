@@ -7,7 +7,6 @@
     <title>Garudhiya - Home</title>
     <link rel="stylesheet" href="assets/css/style.css">
     <script src="assets/js/blogs.js" defer></script>
-    <script src="assets/js/index.js" defer></script>
     <script src="assets/js/script.js" defer></script>
 </head>
 <body>
@@ -28,5 +27,30 @@
     <footer>
         <p>&copy; 2025 Garudhiya &middot; All Rights Reserved</p>
     </footer>
+
+    <script>
+        function loadLatestBlog() {
+            const main = document.querySelector('main');
+            
+            if (posts && posts.length > 0) {
+                // Get the last post (most recent)
+                const latestPost = posts[posts.length - 1];
+                
+                const article = document.createElement('article');
+                article.innerHTML = `
+                    <h2>${latestPost.title}</h2>
+                    <img src="${latestPost.img}" alt="${latestPost.title}" onerror="this.src='assets/images/placeholder.jpg'">
+                    <p>${latestPost.excerpt}</p>
+                    <p>By ${latestPost.author} on ${latestPost.date}</p>
+                    <a href="blog-details.html?id=${latestPost.id}">Read More</a>
+                `;
+                main.appendChild(article);
+            } else {
+                main.innerHTML = '<article><h2>No blog posts available</h2><p>Check back soon for new content!</p></article>';
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', loadLatestBlog);
+    </script>
 </body>
 </html>
