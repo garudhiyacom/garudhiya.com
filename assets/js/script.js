@@ -1,6 +1,6 @@
 'use strict';
 
-// Utility function to escape HTML and prevent XSS
+// Utility function to escape HTML and prevent XS
 function escapeHtml(unsafe) {
     const div = document.createElement('div');
     div.textContent = unsafe;
