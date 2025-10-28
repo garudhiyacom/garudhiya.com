@@ -2,190 +2,28 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Browse our selection of traditional Maldivian energy drinks and wellness products.">
-    <title>Garudhiya — Products</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Garudhiya</title>
     <link rel="stylesheet" href="assets/css/style.css">
+    <script src="assets/js/script.js" defer></script>
 </head>
 <body>
-
-<a href="#main-content" class="skip-link">Skip to main content</a>
-
-<header class="site-header">
-    <div class="header-container">
-        <a href="index.html" class="logo-link" aria-label="Garudhiya Home">
-            <h1 class="logo">Garudhiya</h1>
-        </a>
-
-        <div class="hamburger" aria-label="Toggle navigation" role="button" tabindex="0" aria-expanded="false">
-            <span></span><span></span><span></span>
-        </div>
-
-        <nav class="site-nav" aria-label="Main navigation">
-            <div class="search-container">
-                <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <path d="m21 21-4.35-4.35"></path>
-                </svg>
-                <input type="search" id="productSearch" class="search-bar" placeholder="Search products..." aria-label="Search products">
-            </div>
-            <a href="index.html" class="nav-link">Home</a>
-            <a href="products.html" class="nav-link active">Products</a>
-            <a href="blog.html" class="nav-link">Blog</a>
-            <a href="contact.html" class="nav-link">Contact</a>
+    <header>
+        <h1>Garudhiya</h1>
+        <nav>
+            <input type="search" placeholder="Search...">
+            <a href="index.html">Home</a>
+            <a href="products.html">Products</a>
+            <a href="blog.html">Blog</a>
+            <a href="contact.html">Contact</a>
         </nav>
-    </div>
-</header>
+    </header>
 
-<main class="main-content" id="main-content">
-    <section class="container">
-        <h2 class="text-center mt-2 mb-2">Our Products</h2>
-        <p class="text-center" style="color: var(--text-muted); max-width: 600px; margin: 0 auto 3rem;">
-            Discover our selection of traditional Maldivian wellness products, crafted with authentic island ingredients.
-        </p>
+    <main>
+    </main>
 
-        <div id="productsContainer" class="products-grid">
-            <!-- Products will be loaded dynamically -->
-        </div>
-        
-        <div id="noProductResults" class="hidden" style="text-align: center; padding: 3rem; color: var(--text-muted);">
-            <p>No products found matching your search.</p>
-            <button onclick="clearProductSearch()" class="btn btn-secondary" style="margin-top: 1rem;">Clear Search</button>
-        </div>
-    </section>
-</main>
-
-<footer class="site-footer">
-    © 2025 Garudhiya • All rights reserved
-</footer>
-
-<script src="assets/js/products-data.js"></script>
-<script src="assets/js/script.js"></script>
-
-<script>
-function escapeHtml(unsafe) {
-    const div = document.createElement('div');
-    div.textContent = unsafe;
-    return div.innerHTML;
-}
-
-// Load products dynamically
-document.addEventListener('DOMContentLoaded', () => {
-    loadProducts();
-    initProductSearch();
-});
-
-function loadProducts() {
-    const productsContainer = document.getElementById('productsContainer');
-    
-    if (!productsContainer || !window.PRODUCTS || PRODUCTS.length === 0) {
-        if (productsContainer) {
-            productsContainer.innerHTML = '<p style="text-align: center; color: var(--text-muted); padding: 3rem;">No products available at this time.</p>';
-        }
-        return;
-    }
-
-    productsContainer.innerHTML = '';
-    
-    PRODUCTS.forEach(product => {
-        const article = document.createElement('article');
-        article.className = 'card product-card';
-        article.dataset.productName = product.name.toLowerCase();
-        article.dataset.keywords = product.keywords || '';
-        
-        article.innerHTML = `
-            <img data-src="${product.image}"
-                 alt="${escapeHtml(product.name)}"
-                 class="product-image"
-                 loading="lazy">
-
-            <div class="product-content">
-                <h3 class="product-title">${escapeHtml(product.name)}</h3>
-
-                <p class="product-description">
-                    ${escapeHtml(product.description)}
-                </p>
-
-                <div class="product-actions">
-                    <span class="product-price">$${product.price.toFixed(2)}</span>
-                    <a href="https://youtu.be/dQw4w9WgXcQ?si=lPxYPYlHRuWUJliP"
-                       class="btn btn-primary buy-btn"
-                       target="_blank"
-                       rel="noopener noreferrer"
-                       onclick="return confirmExternalLink(event, '${escapeHtml(product.name)}')">
-                        Buy Now
-                    </a>
-                </div>
-            </div>
-        `;
-        
-        productsContainer.appendChild(article);
-    });
-
-    initLazyImages();
-}
-
-function initProductSearch() {
-    const productSearchInput = document.getElementById('productSearch');
-    const productsContainer = document.getElementById('productsContainer');
-    const noResultsDiv = document.getElementById('noProductResults');
-
-    if (!productSearchInput || !productsContainer) return;
-
-    let searchTimeout;
-    productSearchInput.addEventListener('input', (e) => {
-        clearTimeout(searchTimeout);
-        searchTimeout = setTimeout(() => {
-            const query = e.target.value.toLowerCase().trim();
-            const productCards = productsContainer.querySelectorAll('.product-card');
-            let visibleCount = 0;
-
-            productCards.forEach(card => {
-                const productName = card.dataset.productName || '';
-                const keywords = card.dataset.keywords || '';
-                const description = card.querySelector('.product-description')?.textContent.toLowerCase() || '';
-                const title = card.querySelector('.product-title')?.textContent.toLowerCase() || '';
-
-                if (query === '' || 
-                    productName.includes(query) || 
-                    keywords.includes(query) ||
-                    description.includes(query) ||
-                    title.includes(query)) {
-                    card.style.display = 'flex';
-                    visibleCount++;
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-
-            if (visibleCount === 0 && query !== '') {
-                if (noResultsDiv) noResultsDiv.classList.remove('hidden');
-                productsContainer.style.display = 'none';
-            } else {
-                if (noResultsDiv) noResultsDiv.classList.add('hidden');
-                productsContainer.style.display = 'grid';
-            }
-        }, 300);
-    });
-}
-
-function clearProductSearch() {
-    const productSearchInput = document.getElementById('productSearch');
-    if (productSearchInput) {
-        productSearchInput.value = '';
-        productSearchInput.dispatchEvent(new Event('input'));
-        productSearchInput.focus();
-    }
-}
-
-function confirmExternalLink(event, productName) {
-    const message = `You're about to leave our site to purchase ${productName}. Continue?`;
-    if (!confirm(message)) {
-        event.preventDefault();
-        return false;
-    }
-    return true;
-}
-</script>
+    <footer>
+        <p>&copy; Garudhiya · All Rights Reserved</p>
+    </footer>
 </body>
 </html>
