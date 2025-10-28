@@ -1,3 +1,7 @@
+/* ========================================
+   RESET & BASE STYLES
+   ======================================== */
+
 * {
     margin: 0;
     padding: 0;
@@ -13,6 +17,10 @@ body {
     color: #333;
     line-height: 1.6;
 }
+
+/* ========================================
+   HEADER & NAVIGATION
+   ======================================== */
 
 header {
     background-color: #333;
@@ -40,6 +48,10 @@ nav input[type="search"] {
     font-size: 14px;
 }
 
+nav input[type="search"]:focus {
+    outline: 2px solid #555;
+}
+
 nav a {
     color: white;
     text-decoration: none;
@@ -50,6 +62,10 @@ nav a:hover {
     text-decoration: underline;
 }
 
+/* ========================================
+   MAIN CONTENT
+   ======================================== */
+
 main {
     flex: 1;
     padding: 40px 20px;
@@ -58,13 +74,9 @@ main {
     margin: 0 auto;
 }
 
-footer {
-    background-color: #333;
-    color: white;
-    text-align: center;
-    padding: 20px;
-    font-size: 14px;
-}
+/* ========================================
+   ARTICLES & CARDS
+   ======================================== */
 
 article {
     background: #f9f9f9;
@@ -79,10 +91,16 @@ article h2 {
     font-size: 1.5em;
 }
 
+article h3 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
 article img {
     max-width: 100%;
     height: auto;
     margin: 15px 0;
+    display: block;
 }
 
 article p {
@@ -103,13 +121,39 @@ article a:hover {
     background-color: #555;
 }
 
-input, textarea {
+/* ========================================
+   FORMS
+   ======================================== */
+
+input,
+textarea,
+button {
     font-family: inherit;
 }
 
 button {
     cursor: pointer;
 }
+
+button:hover {
+    opacity: 0.9;
+}
+
+/* ========================================
+   FOOTER
+   ======================================== */
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    font-size: 14px;
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
 
 @media (min-width: 768px) {
     header {
