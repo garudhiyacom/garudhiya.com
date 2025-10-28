@@ -22,59 +22,62 @@
         </nav>
     </header>
 
-    <main>
-    </main>
+    <main></main>
 
     <footer>
         <p>&copy; 2025 Garudhiya &middot; All Rights Reserved</p>
     </footer>
 
     <script>
-        function loadLatestBlog() {
-            const main = document.querySelector('main');
-            
-            if (posts && posts.length > 0) {
-                // Get the last post (most recent)
-                const latestPost = posts[posts.length - 1];
-                
-                const article = document.createElement('article');
-                article.innerHTML = `
-                    <h2>${latestPost.title}</h2>
-                    <img src="${latestPost.img}" alt="${latestPost.title}" onerror="this.src='assets/images/placeholder.jpg'">
-                    <p>${latestPost.excerpt}</p>
-                    <p>By ${latestPost.author} on ${latestPost.date}</p>
-                    <a href="blog-details.html?id=${latestPost.id}">Read More</a>
-                `;
-                main.appendChild(article);
-                
-                // Add featured posts section
-                loadFeaturedPosts();
-                
-                // Add products section
-                loadFeaturedProducts();
-                
-                // Add newsletter section
-                loadNewsletterSection();
-            } else {
-                main.innerHTML = '<article><h2>No blog posts available</h2><p>Check back soon for new content!</p></article>';
-            }
-        }
-        
-        function loadFeaturedPosts() {
-            const main = document.querySelector('main');
-            
-            // Create featured section
-            const featuredSection = document.createElement('div');
-            featuredSection.style.marginTop = '40px';
-            featuredSection.innerHTML = '<h2 style="margin-bottom: 20px;">Featured Posts</h2>';
-            
-            // Get random 4 posts
-            const shuffled = [...posts].sort(() => 0.5 - Math.random());
-            const featured = shuffled.slice(0, 4);
-            
-            // Create grid for featured posts
+        // ========================================
+        // HOME PAGE SECTIONS
+        // ========================================
+
+        // Create grid container
+        function createGrid() {
             const grid = document.createElement('div');
             grid.style.cssText = 'display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;';
+            return grid;
+        }
+
+        // Create section wrapper
+        function createSection(title) {
+            const section = document.createElement('div');
+            section.style.marginTop = '40px';
+            section.innerHTML = `<h2 style="margin-bottom: 20px;">${title}</h2>`;
+            return section;
+        }
+
+        // Load latest blog post preview
+        function loadLatestBlog() {
+            const main = document.querySelector('main');
+            if (!main) return;
+            
+            const latestPost = getLatestPost();
+            if (!latestPost) {
+                main.innerHTML = '<article><h2>No content available</h2><p>Check back soon!</p></article>';
+                return;
+            }
+            
+            const article = document.createElement('article');
+            article.innerHTML = `
+                <h2>${latestPost.title}</h2>
+                <img src="${latestPost.img}" alt="${latestPost.title}" onerror="this.src='assets/images/placeholder.jpg'">
+                <p>${latestPost.excerpt}</p>
+                <p>By ${latestPost.author} on ${latestPost.date}</p>
+                <a href="blog-details.html?id=${latestPost.id}">Read More</a>
+            `;
+            main.appendChild(article);
+        }
+        
+        // Load featured blog posts
+        function loadFeaturedPosts() {
+            const main = document.querySelector('main');
+            if (!main) return;
+            
+            const section = createSection('Featured Posts');
+            const grid = createGrid();
+            const featured = getRandomPosts(4);
             
             featured.forEach(post => {
                 const article = document.createElement('article');
@@ -87,25 +90,18 @@
                 grid.appendChild(article);
             });
             
-            featuredSection.appendChild(grid);
-            main.appendChild(featuredSection);
+            section.appendChild(grid);
+            main.appendChild(section);
         }
         
+        // Load featured products
         function loadFeaturedProducts() {
             const main = document.querySelector('main');
+            if (!main) return;
             
-            // Create products section
-            const productsSection = document.createElement('div');
-            productsSection.style.marginTop = '40px';
-            productsSection.innerHTML = '<h2 style="margin-bottom: 20px;">Our Products</h2>';
-            
-            // Get random 4 products
-            const shuffled = [...products].sort(() => 0.5 - Math.random());
-            const featured = shuffled.slice(0, 4);
-            
-            // Create grid for products
-            const grid = document.createElement('div');
-            grid.style.cssText = 'display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;';
+            const section = createSection('Our Products');
+            const grid = createGrid();
+            const featured = getRandomProducts(4);
             
             featured.forEach(product => {
                 const article = document.createElement('article');
@@ -119,16 +115,17 @@
                 grid.appendChild(article);
             });
             
-            productsSection.appendChild(grid);
-            main.appendChild(productsSection);
+            section.appendChild(grid);
+            main.appendChild(section);
         }
         
+        // Load newsletter section
         function loadNewsletterSection() {
             const main = document.querySelector('main');
+            if (!main) return;
             
-            // Create newsletter section
-            const newsletterSection = document.createElement('div');
-            newsletterSection.style.marginTop = '40px';
+            const section = document.createElement('div');
+            section.style.marginTop = '40px';
             
             const article = document.createElement('article');
             article.style.textAlign = 'center';
@@ -141,19 +138,20 @@
                 </form>
             `;
             
-            newsletterSection.appendChild(article);
-            main.appendChild(newsletterSection);
-            
-            // Add form submission handler
-            document.getElementById('newsletterForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                const email = document.getElementById('newsletter-email').value;
-                alert('Thank you for subscribing with: ' + email);
-                this.reset();
-            });
+            section.appendChild(article);
+            main.appendChild(section);
         }
 
-        window.addEventListener('DOMContentLoaded', loadLatestBlog);
+        // Initialize home page
+        function initHomePage() {
+            loadLatestBlog();
+            loadFeaturedPosts();
+            loadFeaturedProducts();
+            loadNewsletterSection();
+        }
+
+        // Run on page load
+        window.addEventListener('DOMContentLoaded', initHomePage);
     </script>
 </body>
 </html>
