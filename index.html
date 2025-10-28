@@ -7,6 +7,7 @@
     <title>Garudhiya - Home</title>
     <link rel="stylesheet" href="assets/css/style.css">
     <script src="assets/js/blogs.js" defer></script>
+    <script src="assets/js/products.js" defer></script>
     <script src="assets/js/script.js" defer></script>
 </head>
 <body>
@@ -45,9 +46,111 @@
                     <a href="blog-details.html?id=${latestPost.id}">Read More</a>
                 `;
                 main.appendChild(article);
+                
+                // Add featured posts section
+                loadFeaturedPosts();
+                
+                // Add products section
+                loadFeaturedProducts();
+                
+                // Add newsletter section
+                loadNewsletterSection();
             } else {
                 main.innerHTML = '<article><h2>No blog posts available</h2><p>Check back soon for new content!</p></article>';
             }
+        }
+        
+        function loadFeaturedPosts() {
+            const main = document.querySelector('main');
+            
+            // Create featured section
+            const featuredSection = document.createElement('div');
+            featuredSection.style.marginTop = '40px';
+            featuredSection.innerHTML = '<h2 style="margin-bottom: 20px;">Featured Posts</h2>';
+            
+            // Get random 4 posts
+            const shuffled = [...posts].sort(() => 0.5 - Math.random());
+            const featured = shuffled.slice(0, 4);
+            
+            // Create grid for featured posts
+            const grid = document.createElement('div');
+            grid.style.cssText = 'display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;';
+            
+            featured.forEach(post => {
+                const article = document.createElement('article');
+                article.innerHTML = `
+                    <h3 style="font-size: 1.2em;">${post.title}</h3>
+                    <img src="${post.img}" alt="${post.title}" onerror="this.src='assets/images/placeholder.jpg'" style="height: 150px; object-fit: cover;">
+                    <p style="font-size: 0.9em;">${post.excerpt}</p>
+                    <a href="blog-details.html?id=${post.id}">Read More</a>
+                `;
+                grid.appendChild(article);
+            });
+            
+            featuredSection.appendChild(grid);
+            main.appendChild(featuredSection);
+        }
+        
+        function loadFeaturedProducts() {
+            const main = document.querySelector('main');
+            
+            // Create products section
+            const productsSection = document.createElement('div');
+            productsSection.style.marginTop = '40px';
+            productsSection.innerHTML = '<h2 style="margin-bottom: 20px;">Our Products</h2>';
+            
+            // Get random 4 products
+            const shuffled = [...products].sort(() => 0.5 - Math.random());
+            const featured = shuffled.slice(0, 4);
+            
+            // Create grid for products
+            const grid = document.createElement('div');
+            grid.style.cssText = 'display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;';
+            
+            featured.forEach(product => {
+                const article = document.createElement('article');
+                article.innerHTML = `
+                    <h3 style="font-size: 1.2em;">${product.name}</h3>
+                    <img src="${product.img}" alt="${product.name}" onerror="this.src='assets/images/placeholder.jpg'" style="height: 150px; object-fit: cover;">
+                    <p><strong>Category:</strong> ${product.category}</p>
+                    <p style="font-size: 0.9em;">${product.description}</p>
+                    <p><strong>Price:</strong> ${product.price}</p>
+                `;
+                grid.appendChild(article);
+            });
+            
+            productsSection.appendChild(grid);
+            main.appendChild(productsSection);
+        }
+        
+        function loadNewsletterSection() {
+            const main = document.querySelector('main');
+            
+            // Create newsletter section
+            const newsletterSection = document.createElement('div');
+            newsletterSection.style.marginTop = '40px';
+            
+            const article = document.createElement('article');
+            article.style.textAlign = 'center';
+            article.innerHTML = `
+                <h2>Subscribe to Our Newsletter</h2>
+                <p>Stay updated with our latest blog posts and product releases.</p>
+                <form id="newsletterForm" style="margin-top: 20px;">
+                    <input type="email" id="newsletter-email" placeholder="Enter your email" required style="padding: 10px; width: 300px; max-width: 100%; border: 1px solid #ddd; margin-right: 10px;">
+                    <button type="submit" style="padding: 10px 20px; background-color: #333; color: white; border: none; cursor: pointer;">Subscribe</button>
+                </form>
+            `;
+            
+            newsletterSection.appendChild(article);
+            main.appendChild(newsletterSection);
+            
+            // Add form submission handler
+            document.getElementById('newsletterForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = document.getElementById('newsletter-email').value;
+                alert('Thank you for subscribing with: ' + email);
+                this.reset();
+            });
         }
 
         window.addEventListener('DOMContentLoaded', loadLatestBlog);
