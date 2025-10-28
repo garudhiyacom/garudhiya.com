@@ -76,7 +76,7 @@
         </div>
         
         <div id="featuredProduct" class="featured-product-card">
-            <!-- Product will be loaded dynamically -->
+            <p style="text-align: center; color: var(--text-muted); padding: 2rem;">Loading product...</p>
         </div>
     </section>
 
@@ -87,7 +87,9 @@
             <a href="blog.html" class="section-link">View All Posts →</a>
         </div>
         
-        <div id="latestBlogPosts" class="blog-grid"></div>
+        <div id="latestBlogPosts" class="blog-grid">
+            <p style="text-align: center; color: var(--text-muted); padding: 2rem;">Loading stories...</p>
+        </div>
     </section>
 
     <!-- NEWSLETTER CTA -->
@@ -118,12 +120,78 @@
     © 2025 Garudhiya • All rights reserved
 </footer>
 
-<script src="assets/js/products-data.js"></script>
-<script src="assets/js/blog-data.js"></script>
+<!-- Inline data for testing -->
+<script>
+// Products data
+const PRODUCTS = [
+    {
+        id: 1,
+        name: "Garudhiya Energy Drink",
+        price: 4.99,
+        description: "A refreshing, low-calorie energy drink infused with Maldivian tuna, natural caffeine from curry leaves, and a hint of fihunu-mas minerals. Boosts focus, hydrates faster, and tastes like a crisp ocean breeze—perfect for early mornings, workouts, or long study sessions.",
+        shortDescription: "Low-calorie, tuna-infused, natural caffeine. The perfect boost for island life. Experience sustained energy from traditional Maldivian ingredients that have fueled generations.",
+        image: "https://images.unsplash.com/photo-1622543925917-763c34f6a3a8?w=800&q=80",
+        keywords: "garudhiya tuna caffeine energy boost maldivian",
+        date: "2025-10-25"
+    },
+    {
+        id: 2,
+        name: "Traditional Garudhiya Soup Mix",
+        price: 8.99,
+        description: "Authentic Maldivian fish soup blend with dried tuna, aromatic spices, and curry leaves. Just add hot water for a nutritious meal in minutes. Rich in protein and omega-3 fatty acids.",
+        shortDescription: "Traditional fish soup in convenient powder form. Complete nutrition from the islands.",
+        image: "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=800&q=80",
+        keywords: "garudhiya soup traditional maldivian fish",
+        date: "2025-10-20"
+    }
+];
+
+// Blogs data
+const BLOGS = [
+    {
+        id: 1,
+        title: "Behind the Scenes: Crafting Garudhiya Energy Drink",
+        excerpt: "A look at the production process from tuna harvest to canning.",
+        img: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&q=80",
+        date: "2025-10-25",
+        author: "Garudhiya Man",
+        content: `
+            <p>Ever wondered how we transform traditional island ingredients into a modern energy drink? Here's an exclusive look at our process.</p>
+            <h3>Tuna Harvesting</h3>
+            <p>We partner with sustainable Tuna farms in the North Atolls, where tuna is hand-harvested and processed at peak nutrient density. The tuna is dried within hours to preserve its mineral content.</p>
+        `
+    },
+    {
+        id: 2,
+        title: "The Health Benefits of Traditional Garudhiya",
+        excerpt: "Discover why this Maldivian fish soup has been a staple for generations.",
+        img: "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=800&q=80",
+        date: "2025-10-20",
+        author: "Garudhiya Man",
+        content: `
+            <p>Garudhiya, a traditional Maldivian fish soup, has been nourishing islanders for centuries.</p>
+        `
+    },
+    {
+        id: 3,
+        title: "Sustainable Fishing in the Maldives",
+        excerpt: "How we maintain ocean health while harvesting premium tuna.",
+        img: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&q=80",
+        date: "2025-10-15",
+        author: "Garudhiya Man",
+        content: `
+            <p>Sustainability isn't just a buzzword for us—it's a way of life.</p>
+        `
+    }
+];
+
+console.log('Data loaded:', { PRODUCTS, BLOGS });
+</script>
 <script src="assets/js/script.js"></script>
 <script>
 // Load featured product and blog posts on homepage
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM loaded');
     loadFeaturedProduct();
     loadLatestBlogPosts();
     initGlobalSearch();
@@ -131,9 +199,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function loadFeaturedProduct() {
     const productContainer = document.getElementById('featuredProduct');
-    if (!productContainer || !window.PRODUCTS || PRODUCTS.length === 0) return;
+    
+    if (!productContainer) {
+        console.error('featuredProduct container not found');
+        return;
+    }
+    
+    if (!window.PRODUCTS || PRODUCTS.length === 0) {
+        console.error('PRODUCTS not available');
+        productContainer.innerHTML = '<p style="text-align: center; color: var(--text-muted); padding: 2rem;">Products coming soon!</p>';
+        return;
+    }
 
-    // Sort products by date (newest first)
     const sortedProducts = [...PRODUCTS].sort((a, b) => new Date(b.date) - new Date(a.date));
     const featuredProduct = sortedProducts[0];
     
@@ -155,20 +232,57 @@ function loadFeaturedProduct() {
         </div>
     `;
     
-    initLazyImages();
+    if (typeof initLazyImages === 'function') {
+        initLazyImages();
+    }
 }
 
 function loadLatestBlogPosts() {
     const blogContainer = document.getElementById('latestBlogPosts');
-    if (!blogContainer || !window.BLOGS) return;
+    
+    if (!blogContainer) {
+        console.error('latestBlogPosts container not found');
+        return;
+    }
+    
+    if (!window.BLOGS || BLOGS.length === 0) {
+        console.error('BLOGS not available');
+        blogContainer.innerHTML = '<p style="text-align: center; color: var(--text-muted); padding: 2rem;">Blog posts coming soon!</p>';
+        return;
+    }
 
-    // Sort blogs by date (newest first)
     const sortedBlogs = [...BLOGS].sort((a, b) => {
         const dateCompare = new Date(b.date) - new Date(a.date);
         return dateCompare !== 0 ? dateCompare : b.id - a.id;
     });
 
-    renderBlogPosts(sortedBlogs, blogContainer, { limit: 3 });
+    const latestPosts = sortedBlogs.slice(0, 3);
+    blogContainer.innerHTML = '';
+    
+    latestPosts.forEach(post => {
+        const article = document.createElement('article');
+        article.className = 'card blog-card';
+
+        article.innerHTML = `
+            <img data-src="${post.img}"
+                 alt="${post.title}"
+                 class="blog-image"
+                 loading="lazy">
+
+            <div class="blog-content">
+                <p class="blog-meta">${post.author} • ${new Date(post.date).toLocaleDateString()}</p>
+                <h3 class="blog-title">${post.title}</h3>
+                <p class="blog-excerpt">${post.excerpt}</p>
+                <a href="blog-detail.html?id=${post.id}" class="read-more">Read More →</a>
+            </div>
+        `;
+        
+        blogContainer.appendChild(article);
+    });
+    
+    if (typeof initLazyImages === 'function') {
+        initLazyImages();
+    }
 }
 
 function initGlobalSearch() {
@@ -181,7 +295,6 @@ function initGlobalSearch() {
         clearTimeout(searchTimeout);
         searchTimeout = setTimeout(() => {
             const query = e.target.value.toLowerCase().trim();
-            
             if (query.length < 2) return;
 
             const blogResults = BLOGS.filter(post => 
