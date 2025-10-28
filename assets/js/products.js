@@ -4,7 +4,7 @@ const products = [
         name: "Premium Wireless Headphones",
         description: "High-quality wireless headphones with noise cancellation and superior sound quality.",
         price: "$199.99",
-        img: "assets/images/product1.jpg",
+        img: "assets/images/garudhiya-energy-drink.png",
         category: "Electronics"
     },
     {
@@ -12,7 +12,7 @@ const products = [
         name: "Smart Fitness Watch",
         description: "Track your health and fitness goals with this advanced smartwatch featuring heart rate monitoring.",
         price: "$149.99",
-        img: "assets/images/product2.jpg",
+        img: "assets/images/garudhiya-energy-drink.png",
         category: "Wearables"
     },
     {
@@ -20,7 +20,7 @@ const products = [
         name: "Portable Bluetooth Speaker",
         description: "Compact and powerful speaker with 12-hour battery life and waterproof design.",
         price: "$79.99",
-        img: "assets/images/product3.jpg",
+        img: "assets/images/garudhiya-energy-drink.png",
         category: "Audio"
     },
     {
@@ -28,7 +28,7 @@ const products = [
         name: "Laptoper Stand",
         description: "Ergonomic aluminum laptop stand for improved posture and comfort during work.",
         price: "$49.99",
-        img: "assets/images/product4.jpg",
+        img: "assets/images/garudhiya-energy-drink.png",
         category: "Accessories"
     },
     {
@@ -36,7 +36,7 @@ const products = [
         name: "Wireless Keyboard & Mouse",
         description: "Sleek wireless keyboard and mouse combo with long battery life and comfortable typing experience.",
         price: "$89.99",
-        img: "assets/images/product5.jpg",
+        img: "assets/images/garudhiya-energy-drink.png",
         category: "Accessories"
     },
     {
@@ -44,7 +44,7 @@ const products = [
         name: "4K Webcam",
         description: "Professional-grade 4K webcam with auto-focus and built-in microphone for crystal-clear video calls.",
         price: "$129.99",
-        img: "assets/images/product6.jpg",
+        img: "assets/images/garudhiya-energy-drink.png",
         category: "Electronics"
     }
 ];
