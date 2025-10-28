@@ -2,6 +2,10 @@
 // BLOG PAGE FUNCTIONS
 // ========================================
 
+// Current page state
+let currentPage = 1;
+const postsPerPage = 12;
+
 // Create blog card HTML
 function createBlogCard(post) {
     return `
@@ -13,8 +17,33 @@ function createBlogCard(post) {
     `;
 }
 
-// Load all blog cards on blog.html
-function loadBlogCards() {
+// Create pagination HTML
+function createPagination(currentPage, totalPages) {
+    let html = '<div class="pagination" style="display: flex; justify-content: center; gap: 10px; margin-top: 30px; flex-wrap: wrap;">';
+    
+    // Previous button
+    if (currentPage > 1) {
+        html += `<button onclick="goToPage(${currentPage - 1})" style="padding: 10px 15px; background-color: #333; color: white; border: none; cursor: pointer;">← Previous</button>`;
+    }
+    
+    // Page numbers
+    for (let i = 1; i <= totalPages; i++) {
+        const isActive = i === currentPage;
+        const bgColor = isActive ? '#555' : '#333';
+        html += `<button onclick="goToPage(${i})" style="padding: 10px 15px; background-color: ${bgColor}; color: white; border: none; cursor: pointer;">${i}</button>`;
+    }
+    
+    // Next button
+    if (currentPage < totalPages) {
+        html += `<button onclick="goToPage(${currentPage + 1})" style="padding: 10px 15px; background-color: #333; color: white; border: none; cursor: pointer;">Next →</button>`;
+    }
+    
+    html += '</div>';
+    return html;
+}
+
+// Load blog cards for specific page
+function loadBlogCards(page = 1) {
     const main = document.querySelector('main');
     if (!main) return;
     
@@ -23,11 +52,34 @@ function loadBlogCards() {
         return;
     }
     
-    posts.forEach(post => {
+    currentPage = page;
+    main.innerHTML = ''; // Clear existing content
+    
+    // Get posts for current page
+    const paginatedPosts = getPaginatedPosts(currentPage, postsPerPage);
+    
+    // Add each post
+    paginatedPosts.forEach(post => {
         const article = document.createElement('article');
         article.innerHTML = createBlogCard(post);
         main.appendChild(article);
     });
+    
+    // Add pagination
+    const totalPages = getTotalPages(postsPerPage);
+    if (totalPages > 1) {
+        const paginationDiv = document.createElement('div');
+        paginationDiv.innerHTML = createPagination(currentPage, totalPages);
+        main.appendChild(paginationDiv);
+    }
+    
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Navigate to specific page
+function goToPage(page) {
+    loadBlogCards(page);
 }
 
 // ========================================
