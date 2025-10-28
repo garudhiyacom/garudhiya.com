@@ -51,5 +51,22 @@ const BLOGS = [
             <h3>Ocean Conservation</h3>
             <p>A portion of every sale goes toward marine protection initiatives.</p>
         `
+    },
+    {
+        id: 4,
+        title: "Sustainable Fishing in the Maldives",
+        excerpt: "How we maintain ocean health while harvesting premium tuna.",
+        img: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&q=80",
+        date: "2025-10-15",
+        author: "Garudhiya Man",
+        content: `
+            <p>Sustainability isn't just a buzzword for us—it's a way of life that ensures future generations can enjoy the ocean's bounty.</p>
+            <h3>Pole and Line Fishing</h3>
+            <p>We use traditional methods that minimize bycatch and protect marine ecosystems.</p>
+            <h3>Local Partnerships</h3>
+            <p>Working with island communities ensures fair wages and preserves traditional knowledge.</p>
+            <h3>Ocean Conservation</h3>
+            <p>A portion of every sale goes toward marine protection initiatives.</p>
+        `
     }
 ];
