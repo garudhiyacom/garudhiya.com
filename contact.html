@@ -2,88 +2,28 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Get in touch with Garudhiya. We'd love to hear from you.">
-    <title>Garudhiya — Contact Us</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Garudhiya</title>
     <link rel="stylesheet" href="assets/css/style.css">
+    <script src="assets/js/script.js" defer></script>
 </head>
 <body>
-
-<a href="#main-content" class="skip-link">Skip to main content</a>
-
-<header class="site-header">
-    <div class="header-container">
-        <a href="index.html" class="logo-link" aria-label="Garudhiya Home">
-            <h1 class="logo">Garudhiya</h1>
-        </a>
-
-        <div class="hamburger" aria-label="Toggle navigation" role="button" tabindex="0" aria-expanded="false">
-            <span></span><span></span><span></span>
-        </div>
-
-        <nav class="site-nav" aria-label="Main navigation">
-            <a href="index.html" class="nav-link">Home</a>
-            <a href="products.html" class="nav-link">Products</a>
-            <a href="blog.html" class="nav-link">Blog</a>
-            <a href="contact.html" class="nav-link active">Contact</a>
+    <header>
+        <h1>Garudhiya</h1>
+        <nav>
+            <input type="search" placeholder="Search...">
+            <a href="index.html">Home</a>
+            <a href="products.html">Products</a>
+            <a href="blog.html">Blog</a>
+            <a href="contact.html">Contact</a>
         </nav>
-    </div>
-</header>
+    </header>
 
-<main class="main-content" id="main-content">
-    <section class="contact-section">
-        <h2 class="text-center mt-2 mb-2">Contact Us</h2>
-        <p class="text-center" style="color: var(--text-muted); margin-bottom: 3rem; max-width: 500px; margin-left: auto; margin-right: auto;">
-            Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
-        </p>
-        
-        <form id="contactForm" class="contact-form" novalidate aria-label="Contact form">
-            <input type="hidden" name="_subject" value="New message from garudhiya.com">
-            
-            <div class="form-group">
-                <input type="text" 
-                       id="name" 
-                       name="name" 
-                       placeholder=" " 
-                       required
-                       aria-describedby="name-error">
-                <label for="name">Your name</label>
-                <p class="error-msg" id="name-error" role="alert">Please enter your name.</p>
-            </div>
-            
-            <div class="form-group">
-                <input type="email" 
-                       id="email" 
-                       name="email" 
-                       placeholder=" " 
-                       required
-                       aria-describedby="email-error">
-                <label for="email">Your email</label>
-                <p class="error-msg" id="email-error" role="alert">Enter a valid email address.</p>
-            </div>
-            
-            <div class="form-group">
-                <textarea id="message" 
-                          name="message" 
-                          rows="5" 
-                          placeholder=" " 
-                          required
-                          aria-describedby="message-error"></textarea>
-                <label for="message">Your message</label>
-                <p class="error-msg" id="message-error" role="alert">Message cannot be empty.</p>
-            </div>
-            
-            <button type="submit" class="btn btn-primary">Send Message</button>
-        </form>
-        
-        <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
-    </section>
-</main>
+    <main>
+    </main>
 
-<footer class="site-footer">
-    © 2025 Garudhiya • All rights reserved
-</footer>
-
-<script src="assets/js/script.js"></script>
+    <footer>
+        <p>&copy; Garudhiya · All Rights Reserved</p>
+    </footer>
 </body>
 </html>
