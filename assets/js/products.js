@@ -187,11 +187,11 @@ const productsPerPage = 12;
 // Create product card HTML
 function createProductCard(product) {
     return `
-        <h2>${product.name}</h2>
         <img src="${product.img}" alt="${product.name}" onerror="this.src='assets/images/placeholder.jpg'">
-        <p><strong>Category:</strong> ${product.category}</p>
+        <h2>${product.name}</h2>
+        <p><strong>${product.price}</strong></p>
+        <p><small>Category: ${product.category}</small></p>
         <p>${product.description}</p>
-        <p><strong>Price:</strong> ${product.price}</p>
     `;
 }
 
@@ -226,12 +226,16 @@ function loadProductCards(page = 1) {
     if (!main) return;
     
     if (!products || products.length === 0) {
-        main.innerHTML = '<article><h2>No products available</h2><p>Check back soon for new products!</p></article>';
+        main.innerHTML = '<article class="message"><h2>No products available</h2><p>Check back soon for new products!</p></article>';
         return;
     }
     
     currentProductPage = page;
     main.innerHTML = ''; // Clear existing content
+    
+    // Create grid container
+    const gridContainer = document.createElement('div');
+    gridContainer.className = 'card-grid';
     
     // Get products for current page
     const paginatedProducts = getPaginatedProducts(currentProductPage, productsPerPage);
@@ -240,8 +244,10 @@ function loadProductCards(page = 1) {
     paginatedProducts.forEach(product => {
         const article = document.createElement('article');
         article.innerHTML = createProductCard(product);
-        main.appendChild(article);
+        gridContainer.appendChild(article);
     });
+    
+    main.appendChild(gridContainer);
     
     // Add pagination
     const totalPages = getTotalProductPages(productsPerPage);
