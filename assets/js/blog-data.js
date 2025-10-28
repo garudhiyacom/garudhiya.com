@@ -34,9 +34,9 @@ function loadBlogDetails() {
 }
 
 if (window.location.pathname.includes('blog.html')) {
-    loadBlogCards();
+    window.addEventListener('DOMContentLoaded', loadBlogCards);
 }
 
 if (window.location.pathname.includes('blog-details.html')) {
-    loadBlogDetails();
+    window.addEventListener('DOMContentLoaded', loadBlogDetails);
 }
