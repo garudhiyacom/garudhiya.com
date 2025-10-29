@@ -150,41 +150,30 @@ const products = [
 ];
 
 // ========================================
-// PRODUCT UTILITY FUNCTIONS
+// UTILITY FUNCTIONS
 // ========================================
 
-// Get product by ID
-function getProductById(id) {
-    return products.find(product => product.id === parseInt(id));
-}
-
-// Get random products
 function getRandomProducts(count = 4) {
     const shuffled = [...products].sort(() => 0.5 - Math.random());
     return shuffled.slice(0, Math.min(count, products.length));
 }
 
-// Get paginated products
-function getPaginatedProducts(page = 1, productsPerPage = 12) {
-    const startIndex = (page - 1) * productsPerPage;
-    const endIndex = startIndex + productsPerPage;
-    return products.slice(startIndex, endIndex);
+function getPaginatedProducts(page = 1, perPage = 12) {
+    const start = (page - 1) * perPage;
+    return products.slice(start, start + perPage);
 }
 
-// Get total pages for products
-function getTotalProductPages(productsPerPage = 12) {
-    return Math.ceil(products.length / productsPerPage);
+function getTotalProductPages(perPage = 12) {
+    return Math.ceil(products.length / perPage);
 }
 
 // ========================================
-// PRODUCT PAGE FUNCTIONS
+// PRODUCTS PAGE
 // ========================================
 
-// Current page state
 let currentProductPage = 1;
 const productsPerPage = 12;
 
-// Create product card HTML
 function createProductCard(product) {
     return `
         <img src="${product.img}" alt="${product.name}" onerror="this.src='assets/images/placeholder.jpg'">
@@ -195,61 +184,48 @@ function createProductCard(product) {
     `;
 }
 
-// Create product pagination HTML
 function createProductPagination(currentPage, totalPages) {
-    let html = '<div class="pagination" style="display: flex; justify-content: center; gap: 10px; margin-top: 30px; flex-wrap: wrap;">';
+    let html = '<div class="pagination">';
     
-    // Previous button
     if (currentPage > 1) {
-        html += `<button onclick="goToProductPage(${currentPage - 1})" style="padding: 10px 15px; background-color: #333; color: white; border: none; cursor: pointer;">← Previous</button>`;
+        html += `<button onclick="goToProductPage(${currentPage - 1})">← Previous</button>`;
     }
     
-    // Page numbers
     for (let i = 1; i <= totalPages; i++) {
-        const isActive = i === currentPage;
-        const bgColor = isActive ? '#555' : '#333';
-        html += `<button onclick="goToProductPage(${i})" style="padding: 10px 15px; background-color: ${bgColor}; color: white; border: none; cursor: pointer;">${i}</button>`;
+        const activeStyle = i === currentPage ? ' style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"' : '';
+        html += `<button onclick="goToProductPage(${i})"${activeStyle}>${i}</button>`;
     }
     
-    // Next button
     if (currentPage < totalPages) {
-        html += `<button onclick="goToProductPage(${currentPage + 1})" style="padding: 10px 15px; background-color: #333; color: white; border: none; cursor: pointer;">Next →</button>`;
+        html += `<button onclick="goToProductPage(${currentPage + 1})">Next →</button>`;
     }
     
     html += '</div>';
     return html;
 }
 
-// Load product cards for specific page
 function loadProductCards(page = 1) {
     const main = document.querySelector('main');
-    if (!main) return;
-    
-    if (!products || products.length === 0) {
-        main.innerHTML = '<article class="message"><h2>No products available</h2><p>Check back soon for new products!</p></article>';
+    if (!main || !products || products.length === 0) {
+        main.innerHTML = '<article class="message"><h2>No products available</h2><p>Check back soon!</p></article>';
         return;
     }
     
     currentProductPage = page;
-    main.innerHTML = ''; // Clear existing content
+    main.innerHTML = '';
     
-    // Create grid container
-    const gridContainer = document.createElement('div');
-    gridContainer.className = 'card-grid';
+    const grid = document.createElement('div');
+    grid.className = 'card-grid';
     
-    // Get products for current page
     const paginatedProducts = getPaginatedProducts(currentProductPage, productsPerPage);
-    
-    // Add each product
     paginatedProducts.forEach(product => {
         const article = document.createElement('article');
         article.innerHTML = createProductCard(product);
-        gridContainer.appendChild(article);
+        grid.appendChild(article);
     });
     
-    main.appendChild(gridContainer);
+    main.appendChild(grid);
     
-    // Add pagination
     const totalPages = getTotalProductPages(productsPerPage);
     if (totalPages > 1) {
         const paginationDiv = document.createElement('div');
@@ -257,25 +233,19 @@ function loadProductCards(page = 1) {
         main.appendChild(paginationDiv);
     }
     
-    // Scroll to top
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Navigate to specific product page
 function goToProductPage(page) {
     loadProductCards(page);
 }
 
 // ========================================
-// PAGE INITIALIZATION
+// INITIALIZE
 // ========================================
 
-// Initialize products page
-function initProductsPage() {
+document.addEventListener('DOMContentLoaded', function() {
     if (window.location.pathname.includes('products.html')) {
         loadProductCards();
     }
-}
-
-// Run on page load
-document.addEventListener('DOMContentLoaded', initProductsPage);
+});
