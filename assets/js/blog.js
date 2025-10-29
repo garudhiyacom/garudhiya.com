@@ -1,169 +1,183 @@
-// Blog posts data
+// Blog posts data with full details
 const blogPosts = [
     {
         id: 1,
         title: "Getting Started with Garudhiya",
         date: "October 25, 2025",
+        author: "John Doe",
         excerpt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
         image: "https://via.placeholder.com/400x250",
-        link: "#"
+        imageDetail: "https://via.placeholder.com/800x400",
+        content: `
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            
+            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            
+            <h3>Key Points to Remember</h3>
+            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+            
+            <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
+            
+            <h3>Conclusion</h3>
+            <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
+        `
     },
     {
         id: 2,
         title: "5 Tips for Better Results",
         date: "October 20, 2025",
+        author: "Jane Smith",
         excerpt: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
         image: "https://via.placeholder.com/400x250",
-        link: "#"
+        imageDetail: "https://via.placeholder.com/800x400",
+        content: `
+            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+            
+            <h3>Tip 1: Stay Consistent</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            
+            <h3>Tip 2: Plan Ahead</h3>
+            <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            
+            <h3>Tip 3: Track Your Progress</h3>
+            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</p>
+            
+            <h3>Tip 4: Stay Flexible</h3>
+            <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores.</p>
+            
+            <h3>Tip 5: Never Give Up</h3>
+            <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.</p>
+        `
     },
     {
         id: 3,
         title: "Understanding Our Products",
         date: "October 15, 2025",
+        author: "Mike Johnson",
         excerpt: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
         image: "https://via.placeholder.com/400x250",
-        link: "#"
+        imageDetail: "https://via.placeholder.com/800x400",
+        content: `
+            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            
+            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis.</p>
+            
+            <h3>Product Features</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            
+            <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
+        `
     },
     {
         id: 4,
         title: "Customer Success Stories",
         date: "October 10, 2025",
+        author: "Sarah Williams",
         excerpt: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
         image: "https://via.placeholder.com/400x250",
-        link: "#"
+        imageDetail: "https://via.placeholder.com/800x400",
+        content: `
+            <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</p>
+            
+            <h3>Success Story 1</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            
+            <h3>Success Story 2</h3>
+            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            
+            <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.</p>
+        `
     },
     {
         id: 5,
         title: "Behind the Scenes at Garudhiya",
         date: "October 5, 2025",
+        author: "David Brown",
         excerpt: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.",
         image: "https://via.placeholder.com/400x250",
-        link: "#"
+        imageDetail: "https://via.placeholder.com/800x400",
+        content: `
+            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+            
+            <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
+            
+            <h3>Our Process</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            
+            <h3>The Team</h3>
+            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        `
     },
     {
         id: 6,
         title: "What's New This Month",
         date: "September 30, 2025",
+        author: "Emily Davis",
         excerpt: "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores.",
         image: "https://via.placeholder.com/400x250",
-        link: "#"
+        imageDetail: "https://via.placeholder.com/800x400",
+        content: `
+            <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
+            
+            <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
+            
+            <h3>New Features</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            
+            <h3>Updates</h3>
+            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+        `
     },
     {
         id: 7,
         title: "Industry Trends to Watch",
         date: "September 25, 2025",
+        author: "Robert Taylor",
         excerpt: "Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.",
         image: "https://via.placeholder.com/400x250",
-        link: "#"
+        imageDetail: "https://via.placeholder.com/800x400",
+        content: `
+            <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
+            
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            
+            <h3>Emerging Trends</h3>
+            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        `
     },
     {
         id: 8,
         title: "How to Maximize Your Experience",
         date: "September 20, 2025",
+        author: "Lisa Anderson",
         excerpt: "Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
         image: "https://via.placeholder.com/400x250",
-        link: "#"
+        imageDetail: "https://via.placeholder.com/800x400",
+        content: `
+            <p>Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur.</p>
+            
+            <h3>Maximization Strategies</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            
+            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        `
     },
     {
         id: 9,
         title: "Meet Our Team",
         date: "September 15, 2025",
+        author: "Chris Martin",
         excerpt: "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque.",
         image: "https://via.placeholder.com/400x250",
-        link: "#"
+        imageDetail: "https://via.placeholder.com/800x400",
+        content: `
+            <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.</p>
+            
+            <h3>Our Leadership</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            
+            <h3>Team Values</h3>
+            <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores.</p>
+        `
     }
 ];
-
-// Pagination settings
-const postsPerPage = 6;
-let currentPage = 1;
-
-// Load blog posts
-function loadBlogPosts(page = 1) {
-    const blogGrid = document.querySelector('.blog-grid');
-    if (!blogGrid) return;
-
-    const startIndex = (page - 1) * postsPerPage;
-    const endIndex = startIndex + postsPerPage;
-    const postsToShow = blogPosts.slice(startIndex, endIndex);
-
-    blogGrid.innerHTML = '';
-
-    postsToShow.forEach(post => {
-        const postHTML = `
-            <article class="blog-post">
-                <div class="post-image">
-                    <img src="${post.image}" alt="${post.title}">
-                </div>
-                <div class="post-content">
-                    <span class="post-date">${post.date}</span>
-                    <h2>${post.title}</h2>
-                    <p>${post.excerpt}</p>
-                    <a href="${post.link}" class="read-more">Read More →</a>
-                </div>
-            </article>
-        `;
-        blogGrid.innerHTML += postHTML;
-    });
-
-    updatePagination(page);
-}
-
-// Update pagination
-function updatePagination(page) {
-    const totalPages = Math.ceil(blogPosts.length / postsPerPage);
-    const pagination = document.querySelector('.pagination');
-    if (!pagination) return;
-
-    pagination.innerHTML = '';
-
-    // Previous button
-    const prevLink = document.createElement('a');
-    prevLink.href = '#';
-    prevLink.className = `page-link ${page === 1 ? 'disabled' : ''}`;
-    prevLink.textContent = '« Previous';
-    prevLink.addEventListener('click', (e) => {
-        e.preventDefault();
-        if (page > 1) {
-            currentPage = page - 1;
-            loadBlogPosts(currentPage);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-    });
-    pagination.appendChild(prevLink);
-
-    // Page numbers
-    for (let i = 1; i <= totalPages; i++) {
-        const pageLink = document.createElement('a');
-        pageLink.href = '#';
-        pageLink.className = `page-link ${i === page ? 'active' : ''}`;
-        pageLink.textContent = i;
-        pageLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            currentPage = i;
-            loadBlogPosts(currentPage);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-        pagination.appendChild(pageLink);
-    }
-
-    // Next button
-    const nextLink = document.createElement('a');
-    nextLink.href = '#';
-    nextLink.className = `page-link ${page === totalPages ? 'disabled' : ''}`;
-    nextLink.textContent = 'Next »';
-    nextLink.addEventListener('click', (e) => {
-        e.preventDefault();
-        if (page < totalPages) {
-            currentPage = page + 1;
-            loadBlogPosts(currentPage);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-    });
-    pagination.appendChild(nextLink);
-}
-
-// Initialize on page load
-document.addEventListener('DOMContentLoaded', () => {
-    loadBlogPosts(currentPage);
-});
