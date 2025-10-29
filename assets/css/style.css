@@ -83,8 +83,7 @@ nav a {
 
 nav a:hover {
     background: rgba(255, 255, 255, 0.15);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* ========================================
@@ -125,8 +124,7 @@ article {
 }
 
 article:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
     border-color: #dee2e6;
 }
 
@@ -225,11 +223,21 @@ article.single h2 {
     letter-spacing: -1px;
 }
 
+article.single h3 {
+    padding: 0 0 16px 0;
+    font-size: 1.3em;
+}
+
 article.single p {
     padding: 0 0 20px 0;
     color: #495057;
     font-size: 1.05em;
     line-height: 1.7;
+}
+
+article.single p small {
+    color: #6c757d;
+    font-size: 0.9em;
 }
 
 article.single div {
@@ -243,11 +251,11 @@ article.single a {
     margin-top: 32px;
     padding: 14px 28px;
     border-radius: 10px;
-    background: #2c3e50;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
 article.single a:hover {
-    background: #34495e;
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
 }
 
 /* Error and message articles */
@@ -293,6 +301,8 @@ textarea {
     border-radius: 10px;
     border: 2px solid #e9ecef;
     transition: all 0.3s ease;
+    padding: 12px 16px;
+    font-size: 14px;
 }
 
 input[type="email"]:focus,
@@ -308,22 +318,79 @@ button {
     border-radius: 10px;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     font-weight: 600;
+    padding: 12px 24px;
+    border: none;
 }
 
 button:hover {
-    transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 button:active {
-    transform: translateY(0);
+    transform: scale(0.98);
+}
+
+/* Newsletter form specific styles */
+#newsletterForm {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
+}
+
+#newsletterForm input[type="email"] {
+    width: 320px;
+    max-width: 100%;
+}
+
+#newsletterForm button {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+#newsletterForm button:hover {
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
+
+/* Contact form styles */
+#contactForm label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #1a1a1a;
+}
+
+#contactForm input,
+#contactForm textarea {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+#contactForm button {
+    width: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+#contactForm button:hover {
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
+
+/* Pagination buttons */
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 30px;
+    flex-wrap: wrap;
 }
 
 .pagination button {
     background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-    border: none;
     color: white;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px 15px;
 }
 
 .pagination button:hover {
