@@ -3,29 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Browse our quality products at Garudhiya">
     <title>Garudhiya - Products</title>
-    <link rel="stylesheet" href="assets/css/style.css">
-    <script src="assets/js/products.js" defer></script>
-    <script src="assets/js/script.js" defer></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
-        <h1>Garudhiya</h1>
-        <nav>
-            <input type="search" placeholder="Search...">
-            <a href="index.html">Home</a>
-            <a href="products.html">Products</a>
-            <a href="blog.html">Blog</a>
-            <a href="contact.html">Contact</a>
+        <nav class="container">
+            <div class="logo">Garudhiya</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html" class="active">Products</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
         </nav>
     </header>
 
-    <main>
+    <main class="container">
+        <h1>Our Products</h1>
     </main>
 
     <footer>
-        <p>&copy; 2025 Garudhiya &middot; All Rights Reserved</p>
+        <div class="container">
+            <p>&copy; 2025 Garudhiya. All rights reserved.</p>
+        </div>
     </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
