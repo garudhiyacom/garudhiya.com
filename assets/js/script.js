@@ -15,16 +15,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Blog page functionality
 function initBlogPage() {
-    const postsPerPage = 6;
+    const postsPerPage = 9;
     let currentPage = 1;
     
     function loadBlogPosts(page = 1) {
         const blogGrid = document.querySelector('.blog-grid');
         if (!blogGrid || typeof blogPosts === 'undefined') return;
 
+        // Sort posts by date (newest first)
+        const sortedPosts = [...blogPosts].sort((a, b) => {
+            return new Date(b.date) - new Date(a.date);
+        });
+
         const startIndex = (page - 1) * postsPerPage;
         const endIndex = startIndex + postsPerPage;
-        const postsToShow = blogPosts.slice(startIndex, endIndex);
+        const postsToShow = sortedPosts.slice(startIndex, endIndex);
 
         blogGrid.innerHTML = '';
 
