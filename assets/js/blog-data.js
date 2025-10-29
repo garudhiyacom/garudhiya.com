@@ -1,12 +1,10 @@
 // ========================================
-// BLOG PAGE FUNCTIONS
+// BLOG PAGE - LIST VIEW
 // ========================================
 
-// Current page state
 let currentPage = 1;
 const postsPerPage = 12;
 
-// Create blog card HTML
 function createBlogCard(post) {
     return `
         <img src="${post.img}" alt="${post.title}" onerror="this.src='assets/images/placeholder.jpg'">
@@ -17,61 +15,48 @@ function createBlogCard(post) {
     `;
 }
 
-// Create pagination HTML
 function createPagination(currentPage, totalPages) {
-    let html = '<div class="pagination" style="display: flex; justify-content: center; gap: 10px; margin-top: 30px; flex-wrap: wrap;">';
+    let html = '<div class="pagination">';
     
-    // Previous button
     if (currentPage > 1) {
-        html += `<button onclick="goToPage(${currentPage - 1})" style="padding: 10px 15px; background-color: #333; color: white; border: none; cursor: pointer;">← Previous</button>`;
+        html += `<button onclick="goToPage(${currentPage - 1})">← Previous</button>`;
     }
     
-    // Page numbers
     for (let i = 1; i <= totalPages; i++) {
-        const isActive = i === currentPage;
-        const bgColor = isActive ? '#555' : '#333';
-        html += `<button onclick="goToPage(${i})" style="padding: 10px 15px; background-color: ${bgColor}; color: white; border: none; cursor: pointer;">${i}</button>`;
+        const activeStyle = i === currentPage ? ' style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"' : '';
+        html += `<button onclick="goToPage(${i})"${activeStyle}>${i}</button>`;
     }
     
-    // Next button
     if (currentPage < totalPages) {
-        html += `<button onclick="goToPage(${currentPage + 1})" style="padding: 10px 15px; background-color: #333; color: white; border: none; cursor: pointer;">Next →</button>`;
+        html += `<button onclick="goToPage(${currentPage + 1})">Next →</button>`;
     }
     
     html += '</div>';
     return html;
 }
 
-// Load blog cards for specific page
 function loadBlogCards(page = 1) {
     const main = document.querySelector('main');
-    if (!main) return;
-    
-    if (!posts || posts.length === 0) {
-        main.innerHTML = '<article class="message"><h2>No blog posts available</h2><p>Check back soon for new content!</p></article>';
+    if (!main || !posts || posts.length === 0) {
+        main.innerHTML = '<article class="message"><h2>No blog posts available</h2><p>Check back soon!</p></article>';
         return;
     }
     
     currentPage = page;
-    main.innerHTML = ''; // Clear existing content
+    main.innerHTML = '';
     
-    // Create grid container
-    const gridContainer = document.createElement('div');
-    gridContainer.className = 'card-grid';
+    const grid = document.createElement('div');
+    grid.className = 'card-grid';
     
-    // Get posts for current page
     const paginatedPosts = getPaginatedPosts(currentPage, postsPerPage);
-    
-    // Add each post
     paginatedPosts.forEach(post => {
         const article = document.createElement('article');
         article.innerHTML = createBlogCard(post);
-        gridContainer.appendChild(article);
+        grid.appendChild(article);
     });
     
-    main.appendChild(gridContainer);
+    main.appendChild(grid);
     
-    // Add pagination
     const totalPages = getTotalPages(postsPerPage);
     if (totalPages > 1) {
         const paginationDiv = document.createElement('div');
@@ -79,44 +64,17 @@ function loadBlogCards(page = 1) {
         main.appendChild(paginationDiv);
     }
     
-    // Scroll to top
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Navigate to specific page
 function goToPage(page) {
     loadBlogCards(page);
 }
 
 // ========================================
-// BLOG DETAILS PAGE FUNCTIONS
+// BLOG DETAILS PAGE - SINGLE VIEW
 // ========================================
 
-// Create blog details HTML
-function createBlogDetails(post) {
-    return `
-        <article class="single">
-            <h2>${post.title}</h2>
-            <img src="${post.img}" alt="${post.title}" onerror="this.src='assets/images/placeholder.jpg'">
-            <p>By ${post.author} on ${post.date}</p>
-            <div style="white-space: pre-line;">${post.content}</div>
-            <a href="blog.html" style="margin-top: 20px;">← Back to Blog</a>
-        </article>
-    `;
-}
-
-// Display error message
-function displayBlogError(message) {
-    return `
-        <article class="message">
-            <h2>Error</h2>
-            <p>${message}</p>
-            <a href="blog.html">← Back to Blog</a>
-        </article>
-    `;
-}
-
-// Load blog details on blog-details.html
 function loadBlogDetails() {
     const main = document.querySelector('main');
     if (!main) return;
@@ -125,26 +83,33 @@ function loadBlogDetails() {
     const postId = urlParams.get('id');
     
     if (!postId) {
-        main.innerHTML = displayBlogError('No blog post ID provided');
+        main.innerHTML = '<article class="message"><h2>Error</h2><p>No blog post ID provided</p><a href="blog.html">← Back to Blog</a></article>';
         return;
     }
     
     const post = getPostById(postId);
     
     if (post) {
-        main.innerHTML = createBlogDetails(post);
+        main.innerHTML = `
+            <article class="single">
+                <h2>${post.title}</h2>
+                <img src="${post.img}" alt="${post.title}" onerror="this.src='assets/images/placeholder.jpg'">
+                <p>By ${post.author} on ${post.date}</p>
+                <div>${post.content}</div>
+                <a href="blog.html">← Back to Blog</a>
+            </article>
+        `;
         document.title = `Garudhiya - ${post.title}`;
     } else {
-        main.innerHTML = displayBlogError('Blog post not found');
+        main.innerHTML = '<article class="message"><h2>Error</h2><p>Blog post not found</p><a href="blog.html">← Back to Blog</a></article>';
     }
 }
 
 // ========================================
-// PAGE INITIALIZATION
+// INITIALIZE
 // ========================================
 
-// Initialize based on current page
-function initBlogPage() {
+document.addEventListener('DOMContentLoaded', function() {
     const path = window.location.pathname;
     
     if (path.includes('blog.html')) {
@@ -152,7 +117,4 @@ function initBlogPage() {
     } else if (path.includes('blog-details.html')) {
         loadBlogDetails();
     }
-}
-
-// Run on page load
-document.addEventListener('DOMContentLoaded', initBlogPage);
+});
