@@ -7,8 +7,8 @@ const products = [
         category: "Electronics",
         dateAdded: "October 25, 2025",
         excerpt: "High-quality premium product with excellent features and performance.",
-        image: "https://via.placeholder.com/400x400",
-        imageDetail: "https://via.placeholder.com/800x600",
+        image: "assets/images/garudhiya-energy-drink.png",
+        imageDetail: "assets/images/garudhiya-energy-drink.png",
         description: `
             <p>This premium product offers exceptional quality and performance. Built with the finest materials and cutting-edge technology, it's designed to meet all your needs.</p>
             
@@ -40,8 +40,8 @@ const products = [
         category: "Home & Garden",
         dateAdded: "October 20, 2025",
         excerpt: "Deluxe edition with enhanced features for the discerning customer.",
-        image: "https://via.placeholder.com/400x400",
-        imageDetail: "https://via.placeholder.com/800x600",
+        image: "assets/images/garudhiya-energy-drink.png",
+        imageDetail: "assets/images/garudhiya-energy-drink.png",
         description: `
             <p>Experience luxury with our deluxe edition. Meticulously crafted to provide superior performance and aesthetic appeal.</p>
             
@@ -64,8 +64,8 @@ const products = [
         category: "Accessories",
         dateAdded: "October 15, 2025",
         excerpt: "Essential everyday product that combines quality with affordability.",
-        image: "https://via.placeholder.com/400x400",
-        imageDetail: "https://via.placeholder.com/800x600",
+        image: "assets/images/garudhiya-energy-drink.png",
+        imageDetail: "assets/images/garudhiya-energy-drink.png",
         description: `
             <p>Get the essentials without compromising on quality. Perfect for everyday use and built to last.</p>
             
@@ -87,8 +87,8 @@ const products = [
         category: "Electronics",
         dateAdded: "October 10, 2025",
         excerpt: "Professional-grade product designed for serious users and enthusiasts.",
-        image: "https://via.placeholder.com/400x400",
-        imageDetail: "https://via.placeholder.com/800x600",
+        image: "assets/images/garudhiya-energy-drink.png",
+        imageDetail: "assets/images/garudhiya-energy-drink.png",
         description: `
             <p>Designed for professionals who demand the best. This product delivers exceptional performance in the most demanding situations.</p>
             
@@ -111,8 +111,8 @@ const products = [
         category: "Accessories",
         dateAdded: "October 5, 2025",
         excerpt: "Compact design that doesn't sacrifice functionality or quality.",
-        image: "https://via.placeholder.com/400x400",
-        imageDetail: "https://via.placeholder.com/800x600",
+        image: "assets/images/garudhiya-energy-drink.png",
+        imageDetail: "assets/images/garudhiya-energy-drink.png",
         description: `
             <p>Perfect for those who value space efficiency without compromising on features. This compact solution fits anywhere.</p>
             
@@ -134,8 +134,8 @@ const products = [
         category: "Premium",
         dateAdded: "September 30, 2025",
         excerpt: "The ultimate choice for those who want the absolute best available.",
-        image: "https://via.placeholder.com/400x400",
-        imageDetail: "https://via.placeholder.com/800x600",
+        image: "assets/images/garudhiya-energy-drink.png",
+        imageDetail: "assets/images/garudhiya-energy-drink.png",
         description: `
             <p>Our flagship product representing the pinnacle of design, engineering, and craftsmanship.</p>
             
@@ -159,8 +159,8 @@ const products = [
         category: "Home & Garden",
         dateAdded: "September 25, 2025",
         excerpt: "Reliable standard product that meets all your basic requirements.",
-        image: "https://via.placeholder.com/400x400",
-        imageDetail: "https://via.placeholder.com/800x600",
+        image: "assets/images/garudhiya-energy-drink.png",
+        imageDetail: "assets/images/garudhiya-energy-drink.png",
         description: `
             <p>A dependable choice that delivers consistent performance day after day. Great value for money.</p>
             
@@ -182,8 +182,8 @@ const products = [
         category: "Electronics",
         dateAdded: "September 20, 2025",
         excerpt: "Smart technology integrated for modern living and convenience.",
-        image: "https://via.placeholder.com/400x400",
-        imageDetail: "https://via.placeholder.com/800x600",
+        image: "assets/images/garudhiya-energy-drink.png",
+        imageDetail: "assets/images/garudhiya-energy-drink.png",
         description: `
             <p>Embrace the smart revolution with this intelligent product that adapts to your lifestyle.</p>
             
@@ -206,8 +206,8 @@ const products = [
         category: "Premium",
         dateAdded: "September 15, 2025",
         excerpt: "Environmentally friendly product made with sustainable materials.",
-        image: "https://via.placeholder.com/400x400",
-        imageDetail: "https://via.placeholder.com/800x600",
+        image: "assets/images/garudhiya-energy-drink.png",
+        imageDetail: "assets/images/garudhiya-energy-drink.png",
         description: `
             <p>Make a positive impact with this eco-friendly choice. Sustainable, responsible, and high-quality.</p>
             
