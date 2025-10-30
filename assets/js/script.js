@@ -350,18 +350,6 @@ function initProductsPage() {
     let currentPage = 1;
     let filteredProducts = [...products];
     
-    // Populate category filter
-    const categoryFilter = document.getElementById('category-filter');
-    if (categoryFilter) {
-        const categories = [...new Set(products.map(p => p.category))];
-        categories.forEach(category => {
-            const option = document.createElement('option');
-            option.value = category;
-            option.textContent = category;
-            categoryFilter.appendChild(option);
-        });
-    }
-    
     // Header search functionality for product filtering
     const headerSearch = document.getElementById('header-search');
     if (headerSearch) {
@@ -370,26 +358,15 @@ function initProductsPage() {
         });
     }
     
-    // Category filter functionality
-    if (categoryFilter) {
-        categoryFilter.addEventListener('change', (e) => {
-            filterProducts();
-        });
-    }
-    
     function filterProducts(searchTerm = '') {
         if (!searchTerm && headerSearch) {
             searchTerm = headerSearch.value;
         }
         searchTerm = searchTerm.toLowerCase();
-        const selectedCategory = categoryFilter ? categoryFilter.value : '';
         
         filteredProducts = products.filter(product => {
-            const matchesSearch = product.name.toLowerCase().includes(searchTerm) || 
-                                  product.excerpt.toLowerCase().includes(searchTerm);
-            const matchesCategory = !selectedCategory || product.category === selectedCategory;
-            
-            return matchesSearch && matchesCategory;
+            return product.name.toLowerCase().includes(searchTerm) || 
+                   product.excerpt.toLowerCase().includes(searchTerm);
         });
         
         currentPage = 1;
