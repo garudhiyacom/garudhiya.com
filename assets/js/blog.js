@@ -6,8 +6,8 @@ const blogPosts = [
         date: "October 25, 2025",
         author: "John Doe",
         excerpt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        image: "https://via.placeholder.com/400x250",
-        imageDetail: "https://via.placeholder.com/800x400",
+        image: "assets/images/garudhiya-energy-drink.png",
+        imageDetail: "assets/images/garudhiya-energy-drink.png",
         content: `
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
             
@@ -28,8 +28,8 @@ const blogPosts = [
         date: "October 20, 2025",
         author: "Jane Smith",
         excerpt: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-        image: "https://via.placeholder.com/400x250",
-        imageDetail: "https://via.placeholder.com/800x400",
+        image: "assets/images/garudhiya-energy-drink.png",
+        imageDetail: "assets/images/garudhiya-energy-drink.png",
         content: `
             <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
             
@@ -55,8 +55,8 @@ const blogPosts = [
         date: "October 15, 2025",
         author: "Mike Johnson",
         excerpt: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-        image: "https://via.placeholder.com/400x250",
-        imageDetail: "https://via.placeholder.com/800x400",
+        image: "assets/images/garudhiya-energy-drink.png",
+        imageDetail: "assets/images/garudhiya-energy-drink.png",
         content: `
             <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
             
@@ -74,8 +74,8 @@ const blogPosts = [
         date: "October 10, 2025",
         author: "Sarah Williams",
         excerpt: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-        image: "https://via.placeholder.com/400x250",
-        imageDetail: "https://via.placeholder.com/800x400",
+        image: "assets/images/garudhiya-energy-drink.png",
+        imageDetail: "assets/images/garudhiya-energy-drink.png",
         content: `
             <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</p>
             
@@ -94,8 +94,8 @@ const blogPosts = [
         date: "October 5, 2025",
         author: "David Brown",
         excerpt: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.",
-        image: "https://via.placeholder.com/400x250",
-        imageDetail: "https://via.placeholder.com/800x400",
+        image: "assets/images/garudhiya-energy-drink.png",
+        imageDetail: "assets/images/garudhiya-energy-drink.png",
         content: `
             <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
             
@@ -114,8 +114,8 @@ const blogPosts = [
         date: "September 30, 2025",
         author: "Emily Davis",
         excerpt: "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores.",
-        image: "https://via.placeholder.com/400x250",
-        imageDetail: "https://via.placeholder.com/800x400",
+        image: "assets/images/garudhiya-energy-drink.png",
+        imageDetail: "assets/images/garudhiya-energy-drink.png",
         content: `
             <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
             
@@ -134,8 +134,8 @@ const blogPosts = [
         date: "September 25, 2025",
         author: "Robert Taylor",
         excerpt: "Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.",
-        image: "https://via.placeholder.com/400x250",
-        imageDetail: "https://via.placeholder.com/800x400",
+        image: "assets/images/garudhiya-energy-drink.png",
+        imageDetail: "assets/images/garudhiya-energy-drink.png",
         content: `
             <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
             
@@ -151,8 +151,8 @@ const blogPosts = [
         date: "September 20, 2025",
         author: "Lisa Anderson",
         excerpt: "Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-        image: "https://via.placeholder.com/400x250",
-        imageDetail: "https://via.placeholder.com/800x400",
+        image: "assets/images/garudhiya-energy-drink.png",
+        imageDetail: "assets/images/garudhiya-energy-drink.png",
         content: `
             <p>Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur.</p>
             
@@ -168,6 +168,9 @@ const blogPosts = [
         date: "September 15, 2025",
         author: "Chris Martin",
         excerpt: "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque.",
+        image: "assets/images/garudhiya-energy-drink.png",
+        imageDetail: "assets/images/garudhiya-energy-drink.png",
+        content: `.",
         image: "https://via.placeholder.com/400x250",
         imageDetail: "https://via.placeholder.com/800x400",
         content: `
