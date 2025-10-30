@@ -10,6 +10,15 @@
     <header>
         <nav class="container">
             <div class="logo">Garudhiya</div>
+            <div class="header-search">
+                <input type="text" id="header-search" placeholder="Search products, blog posts..." class="header-search-input">
+                <button class="header-search-btn" onclick="performHeaderSearch()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                </button>
+            </div>
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="products.html" class="active">Products</a></li>
@@ -22,8 +31,7 @@
     <main class="container">
         <h1>Our Products</h1>
         
-        <div class="search-filter-bar">
-            <input type="text" id="product-search" placeholder="Search products..." class="search-input">
+        <div class="filter-bar">
             <select id="category-filter" class="category-filter">
                 <option value="">All Categories</option>
             </select>
