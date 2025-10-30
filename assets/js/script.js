@@ -21,19 +21,51 @@ document.addEventListener('DOMContentLoaded', function() {
     if (document.getElementById('product-detail')) {
         initProductDetailPage();
     }
+    
+    // Initialize global search on home and contact pages
+    const globalSearch = document.getElementById('global-search');
+    if (globalSearch) {
+        globalSearch.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                performGlobalSearch();
+            }
+        });
+    }
 });
 
 // Blog page functionality
 function initBlogPage() {
     const postsPerPage = 9;
     let currentPage = 1;
+    let filteredPosts = [...blogPosts];
+    
+    // Search functionality
+    const searchInput = document.getElementById('blog-search');
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            filterPosts();
+        });
+    }
+    
+    function filterPosts() {
+        const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
+        
+        filteredPosts = blogPosts.filter(post => {
+            return post.title.toLowerCase().includes(searchTerm) || 
+                   post.excerpt.toLowerCase().includes(searchTerm) ||
+                   post.author.toLowerCase().includes(searchTerm);
+        });
+        
+        currentPage = 1;
+        loadBlogPosts(1);
+    }
     
     function loadBlogPosts(page = 1) {
         const blogGrid = document.querySelector('.blog-grid');
-        if (!blogGrid || typeof blogPosts === 'undefined') return;
+        if (!blogGrid) return;
 
         // Sort posts by date (newest first)
-        const sortedPosts = [...blogPosts].sort((a, b) => {
+        const sortedPosts = [...filteredPosts].sort((a, b) => {
             return new Date(b.date) - new Date(a.date);
         });
 
@@ -42,6 +74,12 @@ function initBlogPage() {
         const postsToShow = sortedPosts.slice(startIndex, endIndex);
 
         blogGrid.innerHTML = '';
+        
+        if (postsToShow.length === 0) {
+            blogGrid.innerHTML = '<p class="no-results">No blog posts found matching your search.</p>';
+            document.querySelector('.pagination').innerHTML = '';
+            return;
+        }
 
         postsToShow.forEach(post => {
             const postHTML = `
@@ -64,11 +102,13 @@ function initBlogPage() {
     }
 
     function updatePagination(page) {
-        const totalPages = Math.ceil(blogPosts.length / postsPerPage);
+        const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
         const pagination = document.querySelector('.pagination');
         if (!pagination) return;
 
         pagination.innerHTML = '';
+        
+        if (totalPages <= 1) return;
 
         // Previous button
         const prevLink = document.createElement('a');
@@ -164,17 +204,150 @@ function initBlogDetailPage() {
     `;
 }
 
+// Global search function (for home and contact pages)
+function performGlobalSearch() {
+    const searchInput = document.getElementById('global-search');
+    if (!searchInput) return;
+    
+    const searchTerm = searchInput.value.trim().toLowerCase();
+    
+    if (!searchTerm) {
+        alert('Please enter a search term');
+        return;
+    }
+    
+    // Search in products
+    let productResults = [];
+    if (typeof products !== 'undefined') {
+        productResults = products.filter(product => 
+            product.name.toLowerCase().includes(searchTerm) || 
+            product.excerpt.toLowerCase().includes(searchTerm) ||
+            product.category.toLowerCase().includes(searchTerm)
+        );
+    }
+    
+    // Search in blog posts
+    let blogResults = [];
+    if (typeof blogPosts !== 'undefined') {
+        blogResults = blogPosts.filter(post => 
+            post.title.toLowerCase().includes(searchTerm) || 
+            post.excerpt.toLowerCase().includes(searchTerm) ||
+            post.author.toLowerCase().includes(searchTerm)
+        );
+    }
+    
+    displaySearchResults(searchTerm, productResults, blogResults);
+}
+
+function displaySearchResults(searchTerm, productResults, blogResults) {
+    const resultsContainer = document.getElementById('search-results');
+    if (!resultsContainer) return;
+    
+    let resultsHTML = `<div class="search-results-container">
+        <h2>Search Results for: "${searchTerm}"</h2>`;
+    
+    // Display product results
+    if (productResults.length > 0) {
+        resultsHTML += `<div class="results-section">
+            <h3>Products (${productResults.length})</h3>
+            <div class="results-grid">`;
+        
+        productResults.slice(0, 6).forEach(product => {
+            resultsHTML += `
+                <div class="result-card">
+                    <img src="${product.image}" alt="${product.name}">
+                    <h4>${product.name}</h4>
+                    <p class="result-price">${product.price}</p>
+                    <a href="products.html" class="btn-small">View in Products</a>
+                </div>`;
+        });
+        
+        resultsHTML += `</div></div>`;
+    }
+    
+    // Display blog results
+    if (blogResults.length > 0) {
+        resultsHTML += `<div class="results-section">
+            <h3>Blog Posts (${blogResults.length})</h3>
+            <div class="results-list">`;
+        
+        blogResults.slice(0, 6).forEach(post => {
+            resultsHTML += `
+                <div class="result-item">
+                    <h4>${post.title}</h4>
+                    <p class="result-date">${post.date} • By ${post.author}</p>
+                    <p>${post.excerpt}</p>
+                    <a href="blog-details.html?id=${post.id}" class="read-more">Read More →</a>
+                </div>`;
+        });
+        
+        resultsHTML += `</div></div>`;
+    }
+    
+    // No results
+    if (productResults.length === 0 && blogResults.length === 0) {
+        resultsHTML += `<p class="no-results">No results found for "${searchTerm}". Try a different search term.</p>`;
+    }
+    
+    resultsHTML += `</div>`;
+    resultsContainer.innerHTML = resultsHTML;
+}
+
 // Products page functionality
 function initProductsPage() {
     const productsPerPage = 9;
     let currentPage = 1;
+    let filteredProducts = [...products];
+    
+    // Populate category filter
+    const categoryFilter = document.getElementById('category-filter');
+    if (categoryFilter) {
+        const categories = [...new Set(products.map(p => p.category))];
+        categories.forEach(category => {
+            const option = document.createElement('option');
+            option.value = category;
+            option.textContent = category;
+            categoryFilter.appendChild(option);
+        });
+    }
+    
+    // Search functionality
+    const searchInput = document.getElementById('product-search');
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            filterProducts();
+        });
+    }
+    
+    // Category filter functionality
+    if (categoryFilter) {
+        categoryFilter.addEventListener('change', (e) => {
+            filterProducts();
+        });
+    }
+    
+    function filterProducts() {
+        const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
+        const selectedCategory = categoryFilter ? categoryFilter.value : '';
+        
+        filteredProducts = products.filter(product => {
+            const matchesSearch = product.name.toLowerCase().includes(searchTerm) || 
+                                  product.excerpt.toLowerCase().includes(searchTerm);
+            const matchesCategory = !selectedCategory || product.category === selectedCategory;
+            
+            return matchesSearch && matchesCategory;
+        });
+        
+        currentPage = 1;
+        loadProducts(1);
+    }
     
     function loadProducts(page = 1) {
         const productsGrid = document.querySelector('.products-grid');
-        if (!productsGrid || typeof products === 'undefined') return;
+        if (!productsGrid) return;
 
         // Sort products by date (newest first)
-        const sortedProducts = [...products].sort((a, b) => {
+        const sortedProducts = [...filteredProducts].sort((a, b) => {
             return new Date(b.dateAdded) - new Date(a.dateAdded);
         });
 
@@ -183,6 +356,12 @@ function initProductsPage() {
         const productsToShow = sortedProducts.slice(startIndex, endIndex);
 
         productsGrid.innerHTML = '';
+        
+        if (productsToShow.length === 0) {
+            productsGrid.innerHTML = '<p class="no-results">No products found matching your search.</p>';
+            document.querySelector('.pagination').innerHTML = '';
+            return;
+        }
 
         productsToShow.forEach(product => {
             const productHTML = `
@@ -208,11 +387,13 @@ function initProductsPage() {
     }
 
     function updateProductPagination(page) {
-        const totalPages = Math.ceil(products.length / productsPerPage);
+        const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
         const pagination = document.querySelector('.pagination');
         if (!pagination) return;
 
         pagination.innerHTML = '';
+        
+        if (totalPages <= 1) return;
 
         // Previous button
         const prevLink = document.createElement('a');
