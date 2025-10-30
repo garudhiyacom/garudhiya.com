@@ -31,6 +31,16 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+    
+    // Initialize header search on all pages
+    const headerSearch = document.getElementById('header-search');
+    if (headerSearch) {
+        headerSearch.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                performHeaderSearch();
+            }
+        });
+    }
 });
 
 // Blog page functionality
@@ -39,16 +49,16 @@ function initBlogPage() {
     let currentPage = 1;
     let filteredPosts = [...blogPosts];
     
-    // Search functionality
-    const searchInput = document.getElementById('blog-search');
-    if (searchInput) {
-        searchInput.addEventListener('input', (e) => {
-            filterPosts();
+    // Header search functionality for blog filtering
+    const headerSearch = document.getElementById('header-search');
+    if (headerSearch) {
+        headerSearch.addEventListener('input', (e) => {
+            filterPosts(e.target.value);
         });
     }
     
-    function filterPosts() {
-        const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
+    function filterPosts(searchTerm = '') {
+        searchTerm = searchTerm.toLowerCase();
         
         filteredPosts = blogPosts.filter(post => {
             return post.title.toLowerCase().includes(searchTerm) || 
@@ -239,6 +249,47 @@ function performGlobalSearch() {
     displaySearchResults(searchTerm, productResults, blogResults);
 }
 
+// Header search function (redirects to appropriate page or shows results)
+function performHeaderSearch() {
+    const searchInput = document.getElementById('header-search');
+    if (!searchInput) return;
+    
+    const searchTerm = searchInput.value.trim().toLowerCase();
+    
+    if (!searchTerm) {
+        return;
+    }
+    
+    // Get current page
+    const currentPath = window.location.pathname;
+    
+    // If on home or contact page, show global results
+    if (currentPath.includes('index.html') || currentPath.includes('contact.html') || currentPath === '/') {
+        // Search in products
+        let productResults = [];
+        if (typeof products !== 'undefined') {
+            productResults = products.filter(product => 
+                product.name.toLowerCase().includes(searchTerm) || 
+                product.excerpt.toLowerCase().includes(searchTerm) ||
+                product.category.toLowerCase().includes(searchTerm)
+            );
+        }
+        
+        // Search in blog posts
+        let blogResults = [];
+        if (typeof blogPosts !== 'undefined') {
+            blogResults = blogPosts.filter(post => 
+                post.title.toLowerCase().includes(searchTerm) || 
+                post.excerpt.toLowerCase().includes(searchTerm) ||
+                post.author.toLowerCase().includes(searchTerm)
+            );
+        }
+        
+        displaySearchResults(searchTerm, productResults, blogResults);
+    }
+    // If on products or blog page, filtering is already handled by input event
+}
+
 function displaySearchResults(searchTerm, productResults, blogResults) {
     const resultsContainer = document.getElementById('search-results');
     if (!resultsContainer) return;
@@ -311,11 +362,11 @@ function initProductsPage() {
         });
     }
     
-    // Search functionality
-    const searchInput = document.getElementById('product-search');
-    if (searchInput) {
-        searchInput.addEventListener('input', (e) => {
-            filterProducts();
+    // Header search functionality for product filtering
+    const headerSearch = document.getElementById('header-search');
+    if (headerSearch) {
+        headerSearch.addEventListener('input', (e) => {
+            filterProducts(e.target.value);
         });
     }
     
@@ -326,8 +377,11 @@ function initProductsPage() {
         });
     }
     
-    function filterProducts() {
-        const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
+    function filterProducts(searchTerm = '') {
+        if (!searchTerm && headerSearch) {
+            searchTerm = headerSearch.value;
+        }
+        searchTerm = searchTerm.toLowerCase();
         const selectedCategory = categoryFilter ? categoryFilter.value : '';
         
         filteredProducts = products.filter(product => {
