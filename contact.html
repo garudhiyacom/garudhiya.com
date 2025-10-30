@@ -20,6 +20,11 @@
     </header>
 
     <main class="container">
+        <div class="search-filter-bar">
+            <input type="text" id="global-search" placeholder="Search products, blog posts..." class="search-input">
+            <button class="btn-primary" onclick="performGlobalSearch()">Search</button>
+        </div>
+        
         <h1>Get in Touch</h1>
         <div class="contact-wrapper">
             <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" class="contact-form">
@@ -54,6 +59,8 @@
         </div>
     </footer>
 
+    <script src="assets/js/products.js"></script>
+    <script src="assets/js/blog.js"></script>
     <script src="assets/js/script.js"></script>
 </body>
 </html>
