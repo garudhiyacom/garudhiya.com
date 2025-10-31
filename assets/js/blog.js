@@ -170,9 +170,6 @@ const blogPosts = [
         excerpt: "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque.",
         image: "assets/images/garudhiya-energy-drink.png",
         imageDetail: "assets/images/garudhiya-energy-drink.png",
-        content: `.",
-        image: "https://via.placeholder.com/400x250",
-        imageDetail: "https://via.placeholder.com/800x400",
         content: `
             <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.</p>
             
