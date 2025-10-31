@@ -1,7 +1,5 @@
 // Main script file
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Garudhiya website loaded');
-    
     // Initialize blog page if elements exist
     if (document.querySelector('.blog-grid')) {
         initBlogPage();
@@ -15,21 +13,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize products page if elements exist
     if (document.querySelector('.products-grid')) {
         initProductsPage();
-    }
-    
-    // Initialize product detail page if element exists
-    if (document.getElementById('product-detail')) {
-        initProductDetailPage();
-    }
-    
-    // Initialize global search on home and contact pages
-    const globalSearch = document.getElementById('global-search');
-    if (globalSearch) {
-        globalSearch.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                performGlobalSearch();
-            }
-        });
     }
     
     // Initialize header search on all pages
@@ -58,13 +41,17 @@ function initBlogPage() {
     }
     
     function filterPosts(searchTerm = '') {
-        searchTerm = searchTerm.toLowerCase();
+        searchTerm = searchTerm.toLowerCase().trim();
         
-        filteredPosts = blogPosts.filter(post => {
-            return post.title.toLowerCase().includes(searchTerm) || 
-                   post.excerpt.toLowerCase().includes(searchTerm) ||
-                   post.author.toLowerCase().includes(searchTerm);
-        });
+        if (!searchTerm) {
+            filteredPosts = [...blogPosts];
+        } else {
+            filteredPosts = blogPosts.filter(post => {
+                return post.title.toLowerCase().includes(searchTerm) || 
+                       post.excerpt.toLowerCase().includes(searchTerm) ||
+                       post.author.toLowerCase().includes(searchTerm);
+            });
+        }
         
         currentPage = 1;
         loadBlogPosts(1);
@@ -108,64 +95,9 @@ function initBlogPage() {
             blogGrid.innerHTML += postHTML;
         });
 
-        updatePagination(page);
+        updatePagination(page, Math.ceil(filteredPosts.length / postsPerPage), loadBlogPosts);
     }
 
-    function updatePagination(page) {
-        const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
-        const pagination = document.querySelector('.pagination');
-        if (!pagination) return;
-
-        pagination.innerHTML = '';
-        
-        if (totalPages <= 1) return;
-
-        // Previous button
-        const prevLink = document.createElement('a');
-        prevLink.href = '#';
-        prevLink.className = `page-link ${page === 1 ? 'disabled' : ''}`;
-        prevLink.textContent = '« Previous';
-        prevLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            if (page > 1) {
-                currentPage = page - 1;
-                loadBlogPosts(currentPage);
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-        });
-        pagination.appendChild(prevLink);
-
-        // Page numbers
-        for (let i = 1; i <= totalPages; i++) {
-            const pageLink = document.createElement('a');
-            pageLink.href = '#';
-            pageLink.className = `page-link ${i === page ? 'active' : ''}`;
-            pageLink.textContent = i;
-            pageLink.addEventListener('click', (e) => {
-                e.preventDefault();
-                currentPage = i;
-                loadBlogPosts(currentPage);
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
-            pagination.appendChild(pageLink);
-        }
-
-        // Next button
-        const nextLink = document.createElement('a');
-        nextLink.href = '#';
-        nextLink.className = `page-link ${page === totalPages ? 'disabled' : ''}`;
-        nextLink.textContent = 'Next »';
-        nextLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            if (page < totalPages) {
-                currentPage = page + 1;
-                loadBlogPosts(currentPage);
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-        });
-        pagination.appendChild(nextLink);
-    }
-    
     loadBlogPosts(currentPage);
 }
 
@@ -214,58 +146,19 @@ function initBlogDetailPage() {
     `;
 }
 
-// Global search function (for home and contact pages)
-function performGlobalSearch() {
-    const searchInput = document.getElementById('global-search');
-    if (!searchInput) return;
-    
-    const searchTerm = searchInput.value.trim().toLowerCase();
-    
-    if (!searchTerm) {
-        alert('Please enter a search term');
-        return;
-    }
-    
-    // Search in products
-    let productResults = [];
-    if (typeof products !== 'undefined') {
-        productResults = products.filter(product => 
-            product.name.toLowerCase().includes(searchTerm) || 
-            product.excerpt.toLowerCase().includes(searchTerm) ||
-            product.category.toLowerCase().includes(searchTerm)
-        );
-    }
-    
-    // Search in blog posts
-    let blogResults = [];
-    if (typeof blogPosts !== 'undefined') {
-        blogResults = blogPosts.filter(post => 
-            post.title.toLowerCase().includes(searchTerm) || 
-            post.excerpt.toLowerCase().includes(searchTerm) ||
-            post.author.toLowerCase().includes(searchTerm)
-        );
-    }
-    
-    displaySearchResults(searchTerm, productResults, blogResults);
-}
-
-// Header search function (redirects to appropriate page or shows results)
+// Header search function
 function performHeaderSearch() {
     const searchInput = document.getElementById('header-search');
     if (!searchInput) return;
     
     const searchTerm = searchInput.value.trim().toLowerCase();
+    if (!searchTerm) return;
     
-    if (!searchTerm) {
-        return;
-    }
-    
-    // Get current page
     const currentPath = window.location.pathname;
     
-    // If on home or contact page, show global results
+    // If on home or contact page, redirect to products or blog with search
     if (currentPath.includes('index.html') || currentPath.includes('contact.html') || currentPath === '/') {
-        // Search in products
+        // Search in products first
         let productResults = [];
         if (typeof products !== 'undefined') {
             productResults = products.filter(product => 
@@ -275,73 +168,13 @@ function performHeaderSearch() {
             );
         }
         
-        // Search in blog posts
-        let blogResults = [];
-        if (typeof blogPosts !== 'undefined') {
-            blogResults = blogPosts.filter(post => 
-                post.title.toLowerCase().includes(searchTerm) || 
-                post.excerpt.toLowerCase().includes(searchTerm) ||
-                post.author.toLowerCase().includes(searchTerm)
-            );
+        // If products found, go to products page, otherwise try blog
+        if (productResults.length > 0) {
+            window.location.href = `products.html?search=${encodeURIComponent(searchTerm)}`;
+        } else {
+            window.location.href = `blog.html?search=${encodeURIComponent(searchTerm)}`;
         }
-        
-        displaySearchResults(searchTerm, productResults, blogResults);
     }
-    // If on products or blog page, filtering is already handled by input event
-}
-
-function displaySearchResults(searchTerm, productResults, blogResults) {
-    const resultsContainer = document.getElementById('search-results');
-    if (!resultsContainer) return;
-    
-    let resultsHTML = `<div class="search-results-container">
-        <h2>Search Results for: "${searchTerm}"</h2>`;
-    
-    // Display product results
-    if (productResults.length > 0) {
-        resultsHTML += `<div class="results-section">
-            <h3>Products (${productResults.length})</h3>
-            <div class="results-grid">`;
-        
-        productResults.slice(0, 6).forEach(product => {
-            resultsHTML += `
-                <div class="result-card">
-                    <img src="${product.image}" alt="${product.name}">
-                    <h4>${product.name}</h4>
-                    <p class="result-price">${product.price}</p>
-                    <a href="products.html" class="btn-small">View in Products</a>
-                </div>`;
-        });
-        
-        resultsHTML += `</div></div>`;
-    }
-    
-    // Display blog results
-    if (blogResults.length > 0) {
-        resultsHTML += `<div class="results-section">
-            <h3>Blog Posts (${blogResults.length})</h3>
-            <div class="results-list">`;
-        
-        blogResults.slice(0, 6).forEach(post => {
-            resultsHTML += `
-                <div class="result-item">
-                    <h4>${post.title}</h4>
-                    <p class="result-date">${post.date} • By ${post.author}</p>
-                    <p>${post.excerpt}</p>
-                    <a href="blog-details.html?id=${post.id}" class="read-more">Read More →</a>
-                </div>`;
-        });
-        
-        resultsHTML += `</div></div>`;
-    }
-    
-    // No results
-    if (productResults.length === 0 && blogResults.length === 0) {
-        resultsHTML += `<p class="no-results">No results found for "${searchTerm}". Try a different search term.</p>`;
-    }
-    
-    resultsHTML += `</div>`;
-    resultsContainer.innerHTML = resultsHTML;
 }
 
 // Products page functionality
@@ -350,24 +183,34 @@ function initProductsPage() {
     let currentPage = 1;
     let filteredProducts = [...products];
     
-    // Header search functionality for product filtering
+    // Check for search parameter in URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const searchParam = urlParams.get('search');
+    
+    // Header search functionality
     const headerSearch = document.getElementById('header-search');
     if (headerSearch) {
+        if (searchParam) {
+            headerSearch.value = searchParam;
+        }
+        
         headerSearch.addEventListener('input', (e) => {
             filterProducts(e.target.value);
         });
     }
     
     function filterProducts(searchTerm = '') {
-        if (!searchTerm && headerSearch) {
-            searchTerm = headerSearch.value;
-        }
-        searchTerm = searchTerm.toLowerCase();
+        searchTerm = searchTerm.toLowerCase().trim();
         
-        filteredProducts = products.filter(product => {
-            return product.name.toLowerCase().includes(searchTerm) || 
-                   product.excerpt.toLowerCase().includes(searchTerm);
-        });
+        if (!searchTerm) {
+            filteredProducts = [...products];
+        } else {
+            filteredProducts = products.filter(product => {
+                return product.name.toLowerCase().includes(searchTerm) || 
+                       product.excerpt.toLowerCase().includes(searchTerm) ||
+                       product.category.toLowerCase().includes(searchTerm);
+            });
+        }
         
         currentPage = 1;
         loadProducts(1);
@@ -414,65 +257,74 @@ function initProductsPage() {
             productsGrid.innerHTML += productHTML;
         });
 
-        updateProductPagination(page);
-    }
-
-    function updateProductPagination(page) {
-        const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
-        const pagination = document.querySelector('.pagination');
-        if (!pagination) return;
-
-        pagination.innerHTML = '';
-        
-        if (totalPages <= 1) return;
-
-        // Previous button
-        const prevLink = document.createElement('a');
-        prevLink.href = '#';
-        prevLink.className = `page-link ${page === 1 ? 'disabled' : ''}`;
-        prevLink.textContent = '« Previous';
-        prevLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            if (page > 1) {
-                currentPage = page - 1;
-                loadProducts(currentPage);
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-        });
-        pagination.appendChild(prevLink);
-
-        // Page numbers
-        for (let i = 1; i <= totalPages; i++) {
-            const pageLink = document.createElement('a');
-            pageLink.href = '#';
-            pageLink.className = `page-link ${i === page ? 'active' : ''}`;
-            pageLink.textContent = i;
-            pageLink.addEventListener('click', (e) => {
-                e.preventDefault();
-                currentPage = i;
-                loadProducts(currentPage);
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
-            pagination.appendChild(pageLink);
-        }
-
-        // Next button
-        const nextLink = document.createElement('a');
-        nextLink.href = '#';
-        nextLink.className = `page-link ${page === totalPages ? 'disabled' : ''}`;
-        nextLink.textContent = 'Next »';
-        nextLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            if (page < totalPages) {
-                currentPage = page + 1;
-                loadProducts(currentPage);
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-        });
-        pagination.appendChild(nextLink);
+        updatePagination(page, Math.ceil(filteredProducts.length / productsPerPage), loadProducts);
     }
     
-    loadProducts(currentPage);
+    // Initial load with search parameter if exists
+    if (searchParam) {
+        filterProducts(searchParam);
+    } else {
+        loadProducts(currentPage);
+    }
+}
+
+// Unified pagination function
+function updatePagination(currentPage, totalPages, loadFunction) {
+    const pagination = document.querySelector('.pagination');
+    if (!pagination) return;
+
+    pagination.innerHTML = '';
+    
+    if (totalPages <= 1) return;
+
+    // Previous button
+    const prevLink = document.createElement('a');
+    prevLink.href = '#';
+    prevLink.className = `page-link ${currentPage === 1 ? 'disabled' : ''}`;
+    prevLink.textContent = '« Previous';
+    prevLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (currentPage > 1) {
+            loadFunction(currentPage - 1);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    });
+    pagination.appendChild(prevLink);
+
+    // Page numbers (show max 5 pages)
+    let startPage = Math.max(1, currentPage - 2);
+    let endPage = Math.min(totalPages, startPage + 4);
+    
+    if (endPage - startPage < 4) {
+        startPage = Math.max(1, endPage - 4);
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+        const pageLink = document.createElement('a');
+        pageLink.href = '#';
+        pageLink.className = `page-link ${i === currentPage ? 'active' : ''}`;
+        pageLink.textContent = i;
+        pageLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            loadFunction(i);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        pagination.appendChild(pageLink);
+    }
+
+    // Next button
+    const nextLink = document.createElement('a');
+    nextLink.href = '#';
+    nextLink.className = `page-link ${currentPage === totalPages ? 'disabled' : ''}`;
+    nextLink.textContent = 'Next »';
+    nextLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (currentPage < totalPages) {
+            loadFunction(currentPage + 1);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    });
+    pagination.appendChild(nextLink);
 }
 
 // Buy product function
@@ -480,56 +332,5 @@ function buyProduct(productId) {
     const product = products.find(p => p.id === productId);
     if (product) {
         alert(`You are buying: ${product.name}\nPrice: ${product.price}\n\nThis is a demo. Integrate with your payment system.`);
-        // Add your payment/checkout logic here
     }
-}
-
-// Product detail page functionality
-function initProductDetailPage() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const productId = parseInt(urlParams.get('id'));
-    
-    if (typeof products === 'undefined') return;
-    
-    const product = products.find(p => p.id === productId);
-    const productDetail = document.getElementById('product-detail');
-    
-    if (!product) {
-        productDetail.innerHTML = `
-            <div class="error-message">
-                <h2>Product Not Found</h2>
-                <p>Sorry, the product you're looking for doesn't exist.</p>
-                <a href="products.html" class="btn">Back to Products</a>
-            </div>
-        `;
-        return;
-    }
-    
-    // Update page title
-    document.title = `${product.name} - Garudhiya`;
-    
-    // Load product content
-    productDetail.innerHTML = `
-        <div class="product-detail-container">
-            <div class="product-detail-image">
-                <img src="${product.imageDetail}" alt="${product.name}">
-            </div>
-            <div class="product-detail-info">
-                <span class="product-category-badge">${product.category}</span>
-                <h1 class="product-detail-title">${product.name}</h1>
-                <p class="product-detail-price">${product.price}</p>
-                <div class="product-detail-description">
-                    ${product.description}
-                </div>
-                <div class="product-actions">
-                    <button class="btn btn-large">Add to Cart</button>
-                    <button class="btn btn-secondary btn-large">Buy Now</button>
-                </div>
-            </div>
-        </div>
-        
-        <div class="product-detail-footer">
-            <a href="products.html" class="btn">← Back to Products</a>
-        </div>
-    `;
 }
