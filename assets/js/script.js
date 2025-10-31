@@ -99,7 +99,7 @@ function initBlogPage() {
                     </div>
                     <div class="post-content">
                         <span class="post-date">${post.date}</span>
-                        <h2>${post.title}</h2>
+                        <h2 onclick="window.location.href='blog-details.html?id=${post.id}'">${post.title}</h2>
                         <p>${post.excerpt}</p>
                         <a href="blog-details.html?id=${post.id}" class="read-more">Read More →</a>
                     </div>
