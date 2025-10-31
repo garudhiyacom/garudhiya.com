@@ -121,7 +121,7 @@ main {
 main h1 {
     font-size: 2.75rem;
     color: #0a0a0a;
-    margin-bottom: 3.5rem;
+    margin-bottom: 3rem;
     font-weight: 700;
     text-align: center;
     letter-spacing: -0.02em;
@@ -132,7 +132,7 @@ footer {
     color: #999999;
     text-align: center;
     padding: 2rem 0;
-    margin-top: 6rem;
+    margin-top: 4rem;
     border-top: 1px solid #f0f0f0;
     font-size: 15px;
 }
