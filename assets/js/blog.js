@@ -2,10 +2,10 @@
 const blogPosts = [
     {
         id: 1,
-        title: "Garudhiya: The Ocean‑Powered Energy Drink Redefining Performance Nutrition",
+        title: "What is Garudhiya - Energy Drink?",
         date: "November 01, 2025",
         author: "Garudhiya Man",
-        excerpt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        excerpt: "Garudhiya: The Ocean‑Powered Energy Drink Redefining Performance Nutrition.",
         image: "assets/images/garudhiya-energy-drink.png",
         content: `
             <p>When the world of functional beverages is saturated with synthetic flavors, sugar spikes, and generic caffeine blends, a bold newcomer is surfacing from an unexpected source: the sea. Garudhiya, an innovative energy drink that fuses marine protein with traditional Indian botanicals and tropical hydration, promises a fresh, sustainable alternative for athletes, professionals, and anyone seeking a clean, lasting boost.</p>
