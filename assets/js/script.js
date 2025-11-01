@@ -125,23 +125,43 @@ function initBlogDetailPage() {
     // Update page title
     document.title = `${post.title} - Garudhiya Blog`;
     
-    // Load post content
+    // Extract author first letter for avatar
+    const authorInitial = post.author.charAt(0).toUpperCase();
+    
+    // Load post content with modern article layout
     blogDetail.innerHTML = `
         <div class="blog-detail-header">
-            <img src="${post.imageDetail}" alt="${post.title}" class="blog-detail-image">
             <div class="blog-detail-meta">
-                <span class="post-date">${post.date}</span>
-                <span class="post-author">By ${post.author}</span>
+                <span class="post-date">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 4px;">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                    </svg>
+                    ${post.date}
+                </span>
+                <span class="post-author" style="--author-initial: '${authorInitial}';">
+                    ${post.author}
+                </span>
             </div>
             <h1 class="blog-detail-title">${post.title}</h1>
         </div>
         
-        <div class="blog-detail-content">
+        <img src="${post.imageDetail}" alt="${post.title}" class="blog-detail-image">
+        
+        <article class="blog-detail-content">
             ${post.content}
-        </div>
+        </article>
         
         <div class="blog-detail-footer">
-            <a href="blog.html" class="btn">← Back to Blog</a>
+            <a href="blog.html" class="btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle;">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Back to Blog
+            </a>
         </div>
     `;
 }
