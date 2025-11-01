@@ -10,7 +10,7 @@
     <header>
         <nav class="container">
             <a href="index.html" class="logo">Garudhiya</a>
-            <button class="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">
+            <button class="hamburger" aria-label="Toggle menu">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -55,33 +55,5 @@
 
     <script src="assets/js/products.js"></script>
     <script src="assets/js/script.js"></script>
-    <script>
-        function toggleMenu() {
-            const navRight = document.querySelector('.nav-right');
-            const hamburger = document.querySelector('.hamburger');
-            navRight.classList.toggle('active');
-            hamburger.classList.toggle('active');
-        }
-
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                const navRight = document.querySelector('.nav-right');
-                const hamburger = document.querySelector('.hamburger');
-                navRight.classList.remove('active');
-                hamburger.classList.remove('active');
-            });
-        });
-
-        document.addEventListener('click', (e) => {
-            const navRight = document.querySelector('.nav-right');
-            const hamburger = document.querySelector('.hamburger');
-            const nav = document.querySelector('nav');
-            
-            if (navRight.classList.contains('active') && !nav.contains(e.target)) {
-                navRight.classList.remove('active');
-                hamburger.classList.remove('active');
-            }
-        });
-    </script>
 </body>
 </html>
