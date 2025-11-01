@@ -1,4 +1,4 @@
-// Blog posts data with full details
+// Blog posts data
 const blogPosts = [
     {
         id: 1,
@@ -7,7 +7,6 @@ const blogPosts = [
         author: "John Doe",
         excerpt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
         image: "assets/images/garudhiya-energy-drink.png",
-        imageDetail: "assets/images/garudhiya-energy-drink.png",
         content: `
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
             
@@ -29,7 +28,6 @@ const blogPosts = [
         author: "Jane Smith",
         excerpt: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
         image: "assets/images/garudhiya-energy-drink.png",
-        imageDetail: "assets/images/garudhiya-energy-drink.png",
         content: `
             <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
             
@@ -56,7 +54,6 @@ const blogPosts = [
         author: "Mike Johnson",
         excerpt: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
         image: "assets/images/garudhiya-energy-drink.png",
-        imageDetail: "assets/images/garudhiya-energy-drink.png",
         content: `
             <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
             
@@ -75,7 +72,6 @@ const blogPosts = [
         author: "Sarah Williams",
         excerpt: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
         image: "assets/images/garudhiya-energy-drink.png",
-        imageDetail: "assets/images/garudhiya-energy-drink.png",
         content: `
             <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</p>
             
@@ -95,7 +91,6 @@ const blogPosts = [
         author: "David Brown",
         excerpt: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.",
         image: "assets/images/garudhiya-energy-drink.png",
-        imageDetail: "assets/images/garudhiya-energy-drink.png",
         content: `
             <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
             
@@ -115,7 +110,6 @@ const blogPosts = [
         author: "Emily Davis",
         excerpt: "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores.",
         image: "assets/images/garudhiya-energy-drink.png",
-        imageDetail: "assets/images/garudhiya-energy-drink.png",
         content: `
             <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
             
@@ -135,7 +129,6 @@ const blogPosts = [
         author: "Robert Taylor",
         excerpt: "Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.",
         image: "assets/images/garudhiya-energy-drink.png",
-        imageDetail: "assets/images/garudhiya-energy-drink.png",
         content: `
             <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
             
@@ -152,7 +145,6 @@ const blogPosts = [
         author: "Lisa Anderson",
         excerpt: "Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
         image: "assets/images/garudhiya-energy-drink.png",
-        imageDetail: "assets/images/garudhiya-energy-drink.png",
         content: `
             <p>Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur.</p>
             
@@ -169,7 +161,6 @@ const blogPosts = [
         author: "Chris Martin",
         excerpt: "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque.",
         image: "assets/images/garudhiya-energy-drink.png",
-        imageDetail: "assets/images/garudhiya-energy-drink.png",
         content: `
             <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.</p>
             
