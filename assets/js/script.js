@@ -24,7 +24,205 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+    
+    // Initialize hamburger menu
+    initHamburgerMenu();
+    
+    // Initialize contact form
+    initContactForm();
 });
+
+// Hamburger Menu functionality
+function initHamburgerMenu() {
+    const hamburger = document.querySelector('.hamburger');
+    const navRight = document.querySelector('.nav-right');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    
+    if (!hamburger || !navRight) return;
+    
+    // Toggle menu when hamburger is clicked
+    hamburger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleMenu();
+    });
+    
+    // Close menu when clicking on a link
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            closeMenu();
+        });
+    });
+    
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        const nav = document.querySelector('nav');
+        if (navRight.classList.contains('active') && !nav.contains(e.target)) {
+            closeMenu();
+        }
+    });
+    
+    // Prevent menu close when clicking inside nav
+    navRight.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
+}
+
+function toggleMenu() {
+    const navRight = document.querySelector('.nav-right');
+    const hamburger = document.querySelector('.hamburger');
+    navRight.classList.toggle('active');
+    hamburger.classList.toggle('active');
+}
+
+function closeMenu() {
+    const navRight = document.querySelector('.nav-right');
+    const hamburger = document.querySelector('.hamburger');
+    navRight.classList.remove('active');
+    hamburger.classList.remove('active');
+}
+
+// Contact Form functionality with Formspree
+function initContactForm() {
+    const contactForm = document.querySelector('.contact-form');
+    if (!contactForm) return;
+    
+    const submitBtn = contactForm.querySelector('.submit-btn');
+    const originalBtnText = submitBtn.textContent;
+    
+    contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        // Get form data
+        const formData = new FormData(contactForm);
+        
+        // Disable submit button and show loading state
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = `
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation: spin 1s linear infinite; display: inline-block; vertical-align: middle; margin-right: 8px;">
+                <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
+            </svg>
+            Sending...
+        `;
+        
+        // Remove any existing messages
+        removeFormMessage();
+        
+        try {
+            const response = await fetch('https://formspree.io/f/xanpgvko', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+            
+            if (response.ok) {
+                // Success
+                showFormMessage('success', '✓ Message sent successfully! We\'ll get back to you soon.');
+                contactForm.reset();
+                
+                // Reset button after delay
+                setTimeout(() => {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalBtnText;
+                }, 2000);
+            } else {
+                // Server error
+                const data = await response.json();
+                if (data.errors) {
+                    const errorMsg = data.errors.map(error => error.message).join(', ');
+                    showFormMessage('error', `✗ ${errorMsg}`);
+                } else {
+                    showFormMessage('error', '✗ Oops! There was a problem submitting your form. Please try again.');
+                }
+                
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalBtnText;
+            }
+        } catch (error) {
+            // Network error
+            showFormMessage('error', '✗ Network error! Please check your internet connection and try again.');
+            
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalBtnText;
+        }
+    });
+    
+    // Real-time validation
+    const inputs = contactForm.querySelectorAll('input, textarea');
+    inputs.forEach(input => {
+        input.addEventListener('blur', () => {
+            validateField(input);
+        });
+        
+        input.addEventListener('input', () => {
+            if (input.classList.contains('error')) {
+                validateField(input);
+            }
+        });
+    });
+}
+
+function validateField(field) {
+    const value = field.value.trim();
+    const fieldGroup = field.closest('.form-group');
+    
+    // Remove existing error
+    const existingError = fieldGroup.querySelector('.field-error');
+    if (existingError) {
+        existingError.remove();
+    }
+    field.classList.remove('error');
+    
+    // Validation rules
+    if (field.hasAttribute('required') && !value) {
+        showFieldError(field, 'This field is required');
+        return false;
+    }
+    
+    if (field.type === 'email' && value) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(value)) {
+            showFieldError(field, 'Please enter a valid email address');
+            return false;
+        }
+    }
+    
+    return true;
+}
+
+function showFieldError(field, message) {
+    field.classList.add('error');
+    const fieldGroup = field.closest('.form-group');
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'field-error';
+    errorDiv.textContent = message;
+    fieldGroup.appendChild(errorDiv);
+}
+
+function showFormMessage(type, message) {
+    const contactForm = document.querySelector('.contact-form');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `form-message form-message-${type}`;
+    messageDiv.innerHTML = message;
+    
+    contactForm.insertBefore(messageDiv, contactForm.firstChild);
+    
+    // Auto remove success message after 5 seconds
+    if (type === 'success') {
+        setTimeout(() => {
+            messageDiv.style.opacity = '0';
+            setTimeout(() => messageDiv.remove(), 300);
+        }, 5000);
+    }
+}
+
+function removeFormMessage() {
+    const existingMessage = document.querySelector('.form-message');
+    if (existingMessage) {
+        existingMessage.remove();
+    }
+}
 
 // Blog page functionality
 function initBlogPage() {
@@ -128,41 +326,44 @@ function initBlogDetailPage() {
     // Extract author first letter for avatar
     const authorInitial = post.author.charAt(0).toUpperCase();
     
-    // Load post content with modern article layout
+    // Load post content with unified card layout
     blogDetail.innerHTML = `
-        <div class="blog-detail-header">
-            <div class="blog-detail-meta">
-                <span class="post-date">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 4px;">
-                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                        <line x1="16" y1="2" x2="16" y2="6"></line>
-                        <line x1="8" y1="2" x2="8" y2="6"></line>
-                        <line x1="3" y1="10" x2="21" y2="10"></line>
-                    </svg>
-                    ${post.date}
-                </span>
-                <span class="post-author" style="--author-initial: '${authorInitial}';">
-                    ${post.author}
-                </span>
+        <article class="blog-detail-article">
+            <img src="${post.imageDetail}" alt="${post.title}" class="blog-detail-image">
+            
+            <div class="blog-detail-header">
+                <div class="blog-detail-meta">
+                    <span class="post-date">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                        </svg>
+                        ${post.date}
+                    </span>
+                    <span class="post-author">
+                        <span class="post-author-avatar">${authorInitial}</span>
+                        ${post.author}
+                    </span>
+                </div>
+                <h1 class="blog-detail-title">${post.title}</h1>
             </div>
-            <h1 class="blog-detail-title">${post.title}</h1>
-        </div>
-        
-        <img src="${post.imageDetail}" alt="${post.title}" class="blog-detail-image">
-        
-        <article class="blog-detail-content">
-            ${post.content}
+            
+            <div class="blog-detail-content">
+                ${post.content}
+            </div>
+            
+            <div class="blog-detail-footer">
+                <a href="blog.html" class="btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 4px;">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                    Back to Blog
+                </a>
+            </div>
         </article>
-        
-        <div class="blog-detail-footer">
-            <a href="blog.html" class="btn">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle;">
-                    <line x1="19" y1="12" x2="5" y2="12"></line>
-                    <polyline points="12 19 5 12 12 5"></polyline>
-                </svg>
-                Back to Blog
-            </a>
-        </div>
     `;
 }
 
