@@ -9,7 +9,12 @@
 <body>
     <header>
         <nav class="container">
-            <div class="logo">Garudhiya</div>
+            <a href="index.html" class="logo">Garudhiya</a>
+            <button class="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
             <div class="nav-right">
                 <div class="header-search">
                     <input type="text" id="header-search" placeholder="Search..." class="header-search-input">
@@ -32,7 +37,7 @@
 
     <main class="container">
         <h1>Welcome to Garudhiya</h1>
-        <p style="text-align: center; color: #666; margin-top: 2rem;">
+        <p style="text-align: center; color: #ffffff; margin-top: 2rem; font-size: 1.125rem; text-shadow: 0 2px 10px rgba(0,0,0,0.1);">
             Discover our premium energy drinks and stay updated with our latest blog posts.
         </p>
     </main>
@@ -46,5 +51,35 @@
     <script src="assets/js/products.js"></script>
     <script src="assets/js/blog.js"></script>
     <script src="assets/js/script.js"></script>
+    <script>
+        function toggleMenu() {
+            const navRight = document.querySelector('.nav-right');
+            const hamburger = document.querySelector('.hamburger');
+            navRight.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        }
+
+        // Close menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                const navRight = document.querySelector('.nav-right');
+                const hamburger = document.querySelector('.hamburger');
+                navRight.classList.remove('active');
+                hamburger.classList.remove('active');
+            });
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const navRight = document.querySelector('.nav-right');
+            const hamburger = document.querySelector('.hamburger');
+            const nav = document.querySelector('nav');
+            
+            if (navRight.classList.contains('active') && !nav.contains(e.target)) {
+                navRight.classList.remove('active');
+                hamburger.classList.remove('active');
+            }
+        });
+    </script>
 </body>
 </html>
