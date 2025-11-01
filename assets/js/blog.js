@@ -60,8 +60,6 @@ Garudhiya isn’t just another beverage; it’s a statement that performance nut
 For anyone looking to ride the wave of next‑generation functional drinks, Garudhiya offers a compelling, ocean‑powered alternative. As the brand continues to refine its formula and expand its reach, it may very well set a new benchmark for what an energy drink can—and should—be.
 
 *Ready to try the tide of vitality? Look for Garudhiya in select retailers and online stores starting this winter.*
-`;
-Copy
         `
     }
 ];
