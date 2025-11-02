@@ -1,21 +1,16 @@
-// Main script file
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize blog page if elements exist
     if (document.querySelector('.blog-grid')) {
         initBlogPage();
     }
     
-    // Initialize blog detail page if element exists
     if (document.getElementById('blog-detail')) {
         initBlogDetailPage();
     }
     
-    // Initialize products page if elements exist
     if (document.querySelector('.products-grid')) {
         initProductsPage();
     }
     
-    // Initialize header search on all pages
     const headerSearch = document.getElementById('header-search');
     if (headerSearch) {
         headerSearch.addEventListener('keypress', (e) => {
@@ -25,14 +20,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Initialize hamburger menu
     initHamburgerMenu();
     
-    // Initialize contact form
     initContactForm();
 });
 
-// Hamburger Menu functionality
 function initHamburgerMenu() {
     const hamburger = document.querySelector('.hamburger');
     const navRight = document.querySelector('.nav-right');
@@ -40,20 +32,17 @@ function initHamburgerMenu() {
     
     if (!hamburger || !navRight) return;
     
-    // Toggle menu when hamburger is clicked
     hamburger.addEventListener('click', (e) => {
         e.stopPropagation();
         toggleMenu();
     });
     
-    // Close menu when clicking on a link
     navLinks.forEach(link => {
         link.addEventListener('click', () => {
             closeMenu();
         });
     });
     
-    // Close menu when clicking outside
     document.addEventListener('click', (e) => {
         const nav = document.querySelector('nav');
         if (navRight.classList.contains('active') && !nav.contains(e.target)) {
@@ -61,7 +50,6 @@ function initHamburgerMenu() {
         }
     });
     
-    // Prevent menu close when clicking inside nav
     navRight.addEventListener('click', (e) => {
         e.stopPropagation();
     });
@@ -81,7 +69,6 @@ function closeMenu() {
     hamburger.classList.remove('active');
 }
 
-// Contact Form functionality with Formspree
 function initContactForm() {
     const contactForm = document.querySelector('.contact-form');
     if (!contactForm) return;
@@ -92,10 +79,8 @@ function initContactForm() {
     contactForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         
-        // Get form data
         const formData = new FormData(contactForm);
         
-        // Disable submit button and show loading state
         submitBtn.disabled = true;
         submitBtn.innerHTML = `
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation: spin 1s linear infinite; display: inline-block; vertical-align: middle; margin-right: 8px;">
@@ -104,7 +89,6 @@ function initContactForm() {
             Sending...
         `;
         
-        // Remove any existing messages
         removeFormMessage();
         
         try {
@@ -117,17 +101,14 @@ function initContactForm() {
             });
             
             if (response.ok) {
-                // Success
                 showFormMessage('success', '✓ Message sent successfully! We\'ll get back to you soon.');
                 contactForm.reset();
                 
-                // Reset button after delay
                 setTimeout(() => {
                     submitBtn.disabled = false;
                     submitBtn.textContent = originalBtnText;
                 }, 2000);
             } else {
-                // Server error
                 const data = await response.json();
                 if (data.errors) {
                     const errorMsg = data.errors.map(error => error.message).join(', ');
@@ -140,7 +121,6 @@ function initContactForm() {
                 submitBtn.textContent = originalBtnText;
             }
         } catch (error) {
-            // Network error
             showFormMessage('error', '✗ Network error! Please check your internet connection and try again.');
             
             submitBtn.disabled = false;
@@ -148,7 +128,6 @@ function initContactForm() {
         }
     });
     
-    // Real-time validation
     const inputs = contactForm.querySelectorAll('input, textarea');
     inputs.forEach(input => {
         input.addEventListener('blur', () => {
@@ -167,14 +146,12 @@ function validateField(field) {
     const value = field.value.trim();
     const fieldGroup = field.closest('.form-group');
     
-    // Remove existing error
     const existingError = fieldGroup.querySelector('.field-error');
     if (existingError) {
         existingError.remove();
     }
     field.classList.remove('error');
     
-    // Validation rules
     if (field.hasAttribute('required') && !value) {
         showFieldError(field, 'This field is required');
         return false;
@@ -208,7 +185,6 @@ function showFormMessage(type, message) {
     
     contactForm.insertBefore(messageDiv, contactForm.firstChild);
     
-    // Auto remove success message after 5 seconds
     if (type === 'success') {
         setTimeout(() => {
             messageDiv.style.opacity = '0';
@@ -224,13 +200,11 @@ function removeFormMessage() {
     }
 }
 
-// Blog page functionality
 function initBlogPage() {
     const postsPerPage = 9;
     let currentPage = 1;
     let filteredPosts = [...blogPosts];
     
-    // Header search functionality for blog filtering
     const headerSearch = document.getElementById('header-search');
     if (headerSearch) {
         headerSearch.addEventListener('input', (e) => {
@@ -259,7 +233,6 @@ function initBlogPage() {
         const blogGrid = document.querySelector('.blog-grid');
         if (!blogGrid) return;
 
-        // Sort posts by date (newest first)
         const sortedPosts = [...filteredPosts].sort((a, b) => {
             return new Date(b.date) - new Date(a.date);
         });
@@ -299,7 +272,6 @@ function initBlogPage() {
     loadBlogPosts(currentPage);
 }
 
-// Blog detail page functionality
 function initBlogDetailPage() {
     const urlParams = new URLSearchParams(window.location.search);
     const postId = parseInt(urlParams.get('id'));
@@ -320,16 +292,13 @@ function initBlogDetailPage() {
         return;
     }
     
-    // Update page title
     document.title = `${post.title} - Garudhiya Blog`;
     
-    // Extract author first letter for avatar
     const authorInitial = post.author.charAt(0).toUpperCase();
     
-    // Load post content with unified card layout
     blogDetail.innerHTML = `
         <article class="blog-detail-article">
-            <img src="${post.imageDetail}" alt="${post.title}" class="blog-detail-image">
+            <img src="${post.image}" alt="${post.title}" class="blog-detail-image">
             
             <div class="blog-detail-header">
                 <div class="blog-detail-meta">
@@ -367,7 +336,6 @@ function initBlogDetailPage() {
     `;
 }
 
-// Header search function
 function performHeaderSearch() {
     const searchInput = document.getElementById('header-search');
     if (!searchInput) return;
@@ -377,9 +345,7 @@ function performHeaderSearch() {
     
     const currentPath = window.location.pathname;
     
-    // If on home or contact page, redirect to products or blog with search
     if (currentPath.includes('index.html') || currentPath.includes('contact.html') || currentPath === '/') {
-        // Search in products first
         let productResults = [];
         if (typeof products !== 'undefined') {
             productResults = products.filter(product => 
@@ -389,7 +355,6 @@ function performHeaderSearch() {
             );
         }
         
-        // If products found, go to products page, otherwise try blog
         if (productResults.length > 0) {
             window.location.href = `products.html?search=${encodeURIComponent(searchTerm)}`;
         } else {
@@ -398,17 +363,14 @@ function performHeaderSearch() {
     }
 }
 
-// Products page functionality
 function initProductsPage() {
     const productsPerPage = 9;
     let currentPage = 1;
     let filteredProducts = [...products];
     
-    // Check for search parameter in URL
     const urlParams = new URLSearchParams(window.location.search);
     const searchParam = urlParams.get('search');
     
-    // Header search functionality
     const headerSearch = document.getElementById('header-search');
     if (headerSearch) {
         if (searchParam) {
@@ -441,7 +403,6 @@ function initProductsPage() {
         const productsGrid = document.querySelector('.products-grid');
         if (!productsGrid) return;
 
-        // Sort products by date (newest first)
         const sortedProducts = [...filteredProducts].sort((a, b) => {
             return new Date(b.dateAdded) - new Date(a.dateAdded);
         });
@@ -481,7 +442,6 @@ function initProductsPage() {
         updatePagination(page, Math.ceil(filteredProducts.length / productsPerPage), loadProducts);
     }
     
-    // Initial load with search parameter if exists
     if (searchParam) {
         filterProducts(searchParam);
     } else {
@@ -489,7 +449,6 @@ function initProductsPage() {
     }
 }
 
-// Unified pagination function
 function updatePagination(currentPage, totalPages, loadFunction) {
     const pagination = document.querySelector('.pagination');
     if (!pagination) return;
@@ -498,7 +457,6 @@ function updatePagination(currentPage, totalPages, loadFunction) {
     
     if (totalPages <= 1) return;
 
-    // Previous button
     const prevLink = document.createElement('a');
     prevLink.href = '#';
     prevLink.className = `page-link ${currentPage === 1 ? 'disabled' : ''}`;
@@ -512,7 +470,6 @@ function updatePagination(currentPage, totalPages, loadFunction) {
     });
     pagination.appendChild(prevLink);
 
-    // Page numbers (show max 5 pages)
     let startPage = Math.max(1, currentPage - 2);
     let endPage = Math.min(totalPages, startPage + 4);
     
@@ -533,7 +490,6 @@ function updatePagination(currentPage, totalPages, loadFunction) {
         pagination.appendChild(pageLink);
     }
 
-    // Next button
     const nextLink = document.createElement('a');
     nextLink.href = '#';
     nextLink.className = `page-link ${currentPage === totalPages ? 'disabled' : ''}`;
@@ -548,10 +504,24 @@ function updatePagination(currentPage, totalPages, loadFunction) {
     pagination.appendChild(nextLink);
 }
 
-// Buy product function
 function buyProduct(productId) {
     const product = products.find(p => p.id === productId);
     if (product) {
-        alert(`You are buying: ${product.name}\nPrice: ${product.price}\n\nThis is a demo. Integrate with your payment system.`);
+        const message = `
+🛒 Product Details:
+━━━━━━━━━━━━━━━━
+${product.name}
+${product.price}
+Category: ${product.category}
+
+${product.excerpt}
+━━━━━━━━━━━━━━━━
+
+This is a demo. In production, this would:
+• Add to cart
+• Process payment
+• Send confirmation email
+        `;
+        alert(message.trim());
     }
 }
