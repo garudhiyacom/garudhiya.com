@@ -253,7 +253,7 @@ function initBlogPage() {
             const postHTML = `
                 <article class="blog-post">
                     <div class="post-image">
-                        <img src="${post.image}" alt="${post.title}">
+                        <img src="${post.image}" alt="${post.title}" loading="lazy">
                     </div>
                     <div class="post-content">
                         <span class="post-date">${post.date}</span>
@@ -294,11 +294,13 @@ function initBlogDetailPage() {
     
     document.title = `${post.title} - Garudhiya Blog`;
     
+    addArticleSchema(post);
+    
     const authorInitial = post.author.charAt(0).toUpperCase();
     
     blogDetail.innerHTML = `
         <article class="blog-detail-article">
-            <img src="${post.image}" alt="${post.title}" class="blog-detail-image">
+            <img src="${post.image}" alt="${post.title}" class="blog-detail-image" loading="lazy">
             
             <div class="blog-detail-header">
                 <div class="blog-detail-meta">
@@ -334,6 +336,38 @@ function initBlogDetailPage() {
             </div>
         </article>
     `;
+}
+
+function addArticleSchema(post) {
+    const existingSchema = document.querySelector('script[type="application/ld+json"]');
+    if (existingSchema) existingSchema.remove();
+    
+    const schema = {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": post.title,
+        "description": post.excerpt,
+        "image": post.image,
+        "datePublished": new Date(post.date).toISOString(),
+        "dateModified": new Date(post.date).toISOString(),
+        "author": {
+            "@type": "Person",
+            "name": post.author
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "Garudhiya",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://garudhiya.com/assets/images/garudhiya-logo.png"
+            }
+        }
+    };
+    
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.textContent = JSON.stringify(schema);
+    document.head.appendChild(script);
 }
 
 function performHeaderSearch() {
@@ -380,6 +414,183 @@ function initProductsPage() {
         headerSearch.addEventListener('input', (e) => {
             filterProducts(e.target.value);
         });
+    }
+    
+    addProductSchema();
+    
+    function addProductSchema() {
+        const existingSchema = document.querySelector('script[type="application/ld+json"]');
+        if (existingSchema) existingSchema.remove();
+        
+        const schema = {
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            "itemListElement": products.map((product, index) => ({
+                "@type": "ListItem",
+                "position": index + 1,
+                "item": {
+                    "@type": "Product",
+                    "name": product.name,
+                    "description": product.excerpt,
+                    "image": product.image,
+                    "offers": {
+                        "@type": "Offer",
+                        "price": product.price.replace('
+    
+    function filterProducts(searchTerm = '') {
+        searchTerm = searchTerm.toLowerCase().trim();
+        
+        if (!searchTerm) {
+            filteredProducts = [...products];
+        } else {
+            filteredProducts = products.filter(product => {
+                return product.name.toLowerCase().includes(searchTerm) || 
+                       product.excerpt.toLowerCase().includes(searchTerm) ||
+                       product.category.toLowerCase().includes(searchTerm);
+            });
+        }
+        
+        currentPage = 1;
+        loadProducts(1);
+    }
+    
+    function loadProducts(page = 1) {
+        const productsGrid = document.querySelector('.products-grid');
+        if (!productsGrid) return;
+
+        const sortedProducts = [...filteredProducts].sort((a, b) => {
+            return new Date(b.dateAdded) - new Date(a.dateAdded);
+        });
+
+        const startIndex = (page - 1) * productsPerPage;
+        const endIndex = startIndex + productsPerPage;
+        const productsToShow = sortedProducts.slice(startIndex, endIndex);
+
+        productsGrid.innerHTML = '';
+        
+        if (productsToShow.length === 0) {
+            productsGrid.innerHTML = '<p class="no-results">No products found matching your search.</p>';
+            document.querySelector('.pagination').innerHTML = '';
+            return;
+        }
+
+        productsToShow.forEach(product => {
+            const productHTML = `
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="${product.image}" alt="${product.name}" loading="lazy">
+                        <span class="product-category">${product.category}</span>
+                    </div>
+                    <div class="product-info">
+                        <h3>${product.name}</h3>
+                        <p class="product-excerpt">${product.excerpt}</p>
+                        <div class="product-footer">
+                            <span class="product-price">${product.price}</span>
+                            <button class="btn-primary" onclick="buyProduct(${product.id})">Buy Now</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            productsGrid.innerHTML += productHTML;
+        });
+
+        updatePagination(page, Math.ceil(filteredProducts.length / productsPerPage), loadProducts);
+    }
+    
+    if (searchParam) {
+        filterProducts(searchParam);
+    } else {
+        loadProducts(currentPage);
+    }
+}
+
+function updatePagination(currentPage, totalPages, loadFunction) {
+    const pagination = document.querySelector('.pagination');
+    if (!pagination) return;
+
+    pagination.innerHTML = '';
+    
+    if (totalPages <= 1) return;
+
+    const prevLink = document.createElement('a');
+    prevLink.href = '#';
+    prevLink.className = `page-link ${currentPage === 1 ? 'disabled' : ''}`;
+    prevLink.textContent = '« Previous';
+    prevLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (currentPage > 1) {
+            loadFunction(currentPage - 1);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    });
+    pagination.appendChild(prevLink);
+
+    let startPage = Math.max(1, currentPage - 2);
+    let endPage = Math.min(totalPages, startPage + 4);
+    
+    if (endPage - startPage < 4) {
+        startPage = Math.max(1, endPage - 4);
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+        const pageLink = document.createElement('a');
+        pageLink.href = '#';
+        pageLink.className = `page-link ${i === currentPage ? 'active' : ''}`;
+        pageLink.textContent = i;
+        pageLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            loadFunction(i);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        pagination.appendChild(pageLink);
+    }
+
+    const nextLink = document.createElement('a');
+    nextLink.href = '#';
+    nextLink.className = `page-link ${currentPage === totalPages ? 'disabled' : ''}`;
+    nextLink.textContent = 'Next »';
+    nextLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (currentPage < totalPages) {
+            loadFunction(currentPage + 1);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    });
+    pagination.appendChild(nextLink);
+}
+
+function buyProduct(productId) {
+    const product = products.find(p => p.id === productId);
+    if (product) {
+        const message = `
+🛒 Product Details:
+━━━━━━━━━━━━━━━━
+${product.name}
+${product.price}
+Category: ${product.category}
+
+${product.excerpt}
+━━━━━━━━━━━━━━━━
+
+This is a demo. In production, this would:
+• Add to cart
+• Process payment
+• Send confirmation email
+        `;
+        alert(message.trim());
+    }
+}, ''),
+                        "priceCurrency": "USD",
+                        "availability": "https://schema.org/InStock"
+                    }
+                }
+            }))
+        };
+        
+        const script = document.createElement('script');
+        script.type = 'application/ld+json';
+        script.textContent = JSON.stringify(schema);
+        document.head.appendChild(script);
     }
     
     function filterProducts(searchTerm = '') {
