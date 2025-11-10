@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Admin Dashboard | Garudhiya</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <style>
+        /* Prevent page transition flicker on admin page */
+        body {
+            opacity: 1 !important;
+        }
+        .loading-screen {
+            display: none !important;
+        }
+    </style>
+</head>
+<body class="admin-page">
+    <div class="admin-container">
+        <nav class="admin-nav">
+            <div class="admin-nav-header">
+                <h2>Garudhiya Admin</h2>
+                <button id="logout-btn" class="btn-logout">Logout</button>
+            </div>
+            <ul class="admin-nav-links">
+                <li><a href="#products" class="active" data-tab="products">📦 Products</a></li>
+                <li><a href="#blog" data-tab="blog">📝 Blog Posts</a></li>
+                <li><a href="#comments" data-tab="comments">💬 Comments</a></li>
+            </ul>
+        </nav>
+
+        <main class="admin-main">
+            <!-- Products Section -->
+            <section id="products-section" class="admin-section active">
+                <div class="section-header">
+                    <h1>Manage Products</h1>
+                    <button id="add-product-btn" class="btn btn-primary">+ Add Product</button>
+                </div>
+
+                <div id="products-list" class="admin-list"></div>
+
+                <!-- Product Form Modal -->
+                <div id="product-modal" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2 id="product-modal-title">Add Product</h2>
+                            <button class="modal-close">&times;</button>
+                        </div>
+                        <form id="product-form">
+                            <input type="hidden" id="product-id">
+                            
+                            <div class="form-group">
+                                <label for="product-name">Product Name</label>
+                                <input type="text" id="product-name" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="product-description">Description</label>
+                                <textarea id="product-description" rows="3" required></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="product-price">Price</label>
+                                <input type="text" id="product-price" placeholder="$29.99" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="product-image">Product Image</label>
+                                <input type="file" id="product-image" accept="image/*" required>
+                                <small style="color: #6b7280;">Upload a product image (JPG, PNG, etc.)</small>
+                                <div id="product-image-preview" class="image-preview"></div>
+                            </div>
+                            
+                            <div class="modal-actions">
+                                <button type="button" class="btn btn-secondary modal-close">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Save Product</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Blog Section -->
+            <section id="blog-section" class="admin-section">
+                <div class="section-header">
+                    <h1>Manage Blog Posts</h1>
+                    <button id="add-blog-btn" class="btn btn-primary">+ Add Blog Post</button>
+                </div>
+
+                <div id="blog-list" class="admin-list"></div>
+
+                <!-- Blog Form Modal -->
+                <div id="blog-modal" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2 id="blog-modal-title">Add Blog Post</h2>
+                            <button class="modal-close">&times;</button>
+                        </div>
+                        <form id="blog-form">
+                            <input type="hidden" id="blog-id">
+                            
+                            <div class="form-group">
+                                <label for="blog-title">Title</label>
+                                <input type="text" id="blog-title" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="blog-excerpt">Excerpt (Short Preview)</label>
+                                <textarea id="blog-excerpt" rows="3" required></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="blog-content">Full Content (HTML)</label>
+                                <textarea id="blog-content" rows="15" placeholder="Write HTML content here..."></textarea>
+                                <small style="color: #6b7280;">
+                                    <strong>HTML Tips:</strong><br>
+                                    • Headings: &lt;h2&gt;Title&lt;/h2&gt;, &lt;h3&gt;Subtitle&lt;/h3&gt;<br>
+                                    • Paragraphs: &lt;p&gt;Your text here&lt;/p&gt;<br>
+                                    • Bold: &lt;strong&gt;text&lt;/strong&gt; | Italic: &lt;em&gt;text&lt;/em&gt;<br>
+                                    • Lists: &lt;ul&gt;&lt;li&gt;item&lt;/li&gt;&lt;/ul&gt; or &lt;ol&gt;&lt;li&gt;item&lt;/li&gt;&lt;/ol&gt;<br>
+                                    • Links: &lt;a href="url"&gt;link text&lt;/a&gt;<br>
+                                    • Line break: &lt;br&gt;
+                                </small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="blog-date">Date</label>
+                                <input type="text" id="blog-date" placeholder="November 9, 2025" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="blog-image">Featured Image</label>
+                                <input type="file" id="blog-image" accept="image/*" required>
+                                <small style="color: #6b7280;">Upload a featured image for your blog post (JPG, PNG, etc.)</small>
+                                <div id="blog-image-preview" class="image-preview"></div>
+                            </div>
+                            
+                            <div class="modal-actions">
+                                <button type="button" class="btn btn-secondary modal-close">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Save Post</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Comments Section -->
+            <section id="comments-section" class="admin-section">
+                <div class="section-header">
+                    <h1>Manage Comments</h1>
+                    <p style="color: #6b7280;">View and delete comments from blog posts</p>
+                </div>
+
+                <div id="comments-list" class="admin-list"></div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/firebase-db.js"></script>
+    <script src="js/firebase-storage.js"></script>
+    
+    <script src="js/confirm-dialog.js" defer></script>
+    <script src="js/toast.js" defer></script>
+    <script src="js/admin-auth.js" defer></script>
+    <script src="js/admin-dashboard-firebase.js" defer></script>
+    <script src="js/admin-comments.js" defer></script>
+</body>
+</html>
