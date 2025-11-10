@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Read Garudhiya's blog - Insights on entrepreneurship, projects, innovation, and personal growth. Stay updated with the latest ideas and stories.">
+    <meta name="keywords" content="Garudhiya blog, entrepreneur blog, business insights, innovation, personal growth, project updates">
+    <meta name="author" content="Garudhiya">
+    <title>Blog - Insights & Updates | Garudhiya</title>
+    <link rel="canonical" href="https://garudhiya.com/blog.html">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://garudhiya.com/blog.html">
+    <meta property="og:title" content="Blog - Insights & Updates | Garudhiya">
+    <meta property="og:description" content="Read Garudhiya's blog - Insights on entrepreneurship, projects, innovation, and personal growth.">
+    <meta property="og:image" content="https://garudhiya.com/favicon.svg">
+    <meta property="og:site_name" content="Garudhiya">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://garudhiya.com/blog.html">
+    <meta name="twitter:title" content="Blog - Insights & Updates | Garudhiya">
+    <meta name="twitter:description" content="Read Garudhiya's blog - Insights on entrepreneurship, projects, innovation, and personal growth.">
+    <meta name="twitter:image" content="https://garudhiya.com/favicon.svg">
+    <meta name="twitter:creator" content="@garudhiya">
+    
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <a href="index.html" class="logo">Garudhiya</a>
+                <div class="header-search">
+                    <input type="text" id="global-search" placeholder="Search products & blog..." />
+                    <div id="search-results" class="search-results"></div>
+                </div>
+                <button class="dark-mode-toggle" id="dark-mode-toggle" aria-label="Toggle dark mode">
+                    <svg class="sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                    </svg>
+                    <svg class="moon-icon" style="display: none;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                    </svg>
+                </button>
+                <button class="menu-toggle" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="blog.html" class="active">Blog</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main id="main-content">
+        <nav class="breadcrumb">
+            <div class="container">
+                <div class="breadcrumb-nav">
+                    <a href="index.html">Home</a>
+                    <span class="breadcrumb-separator">/</span>
+                    <span>Blog</span>
+                </div>
+            </div>
+        </nav>
+        
+        <section class="page-header">
+            <div class="container">
+                <h1>Blog</h1>
+                <p>Thoughts, ideas, and stories</p>
+            </div>
+        </section>
+
+        <section class="blog">
+            <div class="container">
+                <div class="blog-grid" id="blog-grid">
+                    <!-- Blog posts will be loaded by JavaScript -->
+                </div>
+                <div class="pagination">
+                    <!-- Pagination will be loaded by JavaScript -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; <span id="year"></span> Garudhiya &middot; All rights reserved.</p>
+            <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/firebase-db.js"></script>
+    <script src="js/firebase-storage.js"></script>
+    
+    <script src="js/page-transitions.js" defer></script>
+    <script src="js/toast.js" defer></script>
+    <script src="js/dark-mode.js" defer></script>
+    <script src="js/script.js" defer></script>
+    <script src="js/global-search.js" defer></script>
+    <script src="js/scroll-animations.js" defer></script>
+    <script src="js/keyboard-shortcuts.js" defer></script>
+    <script src="js/blog.js" defer></script>
+</body>
+</html>
