@@ -101,7 +101,7 @@
     RewriteCond %{THE_REQUEST} /blog-post\.html\?id=([0-9]+) [NC]
     RewriteRule ^blog-post\.html$ /blog/%1? [R=301,L]
     
-    # Route /blog/ID to blog-post.html?id=ID
+    # Route /blog/ID to blog-post.html?id=ID (must come before general .html rule)
     RewriteRule ^blog/([0-9]+)/?$ blog-post.html?id=$1 [L,QSA]
     
     # Remove .html extension from URLs
@@ -109,8 +109,10 @@
     RewriteRule ^(.+)\.html$ /$1 [R=301,L,NC]
     
     # Add .html extension internally (if file exists)
+    # Exclude blog post URLs from this rule
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} !^/blog/[0-9]+
     RewriteCond %{REQUEST_FILENAME}.html -f
     RewriteRule ^(.+)$ $1.html [L]
 </IfModule>
