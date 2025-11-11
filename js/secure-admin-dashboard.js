@@ -4,42 +4,170 @@ const db = firebase.firestore();
 
 const ADMIN_EMAIL = 'haikal@garudhiya.com';
 
+// Show loading state
+document.body.innerHTML = '<div style="display: flex; justify-content: center; align-items: center; height: 100vh; font-family: Arial;"><div style="text-align: center;"><h2>Loading Admin Dashboard...</h2><p>Checking authentication...</p></div></div>';
+
 // Check authentication on page load
 auth.onAuthStateChanged((user) => {
-    if (!user || user.email !== ADMIN_EMAIL) {
-        // Not authenticated or not admin, redirect to login
-        window.location.href = 'admin.html';
+    if (!user) {
+        // Not authenticated, redirect to login
+        console.log('No user signed in, redirecting to login...');
+        setTimeout(() => {
+            window.location.href = 'admin.html';
+        }, 1000);
         return;
     }
     
-    // User is authenticated and is admin
-    document.getElementById('admin-email').textContent = user.email;
+    if (user.email !== ADMIN_EMAIL) {
+        // Not admin email
+        console.log('User email does not match admin email');
+        alert('Access denied. Only ' + ADMIN_EMAIL + ' can access this dashboard.');
+        auth.signOut().then(() => {
+            window.location.href = 'admin.html';
+        });
+        return;
+    }
+    
+    // User is authenticated and is admin - restore page content
+    document.body.innerHTML = `
+        <div class="admin-header">
+            <h1>Admin Dashboard</h1>
+            <div>
+                <span id="admin-email">${user.email}</span>
+                <button id="logout-btn" class="logout-btn">Logout</button>
+            </div>
+        </div>
+
+        <div class="admin-content">
+            <div class="admin-tabs">
+                <button class="tab-button active" data-tab="blog">Blog Posts</button>
+                <button class="tab-button" data-tab="products">Products</button>
+                <button class="tab-button" data-tab="comments">Comments</button>
+            </div>
+
+            <div id="blog-tab" class="tab-content active">
+                <div class="form-section">
+                    <h3>Add/Edit Blog Post</h3>
+                    <div id="blog-message"></div>
+                    <form id="blog-form">
+                        <input type="hidden" id="blog-id">
+                        <div class="form-group">
+                            <label for="blog-title">Title:</label>
+                            <input type="text" id="blog-title" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="blog-excerpt">Excerpt:</label>
+                            <input type="text" id="blog-excerpt" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="blog-content">Content:</label>
+                            <textarea id="blog-content" class="form-textarea" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="blog-image">Image URL:</label>
+                            <input type="url" id="blog-image" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="blog-hidden"> Hidden
+                            </label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save Post</button>
+                        <button type="button" id="cancel-blog" class="btn">Cancel</button>
+                    </form>
+                </div>
+                
+                <div class="items-list" id="blog-list">
+                    <div style="padding: 2rem; text-align: center;">Loading...</div>
+                </div>
+            </div>
+
+            <div id="products-tab" class="tab-content">
+                <div class="form-section">
+                    <h3>Add/Edit Product</h3>
+                    <div id="product-message"></div>
+                    <form id="product-form">
+                        <input type="hidden" id="product-id">
+                        <div class="form-group">
+                            <label for="product-name">Name:</label>
+                            <input type="text" id="product-name" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-description">Description:</label>
+                            <textarea id="product-description" class="form-textarea" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-price">Price:</label>
+                            <input type="text" id="product-price" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-category">Category:</label>
+                            <input type="text" id="product-category" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-image">Image URL:</label>
+                            <input type="url" id="product-image" class="form-input">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save Product</button>
+                        <button type="button" id="cancel-product" class="btn">Cancel</button>
+                    </form>
+                </div>
+                
+                <div class="items-list" id="product-list">
+                    <div style="padding: 2rem; text-align: center;">Loading...</div>
+                </div>
+            </div>
+
+            <div id="comments-tab" class="tab-content">
+                <div class="items-list" id="comment-list">
+                    <div style="padding: 2rem; text-align: center;">Loading...</div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Re-attach event listeners after restoring content
+    setupEventListeners();
     loadBlogPosts();
     loadProducts();
     loadComments();
+}, (error) => {
+    console.error('Authentication error:', error);
+    alert('Authentication error: ' + error.message);
 });
 
-// Logout
-document.getElementById('logout-btn').addEventListener('click', () => {
-    auth.signOut().then(() => {
-        window.location.href = 'admin.html';
+// Setup all event listeners
+function setupEventListeners() {
+    // Logout
+    document.getElementById('logout-btn').addEventListener('click', () => {
+        auth.signOut().then(() => {
+            window.location.href = 'admin.html';
+        });
     });
-});
 
-// Tab switching
-document.querySelectorAll('.tab-button').forEach(button => {
-    button.addEventListener('click', () => {
-        const tabName = button.dataset.tab;
-        
-        // Update active tab button
-        document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
-        button.classList.add('active');
-        
-        // Update active tab content
-        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-        document.getElementById(tabName + '-tab').classList.add('active');
+    // Tab switching
+    document.querySelectorAll('.tab-button').forEach(button => {
+        button.addEventListener('click', () => {
+            const tabName = button.dataset.tab;
+            
+            // Update active tab button
+            document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+            button.classList.add('active');
+            
+            // Update active tab content
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.getElementById(tabName + '-tab').classList.add('active');
+        });
     });
-});
+    
+    // Blog form
+    document.getElementById('blog-form').addEventListener('submit', handleBlogSubmit);
+    document.getElementById('cancel-blog').addEventListener('click', cancelBlogEdit);
+    
+    // Product form
+    document.getElementById('product-form').addEventListener('submit', handleProductSubmit);
+    document.getElementById('cancel-product').addEventListener('click', cancelProductEdit);
+}
 
 // Utility functions
 function showMessage(elementId, message, type = 'success') {
@@ -128,7 +256,7 @@ async function deleteBlogPost(id) {
     }
 }
 
-document.getElementById('blog-form').addEventListener('submit', async (e) => {
+async function handleBlogSubmit(e) {
     e.preventDefault();
     
     const postData = {
@@ -142,11 +270,9 @@ document.getElementById('blog-form').addEventListener('submit', async (e) => {
     
     try {
         if (editingBlogId) {
-            // Update existing post
             await db.collection('blogPosts').doc(editingBlogId).update(postData);
             showMessage('blog-message', 'Blog post updated successfully!');
         } else {
-            // Create new post
             const newId = getCurrentTimestamp().toString();
             await db.collection('blogPosts').doc(newId).set({
                 ...postData,
@@ -155,22 +281,20 @@ document.getElementById('blog-form').addEventListener('submit', async (e) => {
             showMessage('blog-message', 'Blog post created successfully!');
         }
         
-        // Reset form
         document.getElementById('blog-form').reset();
         editingBlogId = null;
         document.querySelector('#blog-form button[type="submit"]').textContent = 'Save Post';
-        
         loadBlogPosts();
     } catch (error) {
         showMessage('blog-message', 'Error saving post: ' + error.message, 'error');
     }
-});
+}
 
-document.getElementById('cancel-blog').addEventListener('click', () => {
+function cancelBlogEdit() {
     document.getElementById('blog-form').reset();
     editingBlogId = null;
     document.querySelector('#blog-form button[type="submit"]').textContent = 'Save Post';
-});
+}
 
 // Products Management
 let editingProductId = null;
@@ -242,7 +366,7 @@ async function deleteProduct(id) {
     }
 }
 
-document.getElementById('product-form').addEventListener('submit', async (e) => {
+async function handleProductSubmit(e) {
     e.preventDefault();
     
     const productData = {
@@ -255,11 +379,9 @@ document.getElementById('product-form').addEventListener('submit', async (e) => 
     
     try {
         if (editingProductId) {
-            // Update existing product
             await db.collection('products').doc(editingProductId).update(productData);
             showMessage('product-message', 'Product updated successfully!');
         } else {
-            // Create new product
             const newId = getCurrentTimestamp().toString();
             await db.collection('products').doc(newId).set({
                 ...productData,
@@ -268,22 +390,20 @@ document.getElementById('product-form').addEventListener('submit', async (e) => 
             showMessage('product-message', 'Product created successfully!');
         }
         
-        // Reset form
         document.getElementById('product-form').reset();
         editingProductId = null;
         document.querySelector('#product-form button[type="submit"]').textContent = 'Save Product';
-        
         loadProducts();
     } catch (error) {
         showMessage('product-message', 'Error saving product: ' + error.message, 'error');
     }
-});
+}
 
-document.getElementById('cancel-product').addEventListener('click', () => {
+function cancelProductEdit() {
     document.getElementById('product-form').reset();
     editingProductId = null;
     document.querySelector('#product-form button[type="submit"]').textContent = 'Save Product';
-});
+}
 
 // Comments Management
 async function loadComments() {
