@@ -4,8 +4,13 @@ const auth = firebase.auth();
 
 const ADMIN_EMAIL = 'haikal@garudhiya.com';
 
+console.log('🔥 Admin dashboard script loaded');
+console.log('Firebase auth:', auth);
+console.log('Firebase db:', db);
+
 // Check authentication on page load
 auth.onAuthStateChanged((user) => {
+    console.log('🔐 Auth state changed, user:', user ? user.email : 'none');
     if (!user) {
         // Not authenticated, redirect to login
         console.log('No user signed in, redirecting to login...');
@@ -25,13 +30,25 @@ auth.onAuthStateChanged((user) => {
     
     // User is authenticated and is admin
     console.log('✅ Authenticated as admin:', user.email);
-    document.getElementById('admin-email').textContent = user.email;
+    
+    const emailElement = document.getElementById('admin-email');
+    if (emailElement) {
+        emailElement.textContent = user.email;
+        console.log('✅ Email displayed in header');
+    } else {
+        console.error('❌ admin-email element not found!');
+    }
     
     // Setup event listeners and load data
-    setupEventListeners();
-    loadBlogPosts();
-    loadProducts();
-    loadComments();
+    console.log('🚀 Starting dashboard initialization...');
+    
+    // Wait a bit for DOM to be ready
+    setTimeout(() => {
+        setupEventListeners();
+        loadBlogPosts();
+        loadProducts();
+        loadComments();
+    }, 100);
 }, (error) => {
     console.error('Authentication error:', error);
     alert('Authentication error: ' + error.message);
