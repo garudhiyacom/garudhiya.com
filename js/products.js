@@ -1,11 +1,31 @@
-// Get products from Firebase
+// Cache for products (5 minutes)
+let productsCache = null;
+let productsCacheTime = 0;
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+
+// Get products from Firebase with caching
 async function getProducts() {
     try {
+        const now = Date.now();
+        
+        // Return cached data if still valid
+        if (productsCache && (now - productsCacheTime) < CACHE_DURATION) {
+            console.log('📦 Using cached products');
+            return productsCache;
+        }
+        
+        console.log('🔄 Fetching fresh products from Firebase');
         const products = await getProductsFromFirebase();
+        
+        // Update cache
+        productsCache = products;
+        productsCacheTime = now;
+        
         return products;
     } catch (error) {
         console.error('Error loading products:', error);
-        return [];
+        // Return cached data if available, even if expired
+        return productsCache || [];
     }
 }
 

@@ -1,11 +1,31 @@
-// Get blog posts from Firebase
+// Cache for blog posts (5 minutes)
+let blogPostsCache = null;
+let blogPostsCacheTime = 0;
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+
+// Get blog posts from Firebase with caching
 async function getBlogPosts() {
     try {
+        const now = Date.now();
+        
+        // Return cached data if still valid
+        if (blogPostsCache && (now - blogPostsCacheTime) < CACHE_DURATION) {
+            console.log('📦 Using cached blog posts');
+            return blogPostsCache;
+        }
+        
+        console.log('🔄 Fetching fresh blog posts from Firebase');
         const posts = await getBlogPostsFromFirebase();
+        
+        // Update cache
+        blogPostsCache = posts;
+        blogPostsCacheTime = now;
+        
         return posts;
     } catch (error) {
         console.error('Error loading blog posts:', error);
-        return [];
+        // Return cached data if available, even if expired
+        return blogPostsCache || [];
     }
 }
 
@@ -199,15 +219,40 @@ function calculateReadingTime(content) {
     return readingTime;
 }
 
-// Get post views
-async function getPostViews(postId) {
+// Cache for post stats
+let postStatsCache = {};
+let postStatsCacheTime = 0;
+
+// Get all post views in one batch
+async function getAllPostViews(postIds) {
     try {
-        const stats = await getPostStatsFromFirebase(postId);
-        return stats?.views || 0;
+        const now = Date.now();
+        
+        // Return cached data if still valid
+        if (Object.keys(postStatsCache).length > 0 && (now - postStatsCacheTime) < CACHE_DURATION) {
+            return postStatsCache;
+        }
+        
+        // Fetch all stats at once (you'll need to implement this in firebase-db.js)
+        const stats = {};
+        for (const postId of postIds) {
+            const postStats = await getPostStatsFromFirebase(postId);
+            stats[postId] = postStats?.views || 0;
+        }
+        
+        postStatsCache = stats;
+        postStatsCacheTime = now;
+        
+        return stats;
     } catch (error) {
         console.error('Error getting views:', error);
-        return 0;
+        return {};
     }
+}
+
+// Get post views from cache
+function getPostViews(postId) {
+    return postStatsCache[postId] || 0;
 }
 
 // Filter blog posts by search query
@@ -258,12 +303,16 @@ async function renderBlogPosts(page = 1) {
     // Clear grid
     blogGrid.innerHTML = '';
     
+    // Fetch all view counts at once
+    const postIds = postsToShow.map(p => p.id);
+    await getAllPostViews(postIds);
+    
     // Render posts for current page
     for (const post of postsToShow) {
         const blogCard = document.createElement('div');
         blogCard.className = 'blog-card';
         const readingTime = calculateReadingTime(post.content);
-        const views = await getPostViews(post.id);
+        const views = getPostViews(post.id);
         
         blogCard.innerHTML = `
             <img src="${post.image}" alt="${post.title}" loading="lazy" style="width: 100%; height: 200px; object-fit: cover;">

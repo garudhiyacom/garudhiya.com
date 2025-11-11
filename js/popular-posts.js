@@ -1,5 +1,10 @@
 // Load Popular Posts on Homepage
 (function() {
+    // Cache for popular posts (10 minutes)
+    let popularPostsCache = null;
+    let popularPostsCacheTime = 0;
+    const CACHE_DURATION = 10 * 60 * 1000; // 10 minutes
+    
     function getPostViews(postId) {
         const stored = localStorage.getItem('postViews');
         const allViews = stored ? JSON.parse(stored) : {};
@@ -14,19 +19,39 @@
         return readingTime;
     }
     
-    function loadPopularPosts() {
+    async function loadPopularPosts() {
         const popularPostsGrid = document.getElementById('popular-posts-grid');
         
         if (!popularPostsGrid) return;
         
-        // Get all blog posts
-        const stored = localStorage.getItem('blogPosts');
-        if (!stored) {
-            popularPostsGrid.innerHTML = '<p style="text-align: center; color: var(--text-light);">No posts available yet.</p>';
+        // Check cache first
+        const now = Date.now();
+        if (popularPostsCache && (now - popularPostsCacheTime) < CACHE_DURATION) {
+            console.log('📦 Using cached popular posts');
+            popularPostsGrid.innerHTML = popularPostsCache;
             return;
         }
         
-        const allPosts = JSON.parse(stored);
+        // Get all blog posts from Firebase
+        let allPosts = [];
+        try {
+            if (typeof getBlogPostsFromFirebase === 'function') {
+                allPosts = await getBlogPostsFromFirebase();
+            } else {
+                // Fallback to localStorage
+                const stored = localStorage.getItem('blogPosts');
+                allPosts = stored ? JSON.parse(stored) : [];
+            }
+        } catch (error) {
+            console.error('Error loading posts:', error);
+            const stored = localStorage.getItem('blogPosts');
+            allPosts = stored ? JSON.parse(stored) : [];
+        }
+        
+        if (allPosts.length === 0) {
+            popularPostsGrid.innerHTML = '<p style="text-align: center; color: var(--text-light);">No posts available yet.</p>';
+            return;
+        }
         
         // Sort by view count
         const sortedPosts = allPosts
@@ -43,7 +68,7 @@
         }
         
         // Render popular posts
-        popularPostsGrid.innerHTML = sortedPosts.map((post, index) => {
+        const html = sortedPosts.map((post, index) => {
             const readingTime = calculateReadingTime(post.content);
             const badges = ['🔥 Most Popular', '⭐ Trending', '👍 Popular'];
             
@@ -59,6 +84,12 @@
                 </a>
             `;
         }).join('');
+        
+        // Cache the rendered HTML
+        popularPostsCache = html;
+        popularPostsCacheTime = now;
+        
+        popularPostsGrid.innerHTML = html;
     }
     
     // Load when DOM is ready
