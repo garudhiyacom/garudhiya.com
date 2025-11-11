@@ -122,13 +122,15 @@
     <!-- Hash-based routing for clean URLs -->
     <script>
         // Check if there's a hash (blog post ID) in the URL
-        if (window.location.hash) {
-            const postId = window.location.hash.substring(1); // Remove the #
-            if (postId) {
-                // Redirect to blog-post.html with the ID
-                window.location.href = `blog-post.html?id=${postId}`;
+        window.addEventListener('DOMContentLoaded', function() {
+            if (window.location.hash && window.location.hash.length > 1) {
+                const postId = window.location.hash.substring(1); // Remove the #
+                if (postId && postId.trim()) {
+                    // Redirect to blog-post.html with the ID
+                    window.location.href = `blog-post.html?id=${postId}`;
+                }
             }
-        }
+        });
     </script>
 </body>
 </html>
