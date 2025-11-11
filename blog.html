@@ -118,5 +118,17 @@
     <script src="js/scroll-animations.min.js" defer></script>
     <script src="js/keyboard-shortcuts.min.js" defer></script>
     <script src="js/blog.min.js" defer></script>
+    
+    <!-- Hash-based routing for clean URLs -->
+    <script>
+        // Check if there's a hash (blog post ID) in the URL
+        if (window.location.hash) {
+            const postId = window.location.hash.substring(1); // Remove the #
+            if (postId) {
+                // Redirect to blog-post.html with the ID
+                window.location.href = `blog-post.html?id=${postId}`;
+            }
+        }
+    </script>
 </body>
 </html>

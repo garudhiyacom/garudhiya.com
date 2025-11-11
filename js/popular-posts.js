@@ -4,7 +4,7 @@
     let popularPostsCache = null;
     let popularPostsCacheTime = 0;
     const CACHE_DURATION = 10 * 60 * 1000; // 10 minutes
-    const CACHE_VERSION = 'v2'; // v2 - reverted to old URL format
+    const CACHE_VERSION = 'v3'; // v3 - hash-based clean URLs
     
     // Clear old cache on version change
     const storedVersion = localStorage.getItem('popularPostsCacheVersion');
@@ -81,7 +81,7 @@
             const badges = ['🔥 Most Popular', '⭐ Trending', '👍 Popular'];
             
             return `
-                <a href="blog-post.html?id=${post.id}" class="popular-post-card">
+                <a href="blog#${post.id}" class="popular-post-card">
                     <img src="${post.image}" alt="${post.title}" loading="lazy">
                     <div class="popular-post-content">
                         <span class="popular-post-badge">${badges[index] || '📖 Popular'}</span>

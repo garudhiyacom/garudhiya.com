@@ -566,7 +566,7 @@ async function loadRelatedPosts(currentPostId) {
     relatedPostsGrid.innerHTML = relatedPosts.map(post => {
         const readingTime = calculateReadingTime(post.content);
         return `
-            <a href="blog-post.html?id=${post.id}" class="related-post-card">
+            <a href="blog#${post.id}" class="related-post-card">
                 <img src="${post.image}" alt="${post.title}" loading="lazy">
                 <div class="related-post-content">
                     <div class="related-post-meta">${post.date} • ${readingTime} min read</div>
