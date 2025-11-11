@@ -1,7 +1,7 @@
 // Cache for blog posts (1 hour with localStorage persistence)
 const CACHE_DURATION = 60 * 60 * 1000; // 1 hour
-const BLOG_CACHE_KEY = 'blogPostsCache_v1';
-const BLOG_CACHE_TIME_KEY = 'blogPostsCacheTime_v1';
+const BLOG_CACHE_KEY = 'blogPostsCache_v2'; // v2 - reverted to old URL format
+const BLOG_CACHE_TIME_KEY = 'blogPostsCacheTime_v2';
 
 // Get blog posts from Firebase with persistent caching
 async function getBlogPosts() {

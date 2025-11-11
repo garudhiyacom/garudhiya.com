@@ -4,6 +4,14 @@
     let popularPostsCache = null;
     let popularPostsCacheTime = 0;
     const CACHE_DURATION = 10 * 60 * 1000; // 10 minutes
+    const CACHE_VERSION = 'v2'; // v2 - reverted to old URL format
+    
+    // Clear old cache on version change
+    const storedVersion = localStorage.getItem('popularPostsCacheVersion');
+    if (storedVersion !== CACHE_VERSION) {
+        localStorage.removeItem('popularPostsCache');
+        localStorage.setItem('popularPostsCacheVersion', CACHE_VERSION);
+    }
     
     function getPostViews(postId) {
         const stored = localStorage.getItem('postViews');
