@@ -14,6 +14,14 @@ firebase.initializeApp(firebaseConfig);
 
 // Initialize services
 const db = firebase.firestore();
-const storage = firebase.storage();
+
+// Initialize storage only if available
+let storage = null;
+if (firebase.storage) {
+    storage = firebase.storage();
+    console.log('✅ Firebase Storage initialized');
+} else {
+    console.warn('⚠️ Firebase Storage not loaded');
+}
 
 console.log('✅ Firebase initialized successfully');
