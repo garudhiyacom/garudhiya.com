@@ -1,5 +1,6 @@
 // Secure Admin Authentication using Firebase Auth
 // No hardcoded passwords - uses Firebase Authentication
+// Version: 2.0 - Simplified (no Google sign-in)
 
 // Initialize Firebase Auth
 const auth = firebase.auth();
