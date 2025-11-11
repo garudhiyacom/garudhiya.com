@@ -1,31 +1,46 @@
-// Cache for products (5 minutes)
-let productsCache = null;
-let productsCacheTime = 0;
-const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+// Cache for products (1 hour with localStorage persistence)
+const CACHE_DURATION = 60 * 60 * 1000; // 1 hour
+const PRODUCTS_CACHE_KEY = 'productsCache_v1';
+const PRODUCTS_CACHE_TIME_KEY = 'productsCacheTime_v1';
 
-// Get products from Firebase with caching
+// Get products from Firebase with persistent caching
 async function getProducts() {
     try {
         const now = Date.now();
         
-        // Return cached data if still valid
-        if (productsCache && (now - productsCacheTime) < CACHE_DURATION) {
-            console.log('📦 Using cached products');
-            return productsCache;
+        // Try to get from localStorage first
+        const cachedData = localStorage.getItem(PRODUCTS_CACHE_KEY);
+        const cachedTime = localStorage.getItem(PRODUCTS_CACHE_TIME_KEY);
+        
+        if (cachedData && cachedTime) {
+            const cacheAge = now - parseInt(cachedTime);
+            if (cacheAge < CACHE_DURATION) {
+                console.log('📦 Using cached products from localStorage (age: ' + Math.round(cacheAge/1000) + 's)');
+                return JSON.parse(cachedData);
+            }
         }
         
         console.log('🔄 Fetching fresh products from Firebase');
         const products = await getProductsFromFirebase();
         
-        // Update cache
-        productsCache = products;
-        productsCacheTime = now;
+        // Save to localStorage
+        try {
+            localStorage.setItem(PRODUCTS_CACHE_KEY, JSON.stringify(products));
+            localStorage.setItem(PRODUCTS_CACHE_TIME_KEY, now.toString());
+        } catch (e) {
+            console.warn('Failed to cache to localStorage:', e);
+        }
         
         return products;
     } catch (error) {
         console.error('Error loading products:', error);
-        // Return cached data if available, even if expired
-        return productsCache || [];
+        // Try to return stale cache if available
+        const cachedData = localStorage.getItem(PRODUCTS_CACHE_KEY);
+        if (cachedData) {
+            console.log('⚠️ Using stale cache due to error');
+            return JSON.parse(cachedData);
+        }
+        return [];
     }
 }
 
@@ -95,7 +110,20 @@ async function renderProducts(page = 1) {
         return;
     }
     
-    productGrid.innerHTML = '<p style="text-align: center; padding: 2rem;">Loading products...</p>';
+    // Show skeleton loaders
+    productGrid.innerHTML = `
+        <div class="skeleton-grid">
+            ${Array(6).fill('').map(() => `
+                <div class="skeleton-product-card">
+                    <div class="skeleton skeleton-product-image"></div>
+                    <div class="skeleton skeleton-product-title"></div>
+                    <div class="skeleton skeleton-product-text"></div>
+                    <div class="skeleton skeleton-product-text" style="width: 90%;"></div>
+                    <div class="skeleton skeleton-product-price"></div>
+                </div>
+            `).join('')}
+        </div>
+    `;
     
     let products = await getProducts();
     console.log('📦 Products loaded from Firebase:', products.length, products);

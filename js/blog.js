@@ -1,31 +1,46 @@
-// Cache for blog posts (5 minutes)
-let blogPostsCache = null;
-let blogPostsCacheTime = 0;
-const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+// Cache for blog posts (1 hour with localStorage persistence)
+const CACHE_DURATION = 60 * 60 * 1000; // 1 hour
+const BLOG_CACHE_KEY = 'blogPostsCache_v1';
+const BLOG_CACHE_TIME_KEY = 'blogPostsCacheTime_v1';
 
-// Get blog posts from Firebase with caching
+// Get blog posts from Firebase with persistent caching
 async function getBlogPosts() {
     try {
         const now = Date.now();
         
-        // Return cached data if still valid
-        if (blogPostsCache && (now - blogPostsCacheTime) < CACHE_DURATION) {
-            console.log('📦 Using cached blog posts');
-            return blogPostsCache;
+        // Try to get from localStorage first
+        const cachedData = localStorage.getItem(BLOG_CACHE_KEY);
+        const cachedTime = localStorage.getItem(BLOG_CACHE_TIME_KEY);
+        
+        if (cachedData && cachedTime) {
+            const cacheAge = now - parseInt(cachedTime);
+            if (cacheAge < CACHE_DURATION) {
+                console.log('📦 Using cached blog posts from localStorage (age: ' + Math.round(cacheAge/1000) + 's)');
+                return JSON.parse(cachedData);
+            }
         }
         
         console.log('🔄 Fetching fresh blog posts from Firebase');
         const posts = await getBlogPostsFromFirebase();
         
-        // Update cache
-        blogPostsCache = posts;
-        blogPostsCacheTime = now;
+        // Save to localStorage
+        try {
+            localStorage.setItem(BLOG_CACHE_KEY, JSON.stringify(posts));
+            localStorage.setItem(BLOG_CACHE_TIME_KEY, now.toString());
+        } catch (e) {
+            console.warn('Failed to cache to localStorage:', e);
+        }
         
         return posts;
     } catch (error) {
         console.error('Error loading blog posts:', error);
-        // Return cached data if available, even if expired
-        return blogPostsCache || [];
+        // Try to return stale cache if available
+        const cachedData = localStorage.getItem(BLOG_CACHE_KEY);
+        if (cachedData) {
+            console.log('⚠️ Using stale cache due to error');
+            return JSON.parse(cachedData);
+        }
+        return [];
     }
 }
 
@@ -280,7 +295,20 @@ async function renderBlogPosts(page = 1) {
         return;
     }
     
-    blogGrid.innerHTML = '<p style="text-align: center; padding: 2rem;">Loading blog posts...</p>';
+    // Show skeleton loaders
+    blogGrid.innerHTML = `
+        <div class="skeleton-grid">
+            ${Array(6).fill('').map(() => `
+                <div class="skeleton-blog-card">
+                    <div class="skeleton skeleton-blog-image"></div>
+                    <div class="skeleton skeleton-blog-meta"></div>
+                    <div class="skeleton skeleton-blog-title"></div>
+                    <div class="skeleton skeleton-blog-text"></div>
+                    <div class="skeleton skeleton-blog-text" style="width: 80%;"></div>
+                </div>
+            `).join('')}
+        </div>
+    `;
     
     let blogPosts = await getBlogPosts();
     console.log('📝 Blog posts loaded from Firebase:', blogPosts.length, blogPosts);
