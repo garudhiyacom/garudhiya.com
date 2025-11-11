@@ -102,15 +102,14 @@
     RewriteCond %{THE_REQUEST} /blog-post\.html\?id=([^&\s]+) [NC]
     RewriteRule ^blog-post\.html$ /blog/%1? [R=301,L]
     
-    # Route /blog/ID to blog-post.html?id=ID (MUST come FIRST)
-    # This handles URLs like /blog/1, /blog/1762774749041, etc.
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^blog/([a-zA-Z0-9_-]+)/?$ blog-post.html?id=$1 [L,QSA,NC]
-    
-    # Remove .html extension from URLs
+    # Remove .html extension from URLs (BEFORE blog routing)
     RewriteCond %{THE_REQUEST} ^GET\ /[^?\s]+\.html [NC]
+    RewriteCond %{REQUEST_URI} !^/blog-post\.html
     RewriteRule ^(.+)\.html$ /$1 [R=301,L,NC]
+    
+    # Route /blog/ID to blog-post.html?id=ID
+    # This MUST come after .html removal but before general .html addition
+    RewriteRule ^blog/([a-zA-Z0-9_-]+)/?$ blog-post.html?id=$1 [L,QSA,NC]
     
     # Add .html extension internally for other pages (if file exists)
     RewriteCond %{REQUEST_FILENAME} !-f
