@@ -117,20 +117,19 @@
     <script src="js/global-search.min.js" defer></script>
     <script src="js/scroll-animations.min.js" defer></script>
     <script src="js/keyboard-shortcuts.min.js" defer></script>
-    <script src="js/blog.min.js" defer></script>
     
-    <!-- Hash-based routing for clean URLs -->
+    <!-- Hash-based routing for clean URLs (must run BEFORE blog.js) -->
     <script>
         // Check if there's a hash (blog post ID) in the URL
-        window.addEventListener('DOMContentLoaded', function() {
-            if (window.location.hash && window.location.hash.length > 1) {
-                const postId = window.location.hash.substring(1); // Remove the #
-                if (postId && postId.trim()) {
-                    // Redirect to blog-post.html with the ID
-                    window.location.href = `blog-post.html?id=${postId}`;
-                }
+        if (window.location.hash && window.location.hash.length > 1) {
+            const postId = window.location.hash.substring(1); // Remove the #
+            if (postId && postId.trim()) {
+                // Redirect to blog-post.html with the ID immediately
+                window.location.replace(`blog-post.html?id=${postId}`);
             }
-        });
+        }
     </script>
+    
+    <script src="js/blog.min.js" defer></script>
 </body>
 </html>
