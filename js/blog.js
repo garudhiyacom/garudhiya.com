@@ -346,9 +346,9 @@ async function renderBlogPosts(page = 1) {
             <img src="${post.image}" alt="${post.title}" loading="lazy" style="width: 100%; height: 200px; object-fit: cover;">
             <div class="blog-content">
                 <div class="blog-meta">${post.date} • ${readingTime} min read • ${views} views</div>
-                <h3><a href="/blog/${post.id}" class="blog-title-link">${post.title}</a></h3>
+                <h3><a href="blog-post.html?id=${post.id}" class="blog-title-link">${post.title}</a></h3>
                 <p>${post.excerpt}</p>
-                <a href="/blog/${post.id}" class="read-more">Read More →</a>
+                <a href="blog-post.html?id=${post.id}" class="read-more">Read More →</a>
             </div>
         `;
         blogGrid.appendChild(blogCard);

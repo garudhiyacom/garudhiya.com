@@ -92,26 +92,16 @@
 # Clean URLs - Remove .html extension
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase /
     
     # Redirect index.html to root
     RewriteCond %{THE_REQUEST} /index\.html [NC]
     RewriteRule ^(.*)index\.html$ /$1 [R=301,L,NC]
     
-    # Redirect old blog-post.html?id=X to /blog/X
-    RewriteCond %{THE_REQUEST} /blog-post\.html\?id=([^&\s]+) [NC]
-    RewriteRule ^blog-post\.html$ /blog/%1? [R=301,L]
-    
-    # Remove .html extension from URLs (BEFORE blog routing)
+    # Remove .html extension from URLs
     RewriteCond %{THE_REQUEST} ^GET\ /[^?\s]+\.html [NC]
-    RewriteCond %{REQUEST_URI} !^/blog-post\.html
     RewriteRule ^(.+)\.html$ /$1 [R=301,L,NC]
     
-    # Route /blog/ID to blog-post.html?id=ID
-    # This MUST come after .html removal but before general .html addition
-    RewriteRule ^blog/([a-zA-Z0-9_-]+)/?$ blog-post.html?id=$1 [L,QSA,NC]
-    
-    # Add .html extension internally for other pages (if file exists)
+    # Add .html extension internally (if file exists)
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME}.html -f

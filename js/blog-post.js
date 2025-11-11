@@ -566,7 +566,7 @@ async function loadRelatedPosts(currentPostId) {
     relatedPostsGrid.innerHTML = relatedPosts.map(post => {
         const readingTime = calculateReadingTime(post.content);
         return `
-            <a href="/blog/${post.id}" class="related-post-card">
+            <a href="blog-post.html?id=${post.id}" class="related-post-card">
                 <img src="${post.image}" alt="${post.title}" loading="lazy">
                 <div class="related-post-content">
                     <div class="related-post-meta">${post.date} • ${readingTime} min read</div>
@@ -578,17 +578,8 @@ async function loadRelatedPosts(currentPostId) {
     }).join('');
 }
 
-// Get post ID from URL (supports both /blog/ID and ?id=ID formats)
+// Get post ID from URL
 function getPostIdFromUrl() {
-    // First, try to get ID from clean URL path (/blog/123 or /blog/abc123)
-    const pathMatch = window.location.pathname.match(/\/blog\/([a-zA-Z0-9_-]+)/);
-    if (pathMatch) {
-        const id = pathMatch[1];
-        // Return as number if it's numeric, otherwise as string
-        return isNaN(id) ? id : parseInt(id);
-    }
-    
-    // Fallback to query parameter (?id=123)
     const params = new URLSearchParams(window.location.search);
     const id = params.get('id');
     // Return as-is (could be string or number)
@@ -602,7 +593,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     
     if (!postId) {
         // No ID provided, redirect to blog page
-        window.location.href = '/blog';
+        window.location.href = 'blog.html';
         return;
     }
     
@@ -625,7 +616,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         document.getElementById('post-content').innerHTML = `
             <p>Sorry, this blog post could not be found.</p>
             <p><strong>Requested ID:</strong> ${postId}</p>
-            <p><a href="/blog">← Return to blog</a></p>
+            <p><a href="blog.html">← Return to blog</a></p>
         `;
         return;
     }
@@ -633,7 +624,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Check if post is hidden
     if (post.hidden) {
         document.getElementById('post-title').textContent = 'Post Not Available';
-        document.getElementById('post-content').innerHTML = '<p>This blog post is currently not available.</p><p><a href="/blog">← Return to blog</a></p>';
+        document.getElementById('post-content').innerHTML = '<p>This blog post is currently not available.</p><p><a href="blog.html">← Return to blog</a></p>';
         return;
     }
     
