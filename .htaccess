@@ -106,7 +106,7 @@
     # This handles URLs like /blog/1, /blog/1762774749041, etc.
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^blog/([a-zA-Z0-9_-]+)/?$ /blog-post.html?id=$1 [L,QSA,NC]
+    RewriteRule ^blog/([a-zA-Z0-9_-]+)/?$ blog-post.html?id=$1 [L,QSA,NC]
     
     # Remove .html extension from URLs
     RewriteCond %{THE_REQUEST} ^GET\ /[^?\s]+\.html [NC]
