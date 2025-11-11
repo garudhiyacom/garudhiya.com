@@ -4,17 +4,12 @@ const db = firebase.firestore();
 
 const ADMIN_EMAIL = 'haikal@garudhiya.com';
 
-// Show loading state
-document.body.innerHTML = '<div style="display: flex; justify-content: center; align-items: center; height: 100vh; font-family: Arial;"><div style="text-align: center;"><h2>Loading Admin Dashboard...</h2><p>Checking authentication...</p></div></div>';
-
 // Check authentication on page load
 auth.onAuthStateChanged((user) => {
     if (!user) {
         // Not authenticated, redirect to login
         console.log('No user signed in, redirecting to login...');
-        setTimeout(() => {
-            window.location.href = 'admin.html';
-        }, 1000);
+        window.location.href = 'admin.html';
         return;
     }
     
@@ -28,105 +23,11 @@ auth.onAuthStateChanged((user) => {
         return;
     }
     
-    // User is authenticated and is admin - restore page content
-    document.body.innerHTML = `
-        <div class="admin-header">
-            <h1>Admin Dashboard</h1>
-            <div>
-                <span id="admin-email">${user.email}</span>
-                <button id="logout-btn" class="logout-btn">Logout</button>
-            </div>
-        </div>
-
-        <div class="admin-content">
-            <div class="admin-tabs">
-                <button class="tab-button active" data-tab="blog">Blog Posts</button>
-                <button class="tab-button" data-tab="products">Products</button>
-                <button class="tab-button" data-tab="comments">Comments</button>
-            </div>
-
-            <div id="blog-tab" class="tab-content active">
-                <div class="form-section">
-                    <h3>Add/Edit Blog Post</h3>
-                    <div id="blog-message"></div>
-                    <form id="blog-form">
-                        <input type="hidden" id="blog-id">
-                        <div class="form-group">
-                            <label for="blog-title">Title:</label>
-                            <input type="text" id="blog-title" class="form-input" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="blog-excerpt">Excerpt:</label>
-                            <input type="text" id="blog-excerpt" class="form-input" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="blog-content">Content:</label>
-                            <textarea id="blog-content" class="form-textarea" required></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="blog-image">Image URL:</label>
-                            <input type="url" id="blog-image" class="form-input">
-                        </div>
-                        <div class="form-group">
-                            <label>
-                                <input type="checkbox" id="blog-hidden"> Hidden
-                            </label>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Save Post</button>
-                        <button type="button" id="cancel-blog" class="btn">Cancel</button>
-                    </form>
-                </div>
-                
-                <div class="items-list" id="blog-list">
-                    <div style="padding: 2rem; text-align: center;">Loading...</div>
-                </div>
-            </div>
-
-            <div id="products-tab" class="tab-content">
-                <div class="form-section">
-                    <h3>Add/Edit Product</h3>
-                    <div id="product-message"></div>
-                    <form id="product-form">
-                        <input type="hidden" id="product-id">
-                        <div class="form-group">
-                            <label for="product-name">Name:</label>
-                            <input type="text" id="product-name" class="form-input" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="product-description">Description:</label>
-                            <textarea id="product-description" class="form-textarea" required></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="product-price">Price:</label>
-                            <input type="text" id="product-price" class="form-input" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="product-category">Category:</label>
-                            <input type="text" id="product-category" class="form-input" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="product-image">Image URL:</label>
-                            <input type="url" id="product-image" class="form-input">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Save Product</button>
-                        <button type="button" id="cancel-product" class="btn">Cancel</button>
-                    </form>
-                </div>
-                
-                <div class="items-list" id="product-list">
-                    <div style="padding: 2rem; text-align: center;">Loading...</div>
-                </div>
-            </div>
-
-            <div id="comments-tab" class="tab-content">
-                <div class="items-list" id="comment-list">
-                    <div style="padding: 2rem; text-align: center;">Loading...</div>
-                </div>
-            </div>
-        </div>
-    `;
+    // User is authenticated and is admin
+    console.log('✅ Authenticated as admin:', user.email);
+    document.getElementById('admin-email').textContent = user.email;
     
-    // Re-attach event listeners after restoring content
+    // Setup event listeners and load data
     setupEventListeners();
     loadBlogPosts();
     loadProducts();
