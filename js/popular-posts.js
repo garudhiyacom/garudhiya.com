@@ -73,7 +73,7 @@
             const badges = ['🔥 Most Popular', '⭐ Trending', '👍 Popular'];
             
             return `
-                <a href="blog-post.html?id=${post.id}" class="popular-post-card">
+                <a href="/blog/${post.id}" class="popular-post-card">
                     <img src="${post.image}" alt="${post.title}" loading="lazy">
                     <div class="popular-post-content">
                         <span class="popular-post-badge">${badges[index] || '📖 Popular'}</span>

@@ -564,9 +564,9 @@ async function loadRelatedPosts(currentPostId) {
     }
     
     relatedPostsGrid.innerHTML = relatedPosts.map(post => {
-        const readingTime = Math.ceil((post.content ? post.content.trim().split(/\s+/).length : 0) / 200);
+        const readingTime = calculateReadingTime(post.content);
         return `
-            <a href="blog-post.html?id=${post.id}" class="related-post-card">
+            <a href="/blog/${post.id}" class="related-post-card">
                 <img src="${post.image}" alt="${post.title}" loading="lazy">
                 <div class="related-post-content">
                     <div class="related-post-meta">${post.date} • ${readingTime} min read</div>
@@ -578,8 +578,15 @@ async function loadRelatedPosts(currentPostId) {
     }).join('');
 }
 
-// Get post ID from URL
+// Get post ID from URL (supports both /blog/ID and ?id=ID formats)
 function getPostIdFromUrl() {
+    // First, try to get ID from clean URL path (/blog/123)
+    const pathMatch = window.location.pathname.match(/\/blog\/(\d+)/);
+    if (pathMatch) {
+        return parseInt(pathMatch[1]);
+    }
+    
+    // Fallback to query parameter (?id=123)
     const params = new URLSearchParams(window.location.search);
     const id = params.get('id');
     // Return as-is (could be string or number)
@@ -593,7 +600,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     
     if (!postId) {
         // No ID provided, redirect to blog page
-        window.location.href = 'blog.html';
+        window.location.href = '/blog';
         return;
     }
     

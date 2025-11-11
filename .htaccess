@@ -97,6 +97,13 @@
     RewriteCond %{THE_REQUEST} /index\.html [NC]
     RewriteRule ^(.*)index\.html$ /$1 [R=301,L,NC]
     
+    # Redirect old blog-post.html?id=X to /blog/X
+    RewriteCond %{THE_REQUEST} /blog-post\.html\?id=([0-9]+) [NC]
+    RewriteRule ^blog-post\.html$ /blog/%1? [R=301,L]
+    
+    # Route /blog/ID to blog-post.html?id=ID
+    RewriteRule ^blog/([0-9]+)/?$ blog-post.html?id=$1 [L,QSA]
+    
     # Remove .html extension from URLs
     RewriteCond %{THE_REQUEST} ^GET\ /[^?\s]+\.html [NC]
     RewriteRule ^(.+)\.html$ /$1 [R=301,L,NC]
