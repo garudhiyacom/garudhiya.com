@@ -4,8 +4,8 @@
 // Initialize Firebase Auth
 const auth = firebase.auth();
 
-// Your admin email (CHANGE THIS TO YOUR EMAIL)
-const ADMIN_EMAIL = 'haikal@example.com'; // ⚠️ CHANGE THIS TO YOUR ACTUAL EMAIL
+// Your admin email
+const ADMIN_EMAIL = 'haikal@garudhiya.com';
 
 // Check if user is authenticated and is admin
 function isAdmin(user) {

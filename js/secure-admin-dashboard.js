@@ -2,7 +2,7 @@
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-const ADMIN_EMAIL = 'haikal@example.com'; // ⚠️ CHANGE THIS TO YOUR ACTUAL EMAIL
+const ADMIN_EMAIL = 'haikal@garudhiya.com';
 
 // Check authentication on page load
 auth.onAuthStateChanged((user) => {
