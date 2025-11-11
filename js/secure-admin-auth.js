@@ -87,11 +87,28 @@ auth.onAuthStateChanged((user) => {
 
 // Event listeners
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('🔐 Admin Login Page');
+    console.log('📝 To create admin account, open console and type:');
+    console.log('   createAdminAccount("your-password")');
+    console.log('   Then sign in normally with haikal@garudhiya.com');
+    
+    // Make createAccount available in console
+    window.createAdminAccount = function(password) {
+        if (!password) {
+            console.error('❌ Please provide a password');
+            return;
+        }
+        console.log('Creating admin account...');
+        createAccount(ADMIN_EMAIL, password);
+    };
+    
     // Email/Password form
     document.getElementById('login-form').addEventListener('submit', function(e) {
         e.preventDefault();
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
+        
+        console.log('🔑 Attempting login with:', email);
         signInWithEmail(email, password);
     });
 });
