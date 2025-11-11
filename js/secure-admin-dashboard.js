@@ -39,35 +39,76 @@ auth.onAuthStateChanged((user) => {
 
 // Setup all event listeners
 function setupEventListeners() {
-    // Logout
-    document.getElementById('logout-btn').addEventListener('click', () => {
-        auth.signOut().then(() => {
-            window.location.href = 'admin.html';
-        });
-    });
+    console.log('🔧 Setting up event listeners...');
+    
+    try {
+        // Logout
+        const logoutBtn = document.getElementById('logout-btn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', () => {
+                console.log('Logout clicked');
+                auth.signOut().then(() => {
+                    window.location.href = 'admin.html';
+                });
+            });
+            console.log('✅ Logout button listener attached');
+        } else {
+            console.error('❌ Logout button not found');
+        }
 
-    // Tab switching
-    document.querySelectorAll('.tab-button').forEach(button => {
-        button.addEventListener('click', () => {
-            const tabName = button.dataset.tab;
-            
-            // Update active tab button
-            document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
-            button.classList.add('active');
-            
-            // Update active tab content
-            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-            document.getElementById(tabName + '-tab').classList.add('active');
+        // Tab switching
+        const tabButtons = document.querySelectorAll('.tab-button');
+        console.log('Found', tabButtons.length, 'tab buttons');
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const tabName = button.dataset.tab;
+                console.log('Tab clicked:', tabName);
+                
+                // Update active tab button
+                document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+                button.classList.add('active');
+                
+                // Update active tab content
+                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                document.getElementById(tabName + '-tab').classList.add('active');
+            });
         });
-    });
-    
-    // Blog form
-    document.getElementById('blog-form').addEventListener('submit', handleBlogSubmit);
-    document.getElementById('cancel-blog').addEventListener('click', cancelBlogEdit);
-    
-    // Product form
-    document.getElementById('product-form').addEventListener('submit', handleProductSubmit);
-    document.getElementById('cancel-product').addEventListener('click', cancelProductEdit);
+        console.log('✅ Tab listeners attached');
+        
+        // Blog form
+        const blogForm = document.getElementById('blog-form');
+        if (blogForm) {
+            blogForm.addEventListener('submit', handleBlogSubmit);
+            console.log('✅ Blog form listener attached');
+        } else {
+            console.error('❌ Blog form not found');
+        }
+        
+        const cancelBlog = document.getElementById('cancel-blog');
+        if (cancelBlog) {
+            cancelBlog.addEventListener('click', cancelBlogEdit);
+            console.log('✅ Cancel blog listener attached');
+        }
+        
+        // Product form
+        const productForm = document.getElementById('product-form');
+        if (productForm) {
+            productForm.addEventListener('submit', handleProductSubmit);
+            console.log('✅ Product form listener attached');
+        } else {
+            console.error('❌ Product form not found');
+        }
+        
+        const cancelProduct = document.getElementById('cancel-product');
+        if (cancelProduct) {
+            cancelProduct.addEventListener('click', cancelProductEdit);
+            console.log('✅ Cancel product listener attached');
+        }
+        
+        console.log('✅ All event listeners setup complete!');
+    } catch (error) {
+        console.error('❌ Error setting up event listeners:', error);
+    }
 }
 
 // Utility functions
@@ -91,12 +132,15 @@ function formatDate(timestamp) {
 let editingBlogId = null;
 
 async function loadBlogPosts() {
+    console.log('📝 Loading blog posts...');
     try {
         const snapshot = await db.collection('blogPosts').orderBy('date', 'desc').get();
         const blogList = document.getElementById('blog-list');
         
+        console.log('Found', snapshot.size, 'blog posts');
+        
         if (snapshot.empty) {
-            blogList.innerHTML = '<div style="padding: 2rem; text-align: center;">No blog posts yet.</div>';
+            blogList.innerHTML = '<div style="padding: 2rem; text-align: center;">No blog posts yet. Create your first one above!</div>';
             return;
         }
         
@@ -118,9 +162,11 @@ async function loadBlogPosts() {
             `;
             blogList.appendChild(postElement);
         });
+        console.log('✅ Blog posts loaded successfully');
     } catch (error) {
-        console.error('Error loading blog posts:', error);
-        showMessage('blog-message', 'Error loading blog posts: ' + error.message, 'error');
+        console.error('❌ Error loading blog posts:', error);
+        const blogList = document.getElementById('blog-list');
+        blogList.innerHTML = `<div style="padding: 2rem; text-align: center; color: red;">Error loading blog posts: ${error.message}</div>`;
     }
 }
 
