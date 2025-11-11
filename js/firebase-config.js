@@ -9,14 +9,19 @@ const firebaseConfig = {
     measurementId: "G-ELT2EH6MQ1"
 };
 
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+// Initialize Firebase (only if not already initialized)
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+    console.log('✅ Firebase app initialized');
+} else {
+    console.log('ℹ️ Firebase app already initialized');
+}
 
-// Initialize services
-const db = firebase.firestore();
+// Initialize services (use var to allow redeclaration)
+var db = firebase.firestore();
 
 // Initialize storage only if available
-let storage = null;
+var storage = null;
 if (firebase.storage) {
     storage = firebase.storage();
     console.log('✅ Firebase Storage initialized');
@@ -24,4 +29,4 @@ if (firebase.storage) {
     console.warn('⚠️ Firebase Storage not loaded');
 }
 
-console.log('✅ Firebase initialized successfully');
+console.log('✅ Firebase config loaded successfully');
