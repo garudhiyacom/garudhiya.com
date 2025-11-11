@@ -6,32 +6,43 @@
         return;
     }
 
-    function getAllComments() {
-        const stored = localStorage.getItem('comments');
-        return stored ? JSON.parse(stored) : {};
+    async function getAllComments() {
+        try {
+            return await getAllCommentsFromFirebase();
+        } catch (error) {
+            console.error('Error getting comments:', error);
+            return [];
+        }
     }
 
-    function getBlogPosts() {
-        const stored = localStorage.getItem('blogPosts');
-        return stored ? JSON.parse(stored) : [];
+    async function getBlogPosts() {
+        try {
+            return await getBlogPostsFromFirebase();
+        } catch (error) {
+            console.error('Error getting blog posts:', error);
+            return [];
+        }
     }
 
-    function deleteComment(postId, commentIndex) {
-        const allComments = getAllComments();
-        if (allComments[postId]) {
-            allComments[postId].splice(commentIndex, 1);
-            localStorage.setItem('comments', JSON.stringify(allComments));
-            loadComments();
+    async function deleteComment(commentId) {
+        try {
+            await deleteCommentFromFirebase(commentId);
+            await loadComments();
             if (typeof showToast === 'function') {
                 showToast('Comment deleted successfully', 'success');
+            }
+        } catch (error) {
+            console.error('Error deleting comment:', error);
+            if (typeof showToast === 'function') {
+                showToast('Error deleting comment', 'error');
             }
         }
     }
 
-    async function handleDeleteComment(postId, commentIndex, postTitle) {
+    async function handleDeleteComment(commentId, postTitle) {
         if (typeof showConfirm !== 'function') {
             if (confirm('Are you sure you want to delete this comment?')) {
-                deleteComment(postId, commentIndex);
+                await deleteComment(commentId);
             }
             return;
         }
@@ -44,83 +55,108 @@
         );
 
         if (confirmed) {
-            deleteComment(postId, commentIndex);
+            await deleteComment(commentId);
         }
     }
 
-    function loadComments() {
+    async function loadComments() {
         const commentsList = document.getElementById('comments-list');
         if (!commentsList) return;
 
-        const allComments = getAllComments();
-        const blogPosts = getBlogPosts();
-        
-        // Create a map of post IDs to titles
-        const postTitles = {};
-        blogPosts.forEach(post => {
-            postTitles[post.id] = post.title;
-        });
+        commentsList.innerHTML = '<div class="loading">Loading comments...</div>';
 
-        let html = '';
-        let totalComments = 0;
+        try {
+            const allComments = await getAllComments();
+            const blogPosts = await getBlogPosts();
+            
+            // Create a map of post IDs to titles
+            const postTitles = {};
+            blogPosts.forEach(post => {
+                postTitles[post.id] = post.title;
+            });
 
-        // Loop through all posts with comments
-        for (const postId in allComments) {
-            const comments = allComments[postId];
-            if (comments && comments.length > 0) {
-                const postTitle = postTitles[postId] || 'Unknown Post';
-                totalComments += comments.length;
+            // Group comments by postId
+            const commentsByPost = {};
+            allComments.forEach(comment => {
+                if (!commentsByPost[comment.postId]) {
+                    commentsByPost[comment.postId] = [];
+                }
+                commentsByPost[comment.postId].push(comment);
+            });
 
-                html += `
-                    <div class="admin-comment-group">
-                        <h3 class="admin-comment-post-title">
-                            📝 ${postTitle}
-                            <span class="comment-count">(${comments.length} comment${comments.length !== 1 ? 's' : ''})</span>
-                        </h3>
-                        <div class="admin-comments-list">
-                `;
+            let html = '';
+            let totalComments = allComments.length;
 
-                comments.forEach((comment, index) => {
+            // Loop through all posts with comments
+            for (const postId in commentsByPost) {
+                const comments = commentsByPost[postId];
+                if (comments && comments.length > 0) {
+                    const postTitle = postTitles[postId] || 'Unknown Post';
+
                     html += `
-                        <div class="admin-comment-item">
-                            <div class="admin-comment-header">
-                                <div>
-                                    <strong>${comment.name}</strong>
-                                    <span class="admin-comment-date">${comment.date}</span>
+                        <div class="admin-comment-group">
+                            <h3 class="admin-comment-post-title">
+                                📝 ${postTitle}
+                                <span class="comment-count">(${comments.length} comment${comments.length !== 1 ? 's' : ''})</span>
+                            </h3>
+                            <div class="admin-comments-list">
+                    `;
+
+                    comments.forEach((comment) => {
+                        const commentDate = comment.date || new Date(comment.timestamp).toLocaleDateString();
+                        const commentText = comment.text || comment.comment || '';
+                        const commentName = comment.name || comment.author || 'Anonymous';
+                        
+                        html += `
+                            <div class="admin-comment-item">
+                                <div class="admin-comment-header">
+                                    <div>
+                                        <strong>${commentName}</strong>
+                                        <span class="admin-comment-date">${commentDate}</span>
+                                    </div>
+                                    <button 
+                                        class="btn-delete" 
+                                        onclick="handleAdminDeleteComment('${comment.id}', '${postTitle.replace(/'/g, "\\'")}')"
+                                        title="Delete comment">
+                                        🗑️ Delete
+                                    </button>
                                 </div>
-                                <button 
-                                    class="btn-delete" 
-                                    onclick="handleAdminDeleteComment('${postId}', ${index}, '${postTitle.replace(/'/g, "\\'")}')"
-                                    title="Delete comment">
-                                    🗑️ Delete
-                                </button>
+                                <div class="admin-comment-text">${commentText}</div>
                             </div>
-                            <div class="admin-comment-text">${comment.text}</div>
+                        `;
+                    });
+
+                    html += `
+                            </div>
                         </div>
                     `;
-                });
+                }
+            }
 
-                html += `
-                        </div>
+            if (totalComments === 0) {
+                commentsList.innerHTML = `
+                    <div class="empty-state">
+                        <p>💬 No comments yet</p>
+                        <p style="color: #6b7280;">Comments from blog posts will appear here</p>
                     </div>
                 `;
+            } else {
+                commentsList.innerHTML = html;
             }
-        }
-
-        if (totalComments === 0) {
+        } catch (error) {
+            console.error('Error loading comments:', error);
             commentsList.innerHTML = `
                 <div class="empty-state">
-                    <p>💬 No comments yet</p>
-                    <p style="color: #6b7280;">Comments from blog posts will appear here</p>
+                    <p>❌ Error loading comments</p>
+                    <p style="color: #6b7280;">${error.message}</p>
                 </div>
             `;
-        } else {
-            commentsList.innerHTML = html;
         }
     }
 
-    // Make delete function globally accessible
+    // Make functions globally accessible
     window.handleAdminDeleteComment = handleDeleteComment;
+    window.loadAdminComments = loadComments;
 
     // Load comments when DOM is ready
     if (document.readyState === 'loading') {

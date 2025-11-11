@@ -126,6 +126,22 @@ async function getCommentsFromFirebase(postId) {
     }
 }
 
+async function getAllCommentsFromFirebase() {
+    try {
+        const snapshot = await db.collection('comments').get();
+        const comments = [];
+        snapshot.forEach(doc => {
+            comments.push({ id: doc.id, ...doc.data() });
+        });
+        // Sort by timestamp on client side (newest first)
+        comments.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+        return comments;
+    } catch (error) {
+        console.error('❌ Error getting all comments:', error);
+        return [];
+    }
+}
+
 async function deleteCommentFromFirebase(id) {
     try {
         await db.collection('comments').doc(id).delete();

@@ -420,6 +420,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     } else {
                         console.error('Blog container NOT found!');
                     }
+                } else if (target === 'comments-section') {
+                    console.log('Switching to comments section');
+                    // Trigger loadComments if it exists
+                    if (typeof window.loadAdminComments === 'function') {
+                        window.loadAdminComments();
+                    }
                 }
             }
         });
