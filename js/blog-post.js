@@ -580,10 +580,12 @@ async function loadRelatedPosts(currentPostId) {
 
 // Get post ID from URL (supports both /blog/ID and ?id=ID formats)
 function getPostIdFromUrl() {
-    // First, try to get ID from clean URL path (/blog/123)
-    const pathMatch = window.location.pathname.match(/\/blog\/(\d+)/);
+    // First, try to get ID from clean URL path (/blog/123 or /blog/abc123)
+    const pathMatch = window.location.pathname.match(/\/blog\/([a-zA-Z0-9_-]+)/);
     if (pathMatch) {
-        return parseInt(pathMatch[1]);
+        const id = pathMatch[1];
+        // Return as number if it's numeric, otherwise as string
+        return isNaN(id) ? id : parseInt(id);
     }
     
     // Fallback to query parameter (?id=123)
