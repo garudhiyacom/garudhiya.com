@@ -13,28 +13,6 @@ function isAdmin(user) {
     return user && user.email === ADMIN_EMAIL;
 }
 
-// Google Sign-In
-function signInWithGoogle() {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    
-    auth.signInWithPopup(provider)
-        .then((result) => {
-            const user = result.user;
-            if (isAdmin(user)) {
-                showMessage('Login successful! Redirecting...', 'success');
-                setTimeout(() => {
-                    window.location.href = 'admin-dashboard.html';
-                }, 1000);
-            } else {
-                showMessage('Access denied. Only admin can access this panel.', 'error');
-                auth.signOut();
-            }
-        })
-        .catch((error) => {
-            showMessage('Error: ' + error.message, 'error');
-        });
-}
-
 // Email/Password Sign-In
 function signInWithEmail(email, password) {
     auth.signInWithEmailAndPassword(email, password)
@@ -55,21 +33,6 @@ function signInWithEmail(email, password) {
         });
 }
 
-// Create Account
-function createAccount(email, password) {
-    if (email !== ADMIN_EMAIL) {
-        showMessage('Only the admin email can create an account.', 'error');
-        return;
-    }
-    
-    auth.createUserWithEmailAndPassword(email, password)
-        .then((result) => {
-            showMessage('Account created successfully! You can now sign in.', 'success');
-        })
-        .catch((error) => {
-            showMessage('Error: ' + error.message, 'error');
-        });
-}
 
 // Show message
 function showMessage(text, type) {
@@ -89,19 +52,8 @@ auth.onAuthStateChanged((user) => {
 // Event listeners
 document.addEventListener('DOMContentLoaded', function() {
     console.log('🔐 Admin Login Page');
-    console.log('📝 To create admin account, open console and type:');
-    console.log('   createAdminAccount("your-password")');
-    console.log('   Then sign in normally with haikal@garudhiya.com');
-    
-    // Make createAccount available in console
-    window.createAdminAccount = function(password) {
-        if (!password) {
-            console.error('❌ Please provide a password');
-            return;
-        }
-        console.log('Creating admin account...');
-        createAccount(ADMIN_EMAIL, password);
-    };
+    console.log('⚠️ Account creation is disabled for security.');
+    console.log('📧 Contact administrator to create account via Firebase Console.');
     
     // Email/Password form
     document.getElementById('login-form').addEventListener('submit', function(e) {
