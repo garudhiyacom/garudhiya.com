@@ -87,30 +87,11 @@ auth.onAuthStateChanged((user) => {
 
 // Event listeners
 document.addEventListener('DOMContentLoaded', function() {
-    // Google Sign-In button
-    document.getElementById('google-signin').addEventListener('click', signInWithGoogle);
-    
     // Email/Password form
     document.getElementById('login-form').addEventListener('submit', function(e) {
         e.preventDefault();
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
         signInWithEmail(email, password);
-    });
-    
-    // Create account link
-    document.getElementById('create-account').addEventListener('click', function(e) {
-        e.preventDefault();
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-        
-        if (!email || !password) {
-            showMessage('Please enter email and password first.', 'error');
-            return;
-        }
-        
-        if (confirm('Create admin account with this email?')) {
-            createAccount(email, password);
-        }
     });
 });
