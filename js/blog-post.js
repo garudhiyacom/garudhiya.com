@@ -618,16 +618,22 @@ document.addEventListener('DOMContentLoaded', async function() {
     
     
     if (!post) {
-        // Post not found
+        // Post not found - show detailed error for debugging
+        console.error('Post not found. Looking for ID:', postId);
+        console.log('Available posts:', posts.map(p => ({ id: p.id, title: p.title })));
         document.getElementById('post-title').textContent = 'Post Not Found';
-        document.getElementById('post-content').innerHTML = '<p>Sorry, this blog post could not be found.</p><p><a href="blog.html">Return to blog</a></p>';
+        document.getElementById('post-content').innerHTML = `
+            <p>Sorry, this blog post could not be found.</p>
+            <p><strong>Requested ID:</strong> ${postId}</p>
+            <p><a href="/blog">← Return to blog</a></p>
+        `;
         return;
     }
     
     // Check if post is hidden
     if (post.hidden) {
         document.getElementById('post-title').textContent = 'Post Not Available';
-        document.getElementById('post-content').innerHTML = '<p>This blog post is currently not available.</p><p><a href="blog.html">Return to blog</a></p>';
+        document.getElementById('post-content').innerHTML = '<p>This blog post is currently not available.</p><p><a href="/blog">← Return to blog</a></p>';
         return;
     }
     
