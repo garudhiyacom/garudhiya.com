@@ -1,0 +1,18 @@
+{
+  "name": "garudhiya-website",
+  "version": "1.0.0",
+  "description": "Garudhiya personal website with performance optimizations",
+  "scripts": {
+    "minify:css": "npx clean-css-cli -o css/style.min.css css/style.css && npx clean-css-cli -o css/admin.min.css css/admin.css",
+    "minify:js": "npx terser js/script.js -o js/script.min.js -c -m && npx terser js/dark-mode.js -o js/dark-mode.min.js -c -m && npx terser js/blog.js -o js/blog.min.js -c -m && npx terser js/products.js -o js/products.min.js -c -m && npx terser js/blog-post.js -o js/blog-post.min.js -c -m && npx terser js/global-search.js -o js/global-search.min.js -c -m",
+    "minify:firebase": "npx terser js/firebase-db.js -o js/firebase-db.min.js -c -m && npx terser js/firebase-storage.js -o js/firebase-storage.min.js -c -m",
+    "minify:admin": "npx terser js/admin-dashboard-firebase.js -o js/admin-dashboard-firebase.min.js -c -m && npx terser js/admin-comments.js -o js/admin-comments.min.js -c -m && npx terser js/admin-auth.js -o js/admin-auth.min.js -c -m",
+    "minify:utils": "npx terser js/page-transitions.js -o js/page-transitions.min.js -c -m && npx terser js/toast.js -o js/toast.min.js -c -m && npx terser js/scroll-animations.js -o js/scroll-animations.min.js -c -m && npx terser js/keyboard-shortcuts.js -o js/keyboard-shortcuts.min.js -c -m && npx terser js/confirm-dialog.js -o js/confirm-dialog.min.js -c -m && npx terser js/image-lightbox.js -o js/image-lightbox.min.js -c -m && npx terser js/popular-posts.js -o js/popular-posts.min.js -c -m",
+    "minify:all": "npm run minify:css && npm run minify:js && npm run minify:firebase && npm run minify:admin && npm run minify:utils",
+    "build": "npm run minify:all"
+  },
+  "devDependencies": {
+    "clean-css-cli": "^5.6.3",
+    "terser": "^5.31.0"
+  }
+}
