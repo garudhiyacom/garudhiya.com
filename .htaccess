@@ -88,3 +88,22 @@
     Header set X-XSS-Protection "1; mode=block"
     Header set Referrer-Policy "strict-origin-when-cross-origin"
 </IfModule>
+
+# Clean URLs - Remove .html extension
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Redirect index.html to root
+    RewriteCond %{THE_REQUEST} /index\.html [NC]
+    RewriteRule ^(.*)index\.html$ /$1 [R=301,L,NC]
+    
+    # Remove .html extension from URLs
+    RewriteCond %{THE_REQUEST} ^GET\ /[^?\s]+\.html [NC]
+    RewriteRule ^(.+)\.html$ /$1 [R=301,L,NC]
+    
+    # Add .html extension internally (if file exists)
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME}.html -f
+    RewriteRule ^(.+)$ $1.html [L]
+</IfModule>
