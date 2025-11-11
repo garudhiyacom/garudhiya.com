@@ -1,6 +1,6 @@
 // Secure Admin Dashboard using Firebase Auth
+// Note: db is already declared in firebase-config.js
 const auth = firebase.auth();
-const db = firebase.firestore();
 
 const ADMIN_EMAIL = 'haikal@garudhiya.com';
 
