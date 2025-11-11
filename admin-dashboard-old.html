@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Garudhiya</title>
+    <link rel="stylesheet" href="css/style.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f5f7fa;
+            color: #2d3748;
+        }
+        
+        .admin-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .admin-header h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .admin-email {
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .admin-content {
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .admin-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            background: white;
+            padding: 0.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .tab-button {
+            padding: 0.75rem 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #718096;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .tab-button:hover {
+            background: #f7fafc;
+            color: #667eea;
+        }
+        
+        .tab-button.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .form-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .form-section h3 {
+            margin-bottom: 1.5rem;
+            color: #2d3748;
+            font-size: 1.25rem;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        .form-input, .form-textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            background: var(--bg-color);
+            color: var(--text-color);
+        }
+        .form-textarea {
+            min-height: 200px;
+            resize: vertical;
+        }
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+        .btn-danger {
+            background: #e74c3c;
+            color: white;
+        }
+        .items-list {
+            background: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .item {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .item:last-child {
+            border-bottom: none;
+        }
+        .item-info h4 {
+            margin: 0 0 0.5rem 0;
+        }
+        .item-info p {
+            margin: 0;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        .item-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .logout-btn {
+            background: #e74c3c;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .message {
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-header">
+        <h1>Admin Dashboard</h1>
+        <div>
+            <span id="admin-email"></span>
+            <button id="logout-btn" class="logout-btn">Logout</button>
+        </div>
+    </div>
+
+    <div class="admin-content">
+        <div class="admin-tabs">
+            <button class="tab-button active" data-tab="blog">Blog Posts</button>
+            <button class="tab-button" data-tab="products">Products</button>
+            <button class="tab-button" data-tab="comments">Comments</button>
+        </div>
+
+        <!-- Blog Posts Tab -->
+        <div id="blog-tab" class="tab-content active">
+            <div class="form-section">
+                <h3>Add/Edit Blog Post</h3>
+                <div id="blog-message"></div>
+                <form id="blog-form">
+                    <input type="hidden" id="blog-id">
+                    <div class="form-group">
+                        <label for="blog-title">Title:</label>
+                        <input type="text" id="blog-title" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="blog-excerpt">Excerpt:</label>
+                        <input type="text" id="blog-excerpt" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="blog-content">Content:</label>
+                        <textarea id="blog-content" class="form-textarea" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="blog-image">Image URL:</label>
+                        <input type="url" id="blog-image" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="blog-hidden"> Hidden
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Post</button>
+                    <button type="button" id="cancel-blog" class="btn">Cancel</button>
+                </form>
+            </div>
+            
+            <div class="items-list" id="blog-list">
+                <div style="padding: 2rem; text-align: center;">Loading...</div>
+            </div>
+        </div>
+
+        <!-- Products Tab -->
+        <div id="products-tab" class="tab-content">
+            <div class="form-section">
+                <h3>Add/Edit Product</h3>
+                <div id="product-message"></div>
+                <form id="product-form">
+                    <input type="hidden" id="product-id">
+                    <div class="form-group">
+                        <label for="product-name">Name:</label>
+                        <input type="text" id="product-name" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-description">Description:</label>
+                        <textarea id="product-description" class="form-textarea" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-price">Price:</label>
+                        <input type="text" id="product-price" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-category">Category:</label>
+                        <input type="text" id="product-category" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-image">Image URL:</label>
+                        <input type="url" id="product-image" class="form-input">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Product</button>
+                    <button type="button" id="cancel-product" class="btn">Cancel</button>
+                </form>
+            </div>
+            
+            <div class="items-list" id="product-list">
+                <div style="padding: 2rem; text-align: center;">Loading...</div>
+            </div>
+        </div>
+
+        <!-- Comments Tab -->
+        <div id="comments-tab" class="tab-content">
+            <div class="items-list" id="comment-list">
+                <div style="padding: 2rem; text-align: center;">Loading...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/secure-admin-dashboard.js"></script>
+</body>
+</html>
