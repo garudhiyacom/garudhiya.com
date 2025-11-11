@@ -144,10 +144,86 @@ async function getAllCommentsFromFirebase() {
 
 async function deleteCommentFromFirebase(id) {
     try {
-        await db.collection('comments').doc(id).delete();
-        console.log('✅ Comment deleted from Firebase');
+        // First, find and delete all replies to this comment
+        const repliesSnapshot = await db.collection('comments')
+            .where('parentId', '==', id)
+            .get();
+        
+        // Collect all comment IDs to delete (parent + replies)
+        const commentIdsToDelete = [id];
+        repliesSnapshot.forEach(doc => {
+            commentIdsToDelete.push(doc.id);
+        });
+        
+        // Delete all comments in batch
+        const batch = db.batch();
+        repliesSnapshot.forEach(doc => {
+            batch.delete(doc.ref);
+        });
+        
+        // Also delete the parent comment
+        const commentRef = db.collection('comments').doc(id);
+        batch.delete(commentRef);
+        
+        // Commit all deletions
+        await batch.commit();
+        
+        console.log(`✅ Comment and ${repliesSnapshot.size} replies deleted from Firebase`);
+        
+        // Clean up orphaned user interactions (async, don't wait)
+        cleanupUserInteractions(commentIdsToDelete).catch(err => {
+            console.warn('⚠️ Error cleaning up user interactions:', err);
+        });
     } catch (error) {
         console.error('❌ Error deleting comment:', error);
+        throw error;
+    }
+}
+
+// Helper function to clean up orphaned comment IDs from user interactions
+async function cleanupUserInteractions(commentIds) {
+    try {
+        // Get all user interaction documents
+        const userInteractionsSnapshot = await db.collection('userInteractions').get();
+        
+        if (userInteractionsSnapshot.empty) {
+            return;
+        }
+        
+        const batch = db.batch();
+        let updateCount = 0;
+        
+        userInteractionsSnapshot.forEach(doc => {
+            const data = doc.data();
+            let needsUpdate = false;
+            const likes = data.likes || {};
+            const dislikes = data.dislikes || {};
+            
+            // Remove deleted comment IDs from likes and dislikes
+            commentIds.forEach(commentId => {
+                if (likes[commentId]) {
+                    delete likes[commentId];
+                    needsUpdate = true;
+                }
+                if (dislikes[commentId]) {
+                    delete dislikes[commentId];
+                    needsUpdate = true;
+                }
+            });
+            
+            // Only update if changes were made
+            if (needsUpdate) {
+                batch.update(doc.ref, { likes, dislikes });
+                updateCount++;
+            }
+        });
+        
+        if (updateCount > 0) {
+            await batch.commit();
+            console.log(`✅ Cleaned up ${updateCount} user interaction documents`);
+        }
+    } catch (error) {
+        console.error('❌ Error cleaning up user interactions:', error);
         throw error;
     }
 }
